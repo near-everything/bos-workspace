@@ -6,55 +6,61 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Dropdown = styled.select`
-  margin: 10px;
+const Box = styled.div`
+  border: 1px solid black;
   padding: 10px;
+  margin: 5px;
 `;
 
-const RenderSelectedType = ({ selectedType }) => {
-  const typeDef = JSON.parse(Social.get(selectedType) || "null");
-  if (typeDef) {
-    const params = typeDef.properties?.reduce((acc, curr) => {
-      acc[curr.name] = "";
-      return acc;
-  }, {});
+function RecursiveBox({ data, updateData, parentKey, removeBox }) {
+  const handleClickAdd = () => {
+    updateData({
+      ...data,
+      [Date.now()]: {},
+    });
+  };
 
-    return (
-      <div style={{ width: "100%"}}>
-        <Widget
-          src="efiz.near/widget/MonacoEditor"
-          props={{
-            code: JSON.stringify(params),
-            language: "json",
+  const handleClickRemove = () => {
+    removeBox(parentKey);
+  };
+
+  return (
+    <Box>
+      {Object.keys(data).map((key) => (
+        <RecursiveBox
+          key={key}
+          data={data[key]}
+          updateData={(newData) => updateData({ ...data, [key]: newData })}
+          parentKey={key}
+          removeBox={(keyToRemove) => {
+            const newData = { ...data };
+            delete newData[keyToRemove];
+            updateData(newData);
           }}
         />
-      </div>
-    );
-  } else {
-    return <p>not a valid type</p>;
-  }
-};
+      ))}
+      <button onClick={handleClickAdd}>Add Box</button>
+      {parentKey && <button onClick={handleClickRemove}>Remove</button>}
+    </Box>
+  );
+}
 
-const handleSelectChange = (event) => {
-  State.update({ selectedType: event.target.value });
-};
+State.init({
+  thing: {
+    box1: {},
+    box2: {},
+    box3: {},
+    box4: {},
+  },
+});
 
-const types = Social.get(`efiz.near/type/**`, "final");
-types = Object.keys(types)?.map((it) => `efiz.near/type/${it}`) || [];
+function setThing(newData) {
+  State.update({ thing: newData });
+}
 
 return (
   <Container>
-    <Dropdown onChange={handleSelectChange} value={state.selectedType}>
-      <option value="">Select a type</option>
-      {types?.map((it) => (
-        <option value={it} key={it}>
-          {it}
-        </option>
-      ))}
-    </Dropdown>
-
-    {state.selectedType && (
-      <RenderSelectedType selectedType={state.selectedType} />
-    )}
+    <RecursiveBox data={state.thing} updateData={setThing} />
+    <pre>{JSON.stringify(state.thing, null, 2)}</pre>
   </Container>
 );
