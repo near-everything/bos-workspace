@@ -195,7 +195,7 @@ return (
   <div>
     {JSON.stringify(state)}
     <Widget
-      src="efiz.near/widget/generator"
+      src="efiz.near/widget/generator.core"
       props={{
         typeDef,
         displayInfo,
