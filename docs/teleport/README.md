@@ -8,7 +8,7 @@ npm install -g bos-workspace
 
 Next,
 
-bos://docs.near/widget/teleport.readme
+bos://devs.near/widget/GithubForkButton
 
 This is now your workspace. To use it, run:
 
