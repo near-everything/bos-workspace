@@ -14,18 +14,36 @@ const Tile = styled.div`
 `;
 
 State.init({
-  uidl: "{}",
   code: "",
 });
 
+function init() {
+  if (!state.uidl) {
+    const val = Storage.privateGet("uidl");
+    if (val) {
+      State.update({
+        uidl: val,
+      });
+    }
+  }
+}
+
+init();
+
 const EditorContainer = styled.div`
-  height: 100%;
+  height: 80%;
   overflow: auto;
 `;
 
-function handleGenerate() {
-  // State.update({ code: state.uidl });
-  State.update({ code: "return <p>hello world</p>;" });
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+`;
+
+function handleGenerate(v) {
+  State.update(v);
 }
 
 let timeoutId;
@@ -38,46 +56,49 @@ const debounce = (func, delay) => {
   timeoutId = setTimeout(func, delay);
 };
 
+const Button = styled.button``;
+
 return (
   <Container>
     <Side>
       <Tile>
-        <h1>Teleport UIDL</h1>
+        <Header>
+          <h1>Teleport UIDL</h1>
+        </Header>
         <EditorContainer>
-          <Widget
+          <MonacoEditor
             key={"left"}
-            src="efiz.near/widget/MonacoEditor"
-            props={{
-              language: "json",
-              path: "left",
-              code: state.uidl,
-              onChange: debounce((v) => State.update({ uidl: v })),
-              height: "80%",
-            }}
+            path={"left"}
+            language={"json"}
+            defaultValue={state.uidl}
+            onChange={(v) => debounce(() => Storage.privateSet("uidl", v))}
           />
         </EditorContainer>
       </Tile>
       <Tile>
         <h1>Control Panel</h1>
-        <button onClick={handleGenerate}>Generate</button>
+        <TeleportGenerator
+          getUIDL={() => Storage.privateGet("uidl")}
+          onGenerate={handleGenerate}
+        />
       </Tile>
     </Side>
     <Side>
       <Tile>
         <h1>Generated Code</h1>
-        <Widget
-          src="efiz.near/widget/MonacoEditor"
-          props={{
-            language: "javascript",
-            path: "right",
-            code: state.code,
-            height: "80%",
-          }}
-        />
+        <EditorContainer key={"right"}>
+          <MonacoEditor
+            key={"right"}
+            path={"right"}
+            language={"javascript"}
+            value={state.code}
+          />
+        </EditorContainer>
       </Tile>
       <Tile>
         <h1>Rendered Code</h1>
         {state.code && <Widget code={state.code} />}
+        {state.error && <pre>{state.error}</pre>}
       </Tile>
     </Side>
   </Container>
