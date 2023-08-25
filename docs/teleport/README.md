@@ -27,7 +27,7 @@ This will broadcast your widgets.
 | --------------------------------------------\
 ```
 
-Copy this server address, and paste it as the BOS Loader Url [here](http://localhost:3000/flags).
+Copy this server address, and paste it as the BOS Loader Url [here](https://everything.dev/flags).
 
 Now refresh the page.
 
