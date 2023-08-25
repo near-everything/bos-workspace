@@ -1,0 +1,1 @@
+return <Widget src="common.near/widget/GithubForkButton" props={{ username: "near-everything", repository: "bos-workspace" }} />
