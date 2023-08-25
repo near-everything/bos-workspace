@@ -1,5 +1,4 @@
 const content = fetch(`https://raw.githubusercontent.com/${props.path}`);
-
 if (content === null) return "";
 
 return (
