@@ -119,12 +119,14 @@ return (
     <Root>
       <div className="c__left">
         {/* Pulled this out so selecting a document doesn't refresh the folders too */}
-        {widget("/*__@appAccount__*//widget/editor.uiFolders", props)}
+        <Folders />
+        
       </div>
       <div className="c__right" key={path}>
         {/* 
           * We can now swap out the editor below
         */}
+        <Editor />
         {widget("/*__@appAccount__*//widget/editor.ui", {
           key: path,
           doc,
@@ -132,6 +134,7 @@ return (
           ...props,
         })}
         <div className="c__footer">
+          <Footer />
           <span>
             {isBuffer ? "Draft auto-saved " : "Last published "} at{" "}
             {new Date(lastUpdated).toLocaleTimeString("en-US", {
