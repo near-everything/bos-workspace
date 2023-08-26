@@ -38,14 +38,25 @@ const typeToEmptyData = (typeDef) => {
     const type = fieldSchema.type;
 
     if (isPrimitiveType(type)) {
-      obj[key] = getDefaultForPrimitive(type, fieldSchema.defaultValue);
+      obj[key] = {
+        "": getDefaultForPrimitive(type, fieldSchema.defaultValue),
+        "type": type
+      };
     } else if (isComplexType(type) === "array") {
-      obj[key] = fieldSchema.defaultValue ? [...fieldSchema.defaultValue] : [];
+      obj[key] = {
+        "": fieldSchema.defaultValue ? [...fieldSchema.defaultValue] : [],
+        "type": "array"
+      };
     } else if (isComplexType(type) === "object") {
-      obj[key] = typeToEmptyData({ properties: type.properties });
+      const nestedObj = typeToEmptyData({ properties: type.properties });
+      nestedObj.type = type; 
+      obj[key] = nestedObj;
     } else {
       console.log("edge case not handled for type: " + type);
-      obj[key] = fieldSchema.defaultValue ?? null;
+      obj[key] = {
+        "": fieldSchema.defaultValue ?? null,
+        "type": type
+      };
     }
   });
 
