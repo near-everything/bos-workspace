@@ -72,24 +72,6 @@ const handleDocChange = (path, value) => {
   });
 };
 
-const toggleExpand = () => {
-  State.update({ isExpanded: !state.isExpanded });
-};
-
-const Button = styled.button``;
-
-function isJSON(str) {
-  if (typeof str !== "string") {
-    return false;
-  }
-
-  str = str.trim();
-  return (
-    (str.startsWith("{") && str.endsWith("}")) ||
-    (str.startsWith("[") && str.endsWith("]"))
-  );
-}
-
 return (
   <ParentContainer>
     <Widget

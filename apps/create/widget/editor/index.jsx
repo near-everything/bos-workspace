@@ -114,7 +114,10 @@ const Root = styled.div`
   }
   `;
 
-const Folders = props.templates["Folders"];
+
+// Components
+// Folders is a plugin
+const Folders = props.things["Folders"]
 // We can create layout files that look just like this one
 // They are stateless
 // It holds the styles and gets passed the definitions
@@ -125,7 +128,7 @@ return (
     <Root>
       <div className="c__left">
         {/* And just reference the component here */}
-        <Widget src={Folders} props={props} />
+        <Folders />
       </div>
       <div className="c__right" key={path}>
         {/*

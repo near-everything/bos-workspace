@@ -1,31 +1,17 @@
+/**
+ * This is purely structure styles for the Page layout
+ * Stateless
+ * 
+ * open // these are even somewhat unrelated
+ * setOpen
+ * pages
+ * onPageChange
+ */
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
 `;
-
-// const Sidebar = styled.div`
-//   position: fixed;
-//   background-color: #333; // dark grey
-//   height: 100vh;  // occupy full viewport height
-//   width: 58px;  // default width when not expanded
-//   transition: all 0.5s ease-in-out;
-//   top: 0;
-//   left: 0;  // starts at the left side
-//   z-index: 2000;
-
-//   &.expanded {
-//     width: 300px;  // expanded width
-//   }
-
-//   @media (max-width: 768px) {
-//     left: -300px; // hidden by default on smaller screens
-
-//     &.expanded {
-//       left: 0;  // fully visible when expanded
-//     }
-//   }
-// `;
 
 const Sidebar = styled.div`
   position: fixed;
@@ -35,7 +21,7 @@ const Sidebar = styled.div`
   transition: all 0.5s ease-in-out;
   top: 0;
   z-index: 2000;
-  left: ${props.open ? "0" : "-242px"}; // props.open determines position
+  left: ${props.open ? "0" : "-242px"};
 `;
 
 const MainContent = styled.div`
@@ -59,7 +45,7 @@ const ToggleButton = styled.button`
   z-index: 2001;
 
   &:hover {
-    background-color: #666; /* subtle hover effect */
+    background-color: #666;
   }
 `;
 
