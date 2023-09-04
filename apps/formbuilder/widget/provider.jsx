@@ -135,10 +135,7 @@ const displayInfo = {
 
 const data = typeToEmptyData(typeDef);
 
-// We just want to validate that types match
-// We save types to the operating system.
-
-State.init(data);
+State.init({ ...data, errors: [] });
 
 function handleSubmit() {
   validate(typeDef, state.data);
@@ -147,24 +144,24 @@ function handleSubmit() {
 const set = (k, v) => State.update({ [k]: v });
 const get = (k) => state[k];
 const store = (k, v) => Storage.privateSet(k, v);
-const retrieve = (k) => Storage.privateGet(k);
+const retrieve = (k) => Storage.privateGet(k)
 
 function onChange(path, value) {
   console.log("path: " + path + ", value: " + value);
 
   // Split the path into its components (e.g., "address.street" becomes ["address", "street"])
-  const keys = path.split(".");
+  const keys = path.split('.');
 
   // Use a recursive function to navigate through the state and update the value
   function setValue(obj, keys, value) {
     let key = keys[0];
-
+  
     // Check if the key has an array index, e.g., "links[1]"
     const arrayMatch = key.match(/(^[^\[]+)\[([0-9]+)\]$/);
     if (arrayMatch) {
       const arrayKey = arrayMatch[1];
       const index = parseInt(arrayMatch[2], 10);
-
+  
       if (keys.length === 1) {
         const newArray = [...(obj[arrayKey] || [])];
         newArray[index] = value;
@@ -175,54 +172,39 @@ function onChange(path, value) {
         return { ...obj, [arrayKey]: newArray };
       }
     }
-
+  
     // If we're at the last key, set the value
     if (keys.length === 1) {
       return { ...obj, [key]: value };
     }
-
+  
     // Otherwise, continue navigating
     if (!obj[key]) {
       obj[key] = {};
     }
-
+  
     return { ...obj, [key]: setValue(obj[key], keys.slice(1), value) };
   }
+  
 
   const updatedData = setValue(state, keys, value);
-  State.update(updatedData);
+  State.update(updatedData)
   // set(updatedData);
 }
-
-const Wrapper = styled.div`
-  display: flex;
-`;
-
-const Half = styled.div`
-  flex: 1;
-  padding: 10px;
-`;
-
 return (
-  <Wrapper>
-    <Half>
-      <p style={{ maxHeight: 600, overflow: "auto" }}>
-        <Markdown text={"```json " + JSON.stringify(state, null, 2)} />
-      </p>
-    </Half>
-    <Half>
-      <Widget
-        src="generate.near/widget/generator"
-        props={{
-          typeDef,
-          displayInfo,
-          data: state,
-          errors: state.errors,
-          onChange: onChange,
-          debug: true,
-        }}
-      />
-      <button onClick={handleSubmit}>submit</button>
-    </Half>
-  </Wrapper>
+  <div>
+    {JSON.stringify(state)}
+    <Widget
+      src="efiz.near/widget/generator"
+      props={{
+        typeDef,
+        displayInfo,
+        data: state,
+        errors: state.errors,
+        onChange: onChange,
+        debug: true,
+      }}
+    />
+    <button onClick={handleSubmit}>submit</button>
+  </div>
 );
