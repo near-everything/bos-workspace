@@ -2,13 +2,20 @@
 
 State.init({
   date: new Date(),
-  activeView: "list",
+  activeView: "month",
   hideNewEventModal: true,
   hideFilterModal: true,
-  filterFrom: null,
-  filterTo: null,
   filterEvents: false,
   filteredEvents: null,
+  filteredFeedEvents: null,
+  filterForm: {
+    filterTo: null,
+    filterFrom: null,
+    title: "",
+    location: "",
+    category: "",
+    organizer: "",
+  },
 });
 
 const toggleFilteredEvents = () => {
@@ -36,6 +43,14 @@ const formattedDate = () => {
 
   const styledH2 = styled.h2`
     margin: 0;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+
+    @media (max-width: 550px) {
+      font-size: 14px;
+    }
   `;
 
   const dateYearSpan = styled.span`
@@ -104,6 +119,17 @@ const viewButton = styled.button`
     background: #03b172;
     color: white;
   }
+
+  @media (max-width: 786px) {
+    width: 60px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 550px) {
+    width: 50px;
+    height: 30px;
+    font-size: 12px;
+  }
 `;
 
 const handleViewChange = (view) => {
@@ -123,6 +149,8 @@ const formattedEvents = fetchedEvents.map((event) => {
     editable: false,
     extendedProps: {
       category: event.category,
+      location: event.location,
+      organizer: event.organizer,
     },
     description: event.description,
   };
@@ -148,6 +176,14 @@ const filterButton = styled.button`
   &:active {
     background: #ccc;
     border: none;
+  }
+
+  @media (max-width: 786px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 12px;
   }
 `;
 
@@ -180,6 +216,17 @@ const addEventButton = styled.button`
     color: white;
     border: none;
   }
+
+  @media (max-width: 786px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 12px;
+    i {
+      display: none;
+    }
+  }
 `;
 
 const handleEventClick = () => {
@@ -206,76 +253,83 @@ const newEventModalProps = {
   showFooter: false,
 };
 
-const filterForm = () => {
-  const onFilterFromUpdate = ({ target }) => {
-    State.update({ filterFrom: target.value });
-  };
-
-  const onFilterToUpdate = ({ target }) => {
-    State.update({ filterTo: target.value });
-  };
-
-  const onFilterClear = () => {
-    toggleFilteredEvents();
-    toggleFilterModal();
-  };
-
-  return (
-    <div className="container ">
-      <div className="row mb-3">
-        <div className="col">
-          <label htmlFor="date-from">From</label>
-          <input
-            className="form-control"
-            id="date-from"
-            name="date-from"
-            type="date"
-            value={state.filterFrom}
-            onChange={onFilterFromUpdate}
-          />
-        </div>
-        <div className="col">
-          <label htmlFor="date-to">To</label>
-          <input
-            className="form-control"
-            id="date-to"
-            name="date-to"
-            type="date"
-            value={state.filterTo}
-            onChange={onFilterToUpdate}
-          />
-        </div>
-      </div>
-      <button onClick={onFilterClear}>Clear Filters</button>
-    </div>
-  );
-};
-
 const onFilterEvents = () => {
-  const filterTo = new Date(state.filterTo);
-  const filterFrom = new Date(state.filterFrom);
+  const filterForm = state.filterForm;
+  const filterTo = filterForm.filterTo ? new Date(filterForm.filterTo) : null;
+  const filterFrom = filterForm.filterFrom
+    ? new Date(filterForm.filterFrom)
+    : null;
+  const locationFilter = filterForm.location.toLowerCase(); // Make it case-insensitive
+  const categoryFilter = filterForm.category.toLowerCase(); // Make it case-insensitive
+  const organizerFilter = filterForm.organizer.toLowerCase(); // Make it case-insensitive
+  const titleFilter = filterForm.title.toLowerCase();
 
-  State.update({
-    filteredEvents: formattedEvents.filter(
-      (ev) => ev.start >= filterFrom && ev.end <= filterTo
-    ),
+  const filteredEvents = formattedEvents.filter((ev) => {
+    return (
+      (filterFrom === null || ev.start >= filterFrom) &&
+      (filterTo === null || ev.end <= filterTo) &&
+      (titleFilter === "" || ev.title.toLowerCase().includes(titleFilter)) &&
+      (locationFilter === "" ||
+        ev.extendedProps.location.toLowerCase().includes(locationFilter)) &&
+      (categoryFilter === "" ||
+        ev.extendedProps.category.toLowerCase().includes(categoryFilter)) &&
+      (organizerFilter === "" ||
+        ev.extendedProps.organizer.toLowerCase().includes(organizerFilter))
+    );
   });
 
-  console.log(state.filteredEvents);
+  const filteredFeedEvents = fetchedEvents.filter((ev) => {
+    return (
+      (filterFrom === null || ev.start >= filterFrom) &&
+      (filterTo === null || ev.end <= filterTo) &&
+      (titleFilter === "" || ev.title.toLowerCase().includes(titleFilter)) &&
+      (locationFilter === "" ||
+        ev.location.toLowerCase().includes(locationFilter)) &&
+      (categoryFilter === "" ||
+        ev.category.toLowerCase().includes(categoryFilter)) &&
+      (organizerFilter === "" ||
+        ev.organizer.toLowerCase().includes(organizerFilter))
+    );
+  });
 
-  toggleFilteredEvents();
+  //   Update your state with the filtered events
+  State.update({
+    filteredFeedEvents: filteredFeedEvents,
+    filteredEvents: filteredEvents,
+  });
+
+  if (!state.filterEvents) {
+    toggleFilteredEvents();
+  }
 
   toggleFilterModal();
 };
 
+const setFilterForm = (target) => {
+  State.update({
+    filterForm: target,
+  });
+  onFilterEvents();
+};
+
 const filterModalProps = {
   title: "Event filters",
-  body: <filterForm />,
+  body: (
+    <Widget
+      src="itexpert120-contra.near/widget/FilterForm"
+      props={{
+        setFilterForm: setFilterForm,
+        filterEvents: state.filterEvents,
+        toggleFilteredEvents,
+        toggleFilterModal,
+      }}
+    />
+  ),
   confirmText: "Filter events",
   onConfirm: onFilterEvents,
   hidden: state.hideFilterModal,
   onClose: toggleFilterModal,
-  showFooter: true,
+  showFooter: false,
 };
 
 const calendarProps = {
@@ -284,6 +338,11 @@ const calendarProps = {
   handleEventClick,
   handleAddEvent,
   handleFilter,
+};
+
+const feedProps = {
+  events: state.filterEvents ? state.filteredFeedEvents : fetchedEvents,
+  date: state.date,
 };
 
 const EventsView = () => {
@@ -298,7 +357,7 @@ const EventsView = () => {
     return (
       <Widget
         src="itexpert120-contra.near/widget/EventFeed"
-        props={{ events: fetchedEvents, date: state.date }}
+        props={{ ...feedProps }}
       />
     );
   }
@@ -319,7 +378,7 @@ return (
         <div className="col">
           <div className="d-flex align-items-center">
             <formattedDate />
-            <div className="ms-2">
+            <div className="ms-2 d-flex">
               <iconButton onClick={() => handleMonthChange(-1)}>
                 <i className="bi bi bi-chevron-left"></i>
               </iconButton>

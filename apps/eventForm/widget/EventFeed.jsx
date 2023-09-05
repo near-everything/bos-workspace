@@ -55,13 +55,16 @@ return (
             {currentDate.toLocaleString("en-us", { month: "short" })}
           </monthSpan>
         </dateH2>
-        <ul className="w-100">
-          {eventsOfMonths[date].map((event) => (
-            <Widget
-              src="itexpert120-contra.near/widget/EventCard"
-              props={{ data: event }}
-            />
-          ))}
+        <ul className="ps-4 w-100">
+          {eventsOfMonths[date].map((event) => {
+            return (
+              <Widget
+                src="itexpert120-contra.near/widget/EventCard"
+                props={{ data: event }}
+              />
+            );
+          })}
+          {eventsOfMonths[date].length === 0 && <p>No Events Found</p>}
         </ul>
       </div>
     ))}

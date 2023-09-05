@@ -9,7 +9,7 @@ const fetchAllEvents = () => {
     const blockHeight = item.blockHeight;
 
     const eventThing = Social.getr(path, blockHeight);
-    fetchedEvents.push(eventThing.data);
+    fetchedEvents.push({ ...eventThing.data, path, blockHeight });
   });
 
   return fetchedEvents;
