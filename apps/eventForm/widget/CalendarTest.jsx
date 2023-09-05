@@ -146,7 +146,7 @@ const calendarProps = {
 };
 
 return (
-  <div>
+  <div className="container">
     <Widget
       src="itexpert120-contra.near/widget/Calendar"
       props={{

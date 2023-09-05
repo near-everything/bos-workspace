@@ -1,5 +1,6 @@
 // CALENDAR FROM https://github.com/fullcalendar/fullcalendar/tree/main/bundle
 const events = props.events || [];
+const dateToView = props.date || new Date("2020-10-1");
 
 const srcData = `
 <!DOCTYPE html>
@@ -9,7 +10,6 @@ const srcData = `
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.js'></script>
     <script>
-
       document.addEventListener('DOMContentLoaded', function() {
         const calendarEl = document.getElementById('calendar')
         const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -45,6 +45,8 @@ const srcData = `
             // end: 'timeGridDay list' 
             end: 'filterBy addEvent' 
           },
+          // headerToolbar: false,
+          
           navLinks: true,
           events: ${JSON.stringify(events)},
           eventClick: function(info) {
@@ -56,11 +58,12 @@ const srcData = `
           // Render the custom button with an icon
           viewDidMount: function () {
             var addEvent = document.querySelector('.fc-addEvent-button');
-            addEvent.innerHTML = 'Add Event <i class="bi bi-plus-circle-fill" style="color: #05EB97; margin-left: 2px;"></i>';
+            addEvent.innerHTML = 'Add Event <i class="bi bi-plus-circle-fill" style="color: white; margin-left: 2px;"></i>';
         
           }
         })
         calendar.render()
+        calendar.gotoDate(new Date(${JSON.stringify(dateToView)}))
       })
 
       
@@ -83,7 +86,6 @@ const srcData = `
   }
 
   .fc-col-header {
-    border-radius: 0px 0px 6px 6px;
     background: rgba(237, 237, 237, 0.93);
   }
 
@@ -110,43 +112,19 @@ const srcData = `
     transition: 300ms;
   }
 
-  .fc-dayGridMonth-button.fc-button.fc-button-primary {
-    width: 67px;
-    height: 35px;
-    padding: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-
-    border-radius: 3px;
-
-    background: rgba(3, 177, 114, 0.20);
-    color: #03B172;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-
-  .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
-    border: 1px solid #03B172;
-    background-color: white;
-    color: #03B172;
-  }
-
+  .fc-dayGridMonth-button.fc-button.fc-button-primary,
   .fc-list-button.fc-button.fc-button-primary {
-    display: flex;
     width: 67px;
     height: 35px;
     padding: 8px;
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 4px;
 
-    border-radius: 3px;
-    background: rgba(3, 177, 114, 0.20);
-
+    border-radius: 3px; 
+    border: 1px solid #03B172;  
+    background-color: white;
     color: #03B172;
     font-size: 16px;
     font-style: normal;
@@ -154,20 +132,20 @@ const srcData = `
     line-height: normal;
   }
 
+  .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active,
   .fc-list-button.fc-button.fc-button-primary.fc-button-active {
-    border: 1px solid #03B172;
-    background-color: white;
-    color: #03B172;
+    border: none;
+    background-color: #03B172;
+    color: #white;
   }
 
   .fc-header-toolbar.fc-toolbar {
-    display: flex;
+    display: none;
     padding: 16px;
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
 
-    border-radius: 6px;
     border: 1px solid var(--Stroke, rgba(218, 220, 224, 0.60));
     background: #FFF;
   } 
@@ -177,7 +155,11 @@ const srcData = `
   }
 
   .fc-toolbar-title {
-    font-weight: 400;
+    color: #333;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   }
 
   .fc-filterBy-button.fc-button.fc-button-primary {
@@ -198,6 +180,11 @@ const srcData = `
     line-height: normal;
   }
 
+  .fc-filterBy-button.fc-button.fc-button-primary:hover {
+    background-color: #03B172;
+    color: white;
+  }
+
   .fc-addEvent-button.fc-button.fc-button-primary {
     display: flex;
     height: 35px;
@@ -216,8 +203,9 @@ const srcData = `
     line-height: normal;
   }
 
-  .fc table {
-    border-radius: 6px;
+  .fc-addEvent-button.fc-button.fc-button-primary:hover {
+    background-color: #03B172;
+    color: white;
   }
 
   .fc .fc-daygrid-day-top {
@@ -249,10 +237,28 @@ const srcData = `
     border-radius: 6px;
   }
 
-  tbody, td, tfoot, th, thead, tr {
-    border-radius: 6px;
+  .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
   }
 
+  .fc-prev-button.fc-button.fc-button-primary,
+  .fc-next-button.fc-button.fc-button-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
+
+    font-size: 16px;
+  }
+
+  .fc-prev-button.fc-button.fc-button-primary:hover,
+  .fc-next-button.fc-button.fc-button-primary:hover {
+    background-color: #03B172;
+    color: white;
+  }
   @media (width < 720px) {
     .fc .fc-toolbar-title {
       font-size: 1rem;
@@ -358,37 +364,35 @@ const srcData = `
 
 return (
   <>
-    <div>
-      <iframe
-        srcDoc={srcData}
-        onMessage={(data) => {
-          const dataObj = JSON.parse(data);
-          switch (dataObj.handler) {
-            case "filter": {
-              if (props.handleFilter) {
-                props.handleFilter();
-              }
-              break;
+    <iframe
+      srcDoc={srcData}
+      onMessage={(data) => {
+        const dataObj = JSON.parse(data);
+        switch (dataObj.handler) {
+          case "filter": {
+            if (props.handleFilter) {
+              props.handleFilter();
             }
-            case "add-event": {
-              if (props.handleAddEvent) {
-                props.handleAddEvent();
-              }
-              break;
-            }
-            case "event-click": {
-              if (props.handleEventClick) {
-                props.handleEventClick();
-              }
-              break;
-            }
+            break;
           }
-        }}
-        style={{
-          height: "100vh",
-          width: "100%",
-        }}
-      />
-    </div>
+          case "add-event": {
+            if (props.handleAddEvent) {
+              props.handleAddEvent();
+            }
+            break;
+          }
+          case "event-click": {
+            if (props.handleEventClick) {
+              props.handleEventClick();
+            }
+            break;
+          }
+        }
+      }}
+      style={{
+        height: "100vh",
+        width: "100%",
+      }}
+    />
   </>
 );
