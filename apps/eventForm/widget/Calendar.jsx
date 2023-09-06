@@ -383,7 +383,7 @@ return (
           }
           case "event-click": {
             if (props.handleEventClick) {
-              props.handleEventClick();
+              props.handleEventClick(dataObj.data);
             }
             break;
           }

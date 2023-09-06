@@ -229,8 +229,14 @@ const addEventButton = styled.button`
   }
 `;
 
-const handleEventClick = () => {
-  console.log("handleEventClick");
+const handleEventClick = (data) => {
+  console.log(data);
+  if (data.url) {
+    window.open(
+      data.url,
+      "_blank" // <- This is what makes it open in a new window.
+    );
+  }
 };
 
 const handleAddEvent = () => {
