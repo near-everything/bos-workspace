@@ -1,7 +1,14 @@
 /*__@import:everything/utils/UUID__*/
 /*__@import:everything/utils/date-time__*/
 
+const accountId = context.accountId;
+
+if (!accountId) {
+  return "Please connect your NEAR account";
+}
+
 const addEvent = props.addEvent;
+const proposeEvent = props.proposeEvent;
 
 let user_account = context.accountId;
 
@@ -22,6 +29,8 @@ State.init({
   category: "",
   logo: null,
   background: null,
+  customWidget: "",
+  daoId: "",
   tempHash: "",
   hashTags: [],
 });
@@ -92,6 +101,14 @@ const onHashTagRemove = (target) => {
   State.update({ hashTags: newTags });
 };
 
+const onCustomWidgetChange = ({ target }) => {
+  State.update({ customWidget: target.value });
+};
+
+const onDaoIDChange = ({ target }) => {
+  State.update({ daoId: target.value });
+};
+
 const clearFields = () => {
   State.update({
     title: "",
@@ -110,13 +127,51 @@ const clearFields = () => {
     logo: null,
     background: null,
     tempHash: "",
+    customWidget: "",
+    daoId: "",
     hashTags: [],
   });
+};
+
+const createNewEvent = () => {
+  const newEvent = {
+    data: {
+      id: state.id,
+      title: state.title,
+      description: state.description,
+      start: isoDate(state.start, state.startTime),
+      startTime: isoTime(state.start, state.startTime),
+      end: isoDate(state.end, state.endTime),
+      endTime: isoTime(state.end, state.endTime),
+      location: state.location,
+      link: state.link,
+      organizer: state.organizer,
+      isAllDay: state.isAllDay,
+      category: state.category,
+      logo: state.logo,
+      background: state.background,
+      hashTags: state.hashTags,
+    },
+    template: {
+      src: "itexpert120-contra.near/widget/EventView",
+    },
+    type: "every.near/type/event",
+  };
+
+  return newEvent;
+};
+
+const handleProposeEvent = () => {
+  const newEvent = createNewEvent();
+
+  proposeEvent(newEvent);
+  clearFields();
 };
 
 const handleNewEvent = () => {
   const newEvent = {
     data: {
+      id: state.id,
       title: state.title,
       description: state.description,
       start: isoDate(state.start, state.startTime),
@@ -279,6 +334,18 @@ const EventForm = () => {
             placeholder="New Event Category"
           />
         </div>
+        <div className="mb-3">
+          <label class="form-label" for="customWidget">
+            Custom Event Card Source
+          </label>
+          <input
+            class="form-control"
+            id="customWidget"
+            value={state.customWidget}
+            onChange={onCustomWidgetChange}
+            placeholder="Custom Event Card Source"
+          />
+        </div>
         <div className="mb-3 row ">
           <div className="col">
             <label>Logo Image</label>
@@ -313,7 +380,7 @@ const EventForm = () => {
                 ))}
             </p>
           </label>
-          <div className="d-flex gap-3">
+          <div className="mb-3 d-flex gap-3">
             <input
               id="hashtags"
               value={state.tempHash}
@@ -322,9 +389,22 @@ const EventForm = () => {
             />
             <button onClick={onHashTagAdd}>Add</button>
           </div>
+          <div className="mb-3">
+            <label for="daoId">DAO ID</label>
+            <input
+              id="daoId"
+              name="daoId"
+              value={state.daoId}
+              onChange={onDaoIDChange}
+            />
+          </div>
         </div>
         <div className="mb-3">
           <button onClick={handleNewEvent}>Add Event</button>
+          <Widget
+            src="itexpert120-contra.near/widget/EventProposalButton"
+            props={{ daoId: state.daoId, event: createNewEvent() }}
+          />
           <button onClick={clearFields}>Clear Fields</button>
         </div>
       </div>
