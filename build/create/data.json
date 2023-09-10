@@ -1,0 +1,24 @@
+{
+  "type": {
+    "document": "{\"properties\":{\"title\":{\"type\":\"string\"},\"content\":{\"type\":\"md\",\"defaultValue\":\"\"},\"description\":{\"type\":\"string\"},\"coverImage\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"itemTypes\":[{\"type\":\"string\"}]}}}",
+    "project": "{\"properties\":{\"title\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"logo\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"itemTypes\":[{\"type\":\"string\"}]}}}"
+  },
+  "widget": {
+    "home": {
+      "metadata": {
+        "name": "Create: Seamless Docs, Projects & More",
+        "description": "A user friendly content management system for creating BOS websites and documentation. Without the need for coding.",
+        "image": {
+          "ipfs_cid": "bafkreifbek5xkj33smhzujzdvgpnwidljxwy6o745nbcui74wkaw3cbcga"
+        },
+        "tags": {
+          "app": "",
+          "docs": "",
+          "blog": "",
+          "website": "",
+          "markdown": ""
+        }
+      }
+    }
+  }
+}
