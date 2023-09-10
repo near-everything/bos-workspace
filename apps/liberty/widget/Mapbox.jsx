@@ -28,6 +28,7 @@ const code = `
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
+      // CHANGE MARKER
       .marker {
         background-image: url('https://humans.nearverselabs.com/Human.png');
         background-size: cover;
@@ -37,6 +38,7 @@ const code = `
         cursor: pointer;
       }
 
+      // CHANGE MARKER ACTIVE 
       #mymarker {
         background-image: url('https://humans.nearverselabs.com/active.svg') !important;
       }
@@ -144,6 +146,7 @@ const code = `
       const profileImageUrl = "https://i.near.social/magic/large/https://near.social/magic/img/account/"+ user.accountId;
       
       
+        // CUSTOMIZE POP UP
        const HTML = '<div class="popup">'+
        '<div class="logo-container">'+
           '<img src="'+ profileImageUrl +'" class="logo" />'+

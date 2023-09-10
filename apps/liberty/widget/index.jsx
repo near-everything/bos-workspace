@@ -1,11 +1,11 @@
 const Owner = "libertydao.near";
 const API_URL = "https://humans.nearverselabs.com/api";
-const MAP_STYLE = "mapbox://styles/mapbox/dark-v10";
+const MAP_STYLE = "mapbox://styles/mapbox/dark-v10"; // CHANGE THE MAP STYLE
 const MAP_TOKEN =
   "pk.eyJ1IjoidGVqMDEiLCJhIjoiY2xqcHZ2dGpkMDB5azNsbzQ0bmMwNjRjaCJ9.FVv2zRPaLwzZMgagbI2YZw";
 
-const center = [0, 30];
-const zoom = 1.7;
+const center = [0, 30]; // CHANGE THE CENTER TO NY COORDINATES
+const zoom = 1.7; // MESS WITH THE ZOOM
 const accountId = context.accountId;
 
 State.init({
@@ -16,7 +16,7 @@ State.init({
     social: "",
     twitter: "",
   },
-  loocations: [],
+  locations: [],
   humanAlert: true,
 });
 

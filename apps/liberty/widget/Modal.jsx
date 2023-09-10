@@ -81,7 +81,7 @@ const saveMyProfile = () => {
     social: state.social,
     twitter: state.twitter,
   };
-
+  
   return asyncFetch(API_URL + `/auth/account`, {
     method: "POST",
     headers: {
@@ -119,6 +119,10 @@ const changeTwitter = async (e) => {
       twitter: e.target.value,
     });
 };
+
+// Borough Name
+// Description
+// How would you recognize someone from your borough?
 
 return (
   <ModalOverlay>
