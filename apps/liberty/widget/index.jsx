@@ -1,24 +1,13 @@
-const Owner = "libertydao.near";
+const Owner =
+  "819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a";
 const API_URL = "https://humans.nearverselabs.com/api";
-const MAP_STYLE = "mapbox://styles/mapbox/dark-v10"; // CHANGE THE MAP STYLE
+const MAP_STYLE = "mapbox://styles/mapbox/streets-v12";
 const MAP_TOKEN =
   "pk.eyJ1IjoidGVqMDEiLCJhIjoiY2xqcHZ2dGpkMDB5azNsbzQ0bmMwNjRjaCJ9.FVv2zRPaLwzZMgagbI2YZw";
 
-const center = [0, 30]; // CHANGE THE CENTER TO NY COORDINATES
-const zoom = 1.7; // MESS WITH THE ZOOM
+const center = [-74.00597, 40.71427];
+const zoom = 8.9;
 const accountId = context.accountId;
-
-State.init({
-  showModal: false,
-  edit: false,
-  user: {
-    name: "",
-    social: "",
-    twitter: "",
-  },
-  locations: [],
-  humanAlert: true,
-});
 
 //Styles
 
@@ -78,16 +67,6 @@ const BtnStyle2 = {
   position: "absolute",
   zIndex: 1,
 };
-
-const getFirstSBTToken = () => {
-  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-    account: `${context.accountId}`,
-    issuer: "fractal.i-am-human.near",
-  });
-  return view?.[0]?.[1]?.[0];
-};
-
-const hasSBTToken = getFirstSBTToken() !== undefined;
 
 const getMyData = () => {
   return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
@@ -149,43 +128,42 @@ getLocationsData();
 return (
   <Wrapper>
     <Header>
-      {/** Replace this with our own header or logo */}
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
-    {accountId && hasSBTToken && (
-      <div>
-        <Profile
-          class="btn"
-          style={BtnStyle}
-          onClick={() => {
-            State.update({ showModal: true });
-          }}
+
+    <div>
+      <Profile
+        class="btn"
+        style={BtnStyle}
+        onClick={() => {
+          State.update({ showModal: true });
+        }}
+      >
+        {`Form`}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 48 48"
         >
-          {`Profile`}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 48 48"
-          >
-            <mask id="ipSDownOne0">
-              <path
-                fill="#fff"
-                stroke="#fff"
-                stroke-linejoin="round"
-                stroke-width="4"
-                d="M36 19L24 31L12 19h24Z"
-              />
-            </mask>
+          <mask id="ipSDownOne0">
             <path
-              fill="currentColor"
-              d="M0 0h48v48H0z"
-              mask="url(#ipSDownOne0)"
+              fill="#fff"
+              stroke="#fff"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M36 19L24 31L12 19h24Z"
             />
-          </svg>
-        </Profile>
-      </div>
-    )}
+          </mask>
+          <path
+            fill="currentColor"
+            d="M0 0h48v48H0z"
+            mask="url(#ipSDownOne0)"
+          />
+        </svg>
+      </Profile>
+    </div>
+
     {accountId && hasSBTToken && (
       <div
         style={{
@@ -219,19 +197,21 @@ return (
         </Location>
       </div>
     )}
+
     {accountId && hasSBTToken && state.showModal && (
-      // Swap this out with custom form
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
       />
     )}
+
     {accountId && !hasSBTToken && state.humanAlert && (
       <Widget
         src={`${Owner}/widget/HumanAlert`}
         props={{ onClose: onHumanClose }}
       />
     )}
+
     <Widget
       src={`${Owner}/widget/Mapbox`}
       props={{
