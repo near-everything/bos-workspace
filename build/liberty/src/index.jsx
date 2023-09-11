@@ -1,5 +1,5 @@
 const Owner =
-  "819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a";
+  "libertydao.near";
 const API_URL = "https://humans.nearverselabs.com/api";
 const MAP_STYLE = "mapbox://styles/mapbox/streets-v12";
 const MAP_TOKEN =
@@ -164,7 +164,7 @@ return (
       </Profile>
     </div>
 
-    {accountId && hasSBTToken && (
+    {accountId && (
       <div
         style={{
           display: "flex",
@@ -198,17 +198,10 @@ return (
       </div>
     )}
 
-    {accountId && hasSBTToken && state.showModal && (
+    {accountId && state.showModal && (
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
-      />
-    )}
-
-    {accountId && !hasSBTToken && state.humanAlert && (
-      <Widget
-        src={`${Owner}/widget/HumanAlert`}
-        props={{ onClose: onHumanClose }}
       />
     )}
 
