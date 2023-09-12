@@ -10,8 +10,7 @@ function generateUID() {
   );
 }
 
-// const groupId = props.groupId ?? generateUID();
-const groupId = "one";
+const groupId = props.groupId ?? generateUID();
 
 State.init({
   group,
