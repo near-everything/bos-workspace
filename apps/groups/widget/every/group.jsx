@@ -165,7 +165,7 @@ return (
         </div>
         <Navbar>
           {/* What's the purpose of this?  */}
-          {isMember && Object.keys(isMember).length ? (
+          {true ? (
             <button
               onClick={() => State.update({ showModal: true })}
               className="btn btn-success"

@@ -45,7 +45,6 @@ const handleJoin = () => {
           value: {
             type,
             accountId,
-            message: "requested to join",
           },
         },
         {
@@ -53,7 +52,6 @@ const handleJoin = () => {
           value: {
             type,
             groupId,
-            message: "request submitted",
           },
         },
       ]),
