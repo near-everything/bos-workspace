@@ -1,8 +1,10 @@
 const creatorId = props.creatorId;
 const groupId = props.groupId;
 
-
-const groupInfo = Social.get(`${creatorId}/thing/${groupId}/metadata/**`, "final");
+const groupInfo = Social.get(
+  `${creatorId}/thing/${groupId}/metadata/**`,
+  "final"
+);
 
 if (!groupInfo) {
   return "group details not found";
@@ -38,19 +40,24 @@ const Banner = styled.div`
   height: 240px;
 `;
 
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
 const tabs = [
   {
     defaultActive: true,
     iconClass: "bi bi-house-door",
-    route: "community.activity",
+    route: "mob.near/widget/MainPage.N.Feed",
     title: "Activity",
-  },
-  {
-    iconClass: "bi bi-people-fill",
-    route: "community.teams",
-    title: "Teams",
-  },
+  }
 ];
+
+State.init({
+  selectedTab: tabs[0],
+});
 
 const { name, description, image, backgroundImage } = groupInfo;
 
@@ -90,21 +97,25 @@ return (
     </div>
 
     <NavUnderline className="nav">
-      {tabs.map(({ defaultActive, params, route, title }) =>
+      {tabs.map(({ iconClass, title }, index) =>
         title ? (
           <li className="nav-item" key={title}>
-            <a
-              aria-current={defaultActive && "page"}
+            <div
               className={[
                 "d-inline-flex gap-2",
-                activeTabTitle === title ? "nav-link active" : "nav-link",
+                state.selectedTab === title ? "nav-link active" : "nav-link",
               ].join(" ")}
+              onClick={() => State.update({ selectedTab: tabs[index] })}
             >
+              <i className={iconClass} />
               <span>{title}</span>
-            </a>
+            </div>
           </li>
         ) : null
       )}
     </NavUnderline>
+    <Content>
+      <Widget src={state.selectedTab.route} props={state.activeTab.passProps} loading={<></>} />
+    </Content>
   </div>
 );

@@ -20,27 +20,20 @@ const Tag = styled.a`
 
 return (
   <div className="d-flex flex-row">
-    <a href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${accountId}`}>
-      <Widget
-        src="hack.near/widget/group.image"
-        props={{
-          groupId,
-          widgetName,
-          style: { height: "3.4em", width: "3.4em", minWidth: "3.4em" },
-          className: "me-3",
-        }}
-      />
-    </a>
+    <Widget
+      src="hack.near/widget/group.image"
+      props={{
+        groupId,
+        widgetName,
+        style: { height: "3.4em", width: "3.4em", minWidth: "3.4em" },
+        className: "me-3",
+      }}
+    />
     <div className="text-truncate">
       <div className="text-truncate">
-        <a
-          href={`/hack.near/widget/Group?groupId=${groupId}`}
-          style={{ textDecoration: "none" }}
-        >
-          <span className="fw-bold" style={{ color: "black" }}>
-            {group.name}
-          </span>
-        </a>
+        <span className="fw-bold" style={{ color: "black" }}>
+          {group.name}
+        </span>
       </div>
       <div className="text-truncate text-muted">
         {tags.length > 0 && (

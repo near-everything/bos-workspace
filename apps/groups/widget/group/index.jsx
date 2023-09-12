@@ -86,7 +86,7 @@ const renderItem = (item) => {
                   />{" "}
                 </div>
                 <div className="col-auto m-1 mt-3">
-                  {item.value.type === "join" && "joined"}
+                  {item.value.type === "join" && "leave"}
                   <Widget
                     src="mob.near/widget/TimeAgo"
                     props={{ blockHeight: item.blockHeight }}
