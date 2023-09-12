@@ -3,13 +3,10 @@ const Item = props.Item;
 const Layout = props.Layout;
 const typeWhitelist = props.typeWhitelist;
 
-const renderedItems = {};
-
 Item = Item || ((props) => <div>{JSON.stringify(props)}</div>);
 Layout = Layout || (({ children }) => children);
 
 const renderItem = (item, i) => {
-  console.log(item);
   if (typeWhitelist && !typeWhitelist.includes(item.value.type)) {
     return false;
   }
