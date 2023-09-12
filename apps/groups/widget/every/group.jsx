@@ -130,6 +130,9 @@ const Grid = styled.div`
   }
 `;
 
+const { Feed } = VM.require("efiz.near/widget/Module.Feed");
+Feed = Feed || (() => <></>);
+
 return (
   <>
     <Container>
@@ -179,30 +182,27 @@ return (
       <Center className="px-2 px-md-3 d-flex flex-column justify-content-between w-100">
         <h4 className="mb-1 mt-5">Discover Groups</h4>
         <div className="row">
-          <Widget
-            src="devs.near/widget/Feed"
-            props={{
-              index: {
-                action: "every",
-                key: "group",
-                options: {
-                  limit: 10,
-                  order: "desc",
-                  accountId: undefined,
-                },
+          <Feed
+            index={{
+              action: "every",
+              key: "group",
+              options: {
+                limit: 10,
+                order: "desc",
+                accountId: undefined,
               },
-              Item: (p) => (
-                <Widget
-                  key={p}
-                  src={widgets.group}
-                  props={{
-                    creatorId: p.accountId,
-                    groupId: p.value.id,
-                  }}
-                />
-              ),
-              Layout: Grid
             }}
+            Item={(p) => {
+              return <Widget
+                key={p}
+                src={widgets.group}
+                props={{
+                  creatorId: p.accountId,
+                  groupId: p.value.id,
+                }}
+              />
+            }}
+            Layout={Grid}
           />
         </div>
       </Center>

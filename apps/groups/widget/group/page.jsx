@@ -46,47 +46,50 @@ const Content = styled.div`
   flex: 1;
 `;
 
+const { Feed } = VM.require("efiz.near/widget/Module.Feed");
+Feed = Feed || (() => <></>);
+
 const tabs = [
   {
     defaultActive: true,
     iconClass: "bi bi-house-door",
-    route: "devs.near/widget/Feed",
-    title: "Activity",
-    passProps: {
-      index: [
-        {
-          action: "post",
-          key: "main",
-          options: {
-            limit: 10,
-            order: "desc",
-            accountId: props.accounts,
+    module: () => (
+      <Feed
+        index={[
+          {
+            action: "post",
+            key: "main",
+            options: {
+              limit: 10,
+              order: "desc",
+              accountId: props.accounts,
+            },
+            cacheOptions: {
+              ignoreCache: true,
+            },
           },
-          cacheOptions: {
-            ignoreCache: true,
+          {
+            action: "repost",
+            key: "main",
+            options: {
+              limit: 10,
+              order: "desc",
+              accountId: props.accounts,
+            },
+            cacheOptions: {
+              ignoreCache: true,
+            },
           },
-        },
-        {
-          action: "repost",
-          key: "main",
-          options: {
-            limit: 10,
-            order: "desc",
-            accountId: props.accounts,
-          },
-          cacheOptions: {
-            ignoreCache: true,
-          },
-        },
-      ],
-      Item: (p) => (
-        <Widget
-          loading={<div className="w-100" style={{ height: "200px" }} />}
-          src="mob.near/widget/MainPage.N.Post"
-          props={{ accountId: p.accountId, blockHeight: p.blockHeight }}
-        />
-      ),
-    },
+        ]}
+        Item={(p) => (
+          <Widget
+            loading={<div className="w-100" style={{ height: "200px" }} />}
+            src="mob.near/widget/MainPage.N.Post"
+            props={{ accountId: p.accountId, blockHeight: p.blockHeight }}
+          />
+        )}
+      />
+    ),
   },
 ];
 
@@ -150,11 +153,12 @@ return (
       )}
     </NavUnderline>
     <Content>
-      <Widget
+      {state.selectedTab.module()}
+      {/* <Widget
         src={state.selectedTab.route}
         props={state.selectedTab.passProps}
         loading={<></>}
-      />
+      /> */}
     </Content>
   </div>
 );
