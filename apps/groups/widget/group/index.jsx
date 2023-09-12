@@ -24,142 +24,77 @@ State.init({
 });
 
 const renderItem = (item) => {
+  function NotificationButton({ item }) {
+    switch (item.value.type) {
+      case "add": {
+        return (
+          <div className="text-truncate col-auto float-right mt-2">
+            {context.accountId === item.value.accountId && ( // Context check?
+              <Widget
+                src="hack.near/widget/accept"
+                props={{ groupId, accountId: item.value.accountId }}
+              />
+            )}
+          </div>
+        );
+      }
+      case "join": {
+        return (
+          <div className="text-truncate col-auto float-right mt-2">
+            {item.accountId !== context.accountId && (
+              <Widget
+                src="hack.near/widget/approve"
+                props={{ groupId, accountId: item.accountId }}
+              />
+            )}
+          </div>
+        );
+      }
+      case "create": {
+        return (
+          <div className="col-auto m-1">
+            <Widget
+              src="hack.near/widget/group.info"
+              props={{
+                groupId,
+                accountId: item.accountId,
+                tooltip: true,
+              }}
+            />
+          </div>
+        );
+      }
+    }
+  }
+
   return (
     <ItemWrapper>
-      {item.value.type === "add" && (
-        <>
-          <div className="d-flex justify-content-between row text-truncate text-muted">
-            <div className="text-truncate col-auto">
-              <div className="row">
-                <div className="col-auto m-1">
-                  <Widget
-                    src="mob.near/widget/Profile"
-                    props={{ accountId: item.accountId, tooltip: true }}
-                  />{" "}
-                </div>
-                <div className="col-auto m-1 mt-3">
-                  {item.value.type === "add" && `added`}
-                  <Widget
-                    src="mob.near/widget/TimeAgo"
-                    props={{ blockHeight: item.blockHeight }}
-                  />
-                </div>
-                <div className="col-auto m-1">
-                  <Widget
-                    src="mob.near/widget/Profile"
-                    props={{ accountId: item.value.accountId, tooltip: true }}
-                  />{" "}
-                </div>
-              </div>
-            </div>
-            <div className="text-truncate col-auto float-right mt-2">
-              {context.accountId === item.value.accountId && (
-                <Widget
-                  src="hack.near/widget/accept"
-                  props={{ groupId, accountId: item.value.accountId }}
-                />
-              )}
-            </div>
-          </div>
-          <div>
-            {state.showDetails && (
+      <div className="d-flex justify-content-between row text-truncate text-muted">
+        <div className="text-truncate col-auto">
+          <div className="row">
+            <div className="col-auto m-1">
               <Widget
-                src={`hack.near/widget/group`}
-                props={{
-                  groupId,
-                  creatorId: item.accountId,
-                }}
+                src="mob.near/widget/Profile"
+                props={{ accountId: item.accountId, tooltip: true }}
               />
-            )}
-          </div>
-        </>
-      )}
-      {item.value.type === "join" && (
-        <>
-          <div className="d-flex justify-content-between row text-truncate text-muted">
-            <div className="text-truncate col-auto">
-              <div className="row">
-                <div className="col-auto m-1">
-                  <Widget
-                    src="mob.near/widget/Profile"
-                    props={{ accountId: item.accountId, tooltip: true }}
-                  />{" "}
-                </div>
-                <div className="col-auto m-1 mt-3">
-                  {item.value.type === "join" && "leave"}
-                  <Widget
-                    src="mob.near/widget/TimeAgo"
-                    props={{ blockHeight: item.blockHeight }}
-                  />
-                </div>
-              </div>
             </div>
-            <div className="text-truncate col-auto float-right mt-2">
-              {item.accountId !== context.accountId && (
-                <Widget
-                  src="hack.near/widget/approve"
-                  props={{ groupId, accountId: item.accountId }}
-                />
-              )}
-            </div>
-          </div>
-          <div>
-            {state.showDetails && (
+            <div className="col-auto m-1 mt-3">
+              {item.value.type === "add" && `added`}
               <Widget
-                src={`hack.near/widget/group`}
-                props={{
-                  groupId,
-                  creatorId: item.accountId,
-                }}
+                src="mob.near/widget/TimeAgo"
+                props={{ blockHeight: item.blockHeight }}
               />
-            )}
-          </div>
-        </>
-      )}
-      {item.value.type === "create" && (
-        <>
-          <div className="d-flex justify-content-between row text-truncate text-muted">
-            <div className="text-truncate col-auto">
-              <div className="row">
-                <div className="col-auto m-1">
-                  <Widget
-                    src="mob.near/widget/Profile"
-                    props={{ accountId: item.accountId, tooltip: true }}
-                  />{" "}
-                </div>
-                <div className="col-auto m-1 mt-3">
-                  {item.value.type === "create" && "created"}
-                  <Widget
-                    src="mob.near/widget/TimeAgo"
-                    props={{ blockHeight: item.blockHeight }}
-                  />
-                </div>
-                <div className="col-auto m-1">
-                  <Widget
-                    src="hack.near/widget/group.info"
-                    props={{
-                      groupId,
-                      accountId: item.accountId,
-                      tooltip: true,
-                    }}
-                  />{" "}
-                </div>
-              </div>
+            </div>
+            <div className="col-auto m-1">
+              <Widget
+                src="mob.near/widget/Profile"
+                props={{ accountId: item.value.accountId, tooltip: true }}
+              />
             </div>
           </div>
-          <div>
-            {state.showDetails && (
-              <Widget
-                src={`hack.near/widget/group`}
-                props={{
-                  groupId,
-                  creatorId: item.accountId,
-                }}
-              />
-            )}
-          </div>
-        </>
-      )}
+        </div>
+        <NotificationButton item={item} />
+      </div>
     </ItemWrapper>
   );
 };

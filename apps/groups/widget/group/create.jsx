@@ -10,7 +10,8 @@ function generateUID() {
   );
 }
 
-const groupId = props.groupId ?? generateUID();
+// const groupId = props.groupId ?? generateUID();
+const groupId = "one";
 
 State.init({
   group,
@@ -134,7 +135,7 @@ const Section = styled.div`
 `;
 
 const handleCreate = () => {
-  Social.set({
+  const data = {
     thing: {
       [groupId]: {
         "": JSON.stringify(state.group),
@@ -155,12 +156,6 @@ const handleCreate = () => {
       },
     },
     index: {
-      thing: JSON.stringify({
-        key: groupId,
-        value: {
-          type: "group",
-        },
-      }),
       every: JSON.stringify({
         key: "group",
         value: {
@@ -176,17 +171,22 @@ const handleCreate = () => {
           },
         }))
       ),
-      notify: JSON.stringify(
-        Object.keys(state.members).map((account) => ({
-          key: account,
-          value: {
-            type: "add",
-            message: "added you to group",
-          },
-        }))
-      ),
     },
-  });
+  };
+  const notify = Object.keys(state.members).filter(
+    (it) => it !== context.accountId
+  );
+  if (notify.length > 0) {
+    data.index.notify = JSON.stringify(
+      notify.map((account) => ({
+        key: account,
+        value: {
+          type: "add",
+        },
+      }))
+    );
+  }
+  Social.set(data);
 };
 
 return (
@@ -222,6 +222,7 @@ return (
                       options: {
                         name: { label: "Name" },
                         image: { label: "Logo" },
+                        backgroundImage: { label: "Background" },
                         description: { label: "About" },
                         tags: {
                           label: "Tags",

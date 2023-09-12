@@ -93,12 +93,6 @@ const handleSave = () => {
       },
     },
     index: {
-      thing: JSON.stringify({
-        key: groupId,
-        value: {
-          type: "group",
-        },
-      }),
       every: JSON.stringify({
         key: "group",
         value: {
@@ -115,13 +109,14 @@ const handleSave = () => {
         }))
       ),
       notify: JSON.stringify(
-        Object.keys(state.members).map((account) => ({
-          key: account,
-          value: {
-            type: "add",
-            message: "added you to group",
-          },
-        }))
+        Object.keys(state.members)
+          .filter((it) => initMembers.includes(it))
+          .map((account) => ({
+            key: account,
+            value: {
+              type: "add",
+            },
+          }))
       ),
     },
   });
