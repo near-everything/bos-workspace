@@ -47,13 +47,6 @@ const handleJoin = () => {
             accountId,
           },
         },
-        {
-          key: accountId,
-          value: {
-            type,
-            groupId,
-          },
-        },
       ]),
     },
   });
