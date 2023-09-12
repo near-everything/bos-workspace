@@ -1,17 +1,22 @@
 const index = props.index;
-const buildPath = props.buildPath;
 const Item = props.Item;
 const Layout = props.Layout;
 
 const renderItem = (item, i) => {
   return (
-    <Item path={buildPath(item)} blockHeight={item.blockHeight} />
+    <div key={JSON.stringify(item)}>
+      <Item {...item} />
+    </div>
   );
 };
 
 return (
   <Widget
     src="devs.near/widget/PR.FilteredIndexFeed"
-    props={{ index, renderItem, Layout: ({ children }) => <Layout>{children}</Layout>}}
+    props={{
+      index,
+      renderItem,
+      Layout: ({ children }) => <Layout>{children}</Layout>,
+    }}
   />
 );
