@@ -1,8 +1,4 @@
-const debug = props.debug;
-
-State.init({ formData: {} });
-
-const Creator = ({ typeDef, displayInfo, errors, data, onChange }) => {
+const Creator = ({ typeDef, displayInfo, errors, data, onChange, debug }) => {
   const handleArrayItemChange = (key, index, value) => {
     const newArray = [...(data[key] || [])];
     newArray[index] = value;
@@ -218,4 +214,3 @@ const Creator = ({ typeDef, displayInfo, errors, data, onChange }) => {
     </div>
   );
 };
-

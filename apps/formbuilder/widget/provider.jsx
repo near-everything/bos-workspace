@@ -1,4 +1,6 @@
 /*__@import:everything/utils/typeToEmptyData__*/
+/*__@import:everything/utils/debounce__*/
+/*__@import:everything/utils/generator__*/
 
 const typeDef = {
   properties: {
@@ -43,12 +45,14 @@ const typeDef = {
             validation: {
               required: true,
             },
+            defaultValue: "street",
           },
           city: {
             type: "string",
             validation: {
               required: true,
             },
+            defaultValue: "city",
           },
         },
       },
@@ -135,6 +139,35 @@ const displayInfo = {
 
 const data = typeToEmptyData(typeDef);
 
+function flattenData(data, parentKey, result) {
+  if (!parentKey) {
+    parentKey = "";
+  }
+  if (!result) {
+    result = {};
+  }
+  Object.keys(data).forEach((key) => {
+    let newKey = parentKey ? `${parentKey}.${key}` : key;
+
+    if (
+      typeof data[key] === "object" &&
+      data[key] !== null &&
+      !Array.isArray(data[key])
+    ) {
+      flattenData(data[key], newKey, result);
+    } else if (Array.isArray(data[key])) {
+      data[key].forEach((item, index) => {
+        flattenData(item, `${newKey}[${index}]`, result);
+      });
+    } else {
+      result[newKey] = data[key];
+    }
+  });
+  return result;
+}
+
+data = flattenData(data);
+
 State.init({ ...data, errors: [] });
 
 function handleSubmit() {
@@ -144,66 +177,63 @@ function handleSubmit() {
 const set = (k, v) => State.update({ [k]: v });
 const get = (k) => state[k];
 const store = (k, v) => Storage.privateSet(k, v);
-const retrieve = (k) => Storage.privateGet(k)
+const retrieve = (k) => Storage.privateGet(k);
 
 function onChange(path, value) {
   console.log("path: " + path + ", value: " + value);
+  debounce(() => State.update({ [path]: value }));
 
-  // Split the path into its components (e.g., "address.street" becomes ["address", "street"])
-  const keys = path.split('.');
+  // // Split the path into its components (e.g., "address.street" becomes ["address", "street"])
+  // const keys = path.split('.');
 
-  // Use a recursive function to navigate through the state and update the value
-  function setValue(obj, keys, value) {
-    let key = keys[0];
-  
-    // Check if the key has an array index, e.g., "links[1]"
-    const arrayMatch = key.match(/(^[^\[]+)\[([0-9]+)\]$/);
-    if (arrayMatch) {
-      const arrayKey = arrayMatch[1];
-      const index = parseInt(arrayMatch[2], 10);
-  
-      if (keys.length === 1) {
-        const newArray = [...(obj[arrayKey] || [])];
-        newArray[index] = value;
-        return { ...obj, [arrayKey]: newArray };
-      } else {
-        const newArray = [...(obj[arrayKey] || [])];
-        newArray[index] = setValue(newArray[index] || {}, keys.slice(1), value);
-        return { ...obj, [arrayKey]: newArray };
-      }
-    }
-  
-    // If we're at the last key, set the value
-    if (keys.length === 1) {
-      return { ...obj, [key]: value };
-    }
-  
-    // Otherwise, continue navigating
-    if (!obj[key]) {
-      obj[key] = {};
-    }
-  
-    return { ...obj, [key]: setValue(obj[key], keys.slice(1), value) };
-  }
-  
+  // // Use a recursive function to navigate through the state and update the value
+  // function setValue(obj, keys, value) {
+  //   let key = keys[0];
 
-  const updatedData = setValue(state, keys, value);
-  State.update(updatedData)
-  // set(updatedData);
+  //   // Check if the key has an array index, e.g., "links[1]"
+  //   const arrayMatch = key.match(/(^[^\[]+)\[([0-9]+)\]$/);
+  //   if (arrayMatch) {
+  //     const arrayKey = arrayMatch[1];
+  //     const index = parseInt(arrayMatch[2], 10);
+
+  //     if (keys.length === 1) {
+  //       const newArray = [...(obj[arrayKey] || [])];
+  //       newArray[index] = value;
+  //       return { ...obj, [arrayKey]: newArray };
+  //     } else {
+  //       const newArray = [...(obj[arrayKey] || [])];
+  //       newArray[index] = setValue(newArray[index] || {}, keys.slice(1), value);
+  //       return { ...obj, [arrayKey]: newArray };
+  //     }
+  //   }
+
+  //   // If we're at the last key, set the value
+  //   if (keys.length === 1) {
+  //     return { ...obj, [key]: value };
+  //   }
+
+  //   // Otherwise, continue navigating
+  //   if (!obj[key]) {
+  //     obj[key] = {};
+  //   }
+
+  //   return { ...obj, [key]: setValue(obj[key], keys.slice(1), value) };
+  // }
+
+  // const updatedData = setValue(state, keys, value);
+  // State.update(updatedData)
+  // // set(updatedData);
 }
 return (
   <div>
-    {JSON.stringify(state)}
-    <Widget
-      src="efiz.near/widget/generator"
-      props={{
-        typeDef,
-        displayInfo,
-        data: state,
-        errors: state.errors,
-        onChange: onChange,
-        debug: true,
-      }}
+    <p>{JSON.stringify(state)}</p>
+    <Creator
+      typeDef={typeDef}
+      displayInfo={displayInfo}
+      data={state}
+      errors={state.errors}
+      onChange={onChange}
+      debug={true}
     />
     <button onClick={handleSubmit}>submit</button>
   </div>
