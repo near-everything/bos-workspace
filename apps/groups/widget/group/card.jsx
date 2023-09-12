@@ -1,7 +1,10 @@
 const creatorId = props.creatorId;
 const groupId = props.groupId;
 
-const groupInfo = Social.get(`${creatorId}/thing/${groupId}/metadata/**`, "final");
+const groupInfo = Social.get(
+  `${creatorId}/thing/${groupId}/metadata/**`,
+  "final"
+);
 
 if (!groupInfo) {
   return "group details not found";
@@ -18,7 +21,8 @@ const Card = styled.div`
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow:
+    0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 16px;
@@ -100,12 +104,17 @@ const TagsWrapper = styled.div`
 
 return (
   <Card>
-    <CardLeft>
-      <Widget
-        src="hack.near/widget/group.inline"
-        props={{ groupId, accountId: creatorId }}
-      />
-    </CardLeft>
+    <a
+      href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
+      style={{ textDecoration: "none" }}
+    >
+      <CardLeft>
+        <Widget
+          src="hack.near/widget/group.inline"
+          props={{ groupId, accountId: creatorId }}
+        />
+      </CardLeft>
+    </a>
     <Bell>
       <div className="ms-autome-md-2 d-flex align-items-center">
         <div className="bell">

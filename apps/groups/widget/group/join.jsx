@@ -70,7 +70,7 @@ return (
       }`}
       onClick={handleJoin}
     >
-      {loading ? "loading" : join ? "joined" : member ? "accept" : "join"}
+      {loading ? "loading" : join ? "leave" : member ? "accept" : "join"}
     </button>
   </>
 );
