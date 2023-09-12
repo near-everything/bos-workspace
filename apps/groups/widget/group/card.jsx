@@ -111,7 +111,7 @@ return (
       <CardLeft>
         <Widget
           src="hack.near/widget/group.inline"
-          props={{ groupId, accountId: creatorId }}
+          props={{ group: groupInfo, groupId, accountId: creatorId }}
         />
       </CardLeft>
     </a>

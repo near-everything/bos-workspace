@@ -18,12 +18,13 @@ const Tag = styled.a`
   }
 `;
 
+
 return (
   <div className="d-flex flex-row">
     <Widget
       src="hack.near/widget/group.image"
       props={{
-        groupId,
+        group,
         widgetName,
         style: { height: "3.4em", width: "3.4em", minWidth: "3.4em" },
         className: "me-3",
