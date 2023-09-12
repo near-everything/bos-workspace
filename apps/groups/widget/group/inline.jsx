@@ -20,7 +20,7 @@ const Tag = styled.a`
 
 return (
   <div className="d-flex flex-row">
-    <a href={`/hack.near/widget/group?groupId=${groupId}`}>
+    <a href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${accountId}`}>
       <Widget
         src="hack.near/widget/group.image"
         props={{

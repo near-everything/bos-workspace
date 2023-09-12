@@ -8,14 +8,18 @@ const widgets = {
   edit: "hack.near/widget/group.edit",
 };
 
+// We get all of the groups that have been indexed
 const groups = Social.index("every", "group", { limit: 10 });
+
+// TODO: We can put an infinite scroll for groups
+// And then we could do a Social.get([...groups]) constructed from each index
 
 if (!groups) {
   return "";
 }
 
-const { isVerified } = props;
-
+// we check if they are a member ? Do we need this here?
+// Ohhhh you join everyone
 const isMember = Social.keys(
   `${accountId}/graph/${groupId}/${accountId}`,
   undefined,
@@ -38,7 +42,7 @@ const handleJoin = () => {
         },
       }),
       notify: JSON.stringify({
-        key: creatorId,
+        key: creatorId, // in that case, who should the creator be?
         value: {
           type,
           accountId,
@@ -116,6 +120,15 @@ const GroupCard = styled.div`
   margin: 0;
 `;
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (hover: none) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
 return (
   <>
     <Container>
@@ -146,26 +159,21 @@ return (
             </a>
           </div>
         </div>
-        {!context.accountId ? (
-          <a href="https://shard.dog/nearweek" className="btn btn-success">
-            news
-          </a>
-        ) : (
-          <Navbar>
-            {isMember && Object.keys(isMember).length ? (
-              <button
-                onClick={() => State.update({ showModal: true })}
-                className="btn btn-success"
-              >
-                create
-              </button>
-            ) : (
-              <button onClick={handleJoin} className="btn btn-success">
-                start
-              </button>
-            )}
-          </Navbar>
-        )}
+        <Navbar>
+          {/* What's the purpose of this?  */}
+          {isMember && Object.keys(isMember).length ? (
+            <button
+              onClick={() => State.update({ showModal: true })}
+              className="btn btn-success"
+            >
+              create
+            </button>
+          ) : (
+            <button onClick={handleJoin} className="btn btn-success">
+              start
+            </button>
+          )}
+        </Navbar>
       </Header>
       <Center className="px-2 px-md-3 d-flex flex-column justify-content-between w-100">
         <h4 className="mb-1 mt-5">Discover Groups</h4>
@@ -176,34 +184,31 @@ return (
                 key={i}
                 src={widgets.group}
                 props={{
-                  groupId: group.value.id,
                   creatorId: group.accountId,
+                  groupId: group.value.id,
                 }}
               />
             </div>
-          ))}{" "}
+          ))}
         </div>
       </Center>
     </Container>
-
-    <>
-      {state.showModal && (
-        <Widget
-          src={widgets.create}
-          props={{
-            handleClose: () => State.update({ showModal: false }),
-          }}
-        />
-      )}
-      {state.showModalEdit && (
-        <Widget
-          src={widgets.edit}
-          props={{
-            group: state.group,
-            handleClose: () => State.update({ showModalEdit: false }),
-          }}
-        />
-      )}
-    </>
+    {state.showModal && (
+      <Widget
+        src={widgets.create}
+        props={{
+          handleClose: () => State.update({ showModal: false }),
+        }}
+      />
+    )}
+    {state.showModalEdit && (
+      <Widget
+        src={widgets.edit}
+        props={{
+          group: state.group,
+          handleClose: () => State.update({ showModalEdit: false }),
+        }}
+      />
+    )}
   </>
 );

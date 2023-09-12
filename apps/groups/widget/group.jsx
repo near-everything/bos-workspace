@@ -16,13 +16,13 @@ const Container = styled.div`
 return (
   <Container>
     <div className="mx-auto">
-      <Widget
+      {/* <Widget
         src="hack.near/widget/group.card"
         props={{
           groupId,
           group,
         }}
-      />
+      /> */}
       <br />
       <div className="m-2">
         <h3 className="mb-3">Members</h3>

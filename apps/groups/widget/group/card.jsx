@@ -1,17 +1,11 @@
-const accountId = props.accountId ?? context.accountId;
-const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
+const creatorId = props.creatorId;
+const groupId = props.groupId;
 
-const groupInfo =
-  props.group ?? Social.get(`*/thing/${groupId}/metadata/**`, "final");
+const groupInfo = Social.get(`${creatorId}/thing/${groupId}/metadata/**`, "final");
 
 if (!groupInfo) {
   return "group details not found";
 }
-
-const groupKey = Object.keys(groupInfo)[0];
-
-const tags = Object.keys(groupInfo[groupKey].thing[groupId].metadata.tags);
-const groupUrl = `/hack.near/widget/Group?groupId=${groupId}`;
 
 const canJoin = props.canJoin ?? true;
 
@@ -109,7 +103,7 @@ return (
     <CardLeft>
       <Widget
         src="hack.near/widget/group.inline"
-        props={{ groupId, accountId }}
+        props={{ groupId, accountId: creatorId }}
       />
     </CardLeft>
     <Bell>
