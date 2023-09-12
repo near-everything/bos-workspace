@@ -52,84 +52,90 @@ Feed = Feed || (() => <></>);
 const tabs = [
   {
     defaultActive: true,
+    title: "Activity",
     iconClass: "bi bi-house-door",
     module: () => (
-      <Feed
-        index={[
-          {
-            action: "post",
-            key: "main",
-            options: {
-              limit: 10,
-              order: "desc",
-              accountId: props.accounts,
+      <>
+        <Widget
+          src="devs.near/widget/Compose"
+          props={{
+            index: {
+              post: JSON.stringify([
+                {
+                  key: {
+                    type: "thing",
+                    path: `${creatorId}/thing/${groupId}`,
+                  },
+                  value: {
+                    type: "md",
+                  },
+                },
+              ]),
             },
-            cacheOptions: {
-              ignoreCache: true,
+          }}
+        />
+        <Feed
+          index={[
+            {
+              action: "post",
+              key: {
+                type: "thing",
+                path: `${creatorId}/thing/${groupId}`,
+              },
+              options: {
+                limit: 10,
+                order: "desc",
+                accountId: props.accounts,
+              },
+              cacheOptions: {
+                ignoreCache: true,
+              },
             },
-          },
-          {
-            action: "repost",
-            key: "main",
-            options: {
-              limit: 10,
-              order: "desc",
-              accountId: props.accounts,
+            {
+              action: "repost",
+              key: JSON.stringify({
+                type: "thing",
+                path: `${creatorId}/thing/${groupId}`,
+              }),
+              options: {
+                limit: 10,
+                order: "desc",
+                accountId: props.accounts,
+              },
+              cacheOptions: {
+                ignoreCache: true,
+              },
             },
-            cacheOptions: {
-              ignoreCache: true,
-            },
-          },
-        ]}
-        Item={(p) => (
-          <Widget
-            loading={<div className="w-100" style={{ height: "200px" }} />}
-            src="mob.near/widget/MainPage.N.Post"
-            props={{ accountId: p.accountId, blockHeight: p.blockHeight }}
-          />
-        )}
-      />
+          ]}
+          Item={(p) => (
+            <Widget
+              loading={<div className="w-100" style={{ height: "200px" }} />}
+              src="mob.near/widget/MainPage.N.Post"
+              props={{ accountId: p.accountId, blockHeight: p.blockHeight }}
+            />
+          )}
+        />
+      </>
     ),
   },
   {
-    defaultActive: true,
     iconClass: "bi bi-house-door",
+    title: "Members",
     module: () => (
-      <Feed
-        index={[
-          {
-            action: "post",
-            key: "main",
-            options: {
-              limit: 10,
-              order: "desc",
-              accountId: props.accounts,
-            },
-            cacheOptions: {
-              ignoreCache: true,
-            },
-          },
-          {
-            action: "repost",
-            key: "main",
-            options: {
-              limit: 10,
-              order: "desc",
-              accountId: props.accounts,
-            },
-            cacheOptions: {
-              ignoreCache: true,
-            },
-          },
-        ]}
-        Item={(p) => (
-          <Widget
-            loading={<div className="w-100" style={{ height: "200px" }} />}
-            src="mob.near/widget/MainPage.N.Post"
-            props={{ accountId: p.accountId, blockHeight: p.blockHeight }}
-          />
-        )}
-      />
+      <>
+        <p>These are mutual members across all graphs</p>
+        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
+      </>
+    ),
+  },
+  {
+    iconClass: "bi bi-house-door",
+    title: "Graphs",
+    module: () => (
+      <>
+        <p>These are the users that have created their versions of this group.</p>
+        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
+      </>
     ),
   },
 ];
@@ -140,12 +146,14 @@ State.init({
 
 const { name, description, image, backgroundImage } = groupInfo;
 
+console.log(imageSrc)
+
 return (
   <div className="d-flex flex-column gap-3 bg-white">
     <Banner
       className="object-fit-cover"
       style={{
-        background: `center / cover no-repeat url(https://ipfs.near.social/ipfs/${backgroundImage.ifps_cid})`,
+        background: `center / cover no-repeat url(https://ipfs.near.social/ipfs/${backgroundImage.ipfs_cid})`,
       }}
     />
 
@@ -158,7 +166,7 @@ return (
               className="border border-3 border-white rounded-circle shadow position-absolute"
               width="150"
               height="150"
-              src={`https://ipfs.near.social/ipfs/${image.ifps_cid}`}
+              src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`}
               style={{ top: -50 }}
             />
           </div>
@@ -195,11 +203,6 @@ return (
     </NavUnderline>
     <Content>
       {state.selectedTab.module()}
-      {/* <Widget
-        src={state.selectedTab.route}
-        props={state.selectedTab.passProps}
-        loading={<></>}
-      /> */}
     </Content>
   </div>
 );

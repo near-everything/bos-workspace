@@ -7,8 +7,7 @@ const imageStyle = props.imageStyle ?? { objectFit: "cover" };
 const imageClassName = props.imageClassName ?? "rounded w-100 h-100";
 const thumbnail = props.thumbnail ?? "thumbnail";
 
-const group =
-  props.group ?? Social.get(`${accountId}/thing/${groupId}/metadata/**`);
+const group = props.group;
 
 const name = group.name || "No-name group";
 const image = group.image;
