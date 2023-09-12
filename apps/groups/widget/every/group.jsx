@@ -123,6 +123,7 @@ const GroupCard = styled.div`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
 
   @media (hover: none) {
     grid-template-columns: repeat(1, 1fr);
@@ -178,18 +179,31 @@ return (
       <Center className="px-2 px-md-3 d-flex flex-column justify-content-between w-100">
         <h4 className="mb-1 mt-5">Discover Groups</h4>
         <div className="row">
-          {groups.map((group, i) => (
-            <div className="col-auto m-2">
-              <Widget
-                key={i}
-                src={widgets.group}
-                props={{
-                  creatorId: group.accountId,
-                  groupId: group.value.id,
-                }}
-              />
-            </div>
-          ))}
+          <Widget
+            src="devs.near/widget/Feed"
+            props={{
+              index: {
+                action: "every",
+                key: "group",
+                options: {
+                  limit: 10,
+                  order: "desc",
+                  accountId: undefined,
+                },
+              },
+              Item: (p) => (
+                <Widget
+                  key={p}
+                  src={widgets.group}
+                  props={{
+                    creatorId: p.accountId,
+                    groupId: p.value.id,
+                  }}
+                />
+              ),
+              Layout: Grid
+            }}
+          />
         </div>
       </Center>
     </Container>
