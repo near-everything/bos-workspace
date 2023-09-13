@@ -1,17 +1,42 @@
 const index = props.index;
-const buildPath = props.buildPath;
 const Item = props.Item;
 const Layout = props.Layout;
+const typeWhitelist = props.typeWhitelist;
+
+Item = Item || ((props) => <div>{JSON.stringify(props)}</div>);
+Layout = Layout || (({ children }) => children);
 
 const renderItem = (item, i) => {
+  if (typeWhitelist && !typeWhitelist.includes(item.value.type)) {
+    return false;
+  }
   return (
-    <Item path={buildPath(item)} blockHeight={item.blockHeight} />
+    <div key={JSON.stringify(item)}>
+      <Item {...item} />
+    </div>
   );
 };
 
-return (
-  <Widget
-    src="devs.near/widget/PR.FilteredIndexFeed"
-    props={{ index, renderItem, Layout: ({ children }) => <Layout>{children}</Layout>}}
-  />
-);
+if (Array.isArray(index)) {
+  return (
+    <Widget
+      src="devs.near/widget/PR.MergedIndexFeed"
+      props={{
+        index,
+        renderItem,
+        Layout: ({ children }) => <Layout>{children}</Layout>,
+      }}
+    />
+  );
+} else {
+  return (
+    <Widget
+      src="devs.near/widget/PR.FilteredIndexFeed"
+      props={{
+        index,
+        renderItem,
+        Layout: ({ children }) => <Layout>{children}</Layout>,
+      }}
+    />
+  );
+}
