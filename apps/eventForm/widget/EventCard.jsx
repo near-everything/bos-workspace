@@ -74,6 +74,10 @@ const EventCard = () => {
     @media (max-width: 550px) {
       font-size: 12px;
     }
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   `;
 
   const hashIcon = () => {
@@ -120,7 +124,7 @@ const EventCard = () => {
         <div class="card mb-3 w-100" style={{ borderRadius: "6px" }}>
           <div class="card-body">
             <div className="d-flex mb-3 align-items-center">
-              <div className="">
+              <div className="d-flex gap-1">
                 {hashtags.map((it) => (
                   <tagsSpan className="border border-light-subtle ">
                     <hashIcon /> {it}
