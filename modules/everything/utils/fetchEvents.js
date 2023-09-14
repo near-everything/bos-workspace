@@ -12,5 +12,9 @@ const fetchAllEvents = () => {
     fetchedEvents.push({ ...eventThing.data, path, blockHeight });
   });
 
+  fetchedEvents = fetchedEvents.filter(
+    (ev) => ev.path !== "itexpert120-contra.near/thing/"
+  );
+
   return fetchedEvents;
 };

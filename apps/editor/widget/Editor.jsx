@@ -101,9 +101,14 @@ const plusButton = styled.button`
 `;
 
 const onOpenFile = (path, blockHeight) => {
-  const jThing = Social.getr(path, blockHeight);
-  console.log(jThing);
-  state.tabs.push(newTab);
+  const jThing = Social.get(path, blockHeight);
+  const newFile = {
+    path: path,
+    language: "JSON",
+    code: JSON.stringify(jThing, null, 2),
+  };
+
+  State.update({ tabs: [...state.tabs, newFile] });
   onToggleOpenModal();
 };
 

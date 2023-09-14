@@ -1,6 +1,8 @@
 /*__@import:everything/utils/UUID__*/
 /*__@import:everything/utils/date-time__*/
 
+const data = props.data;
+
 const accountId = context.accountId;
 
 if (!accountId) {
@@ -12,28 +14,51 @@ const proposeEvent = props.proposeEvent;
 
 let user_account = context.accountId;
 
-State.init({
-  id: UUID.generate(),
-  title: "",
-  description: {
-    content: "# New Event Description",
-  },
-  start: getCurrentDate(),
-  startTime: getCurrentTime(),
-  end: getCurrentDate(),
-  endTime: getCurrentTime(),
-  location: "",
-  link: "",
-  organizer: user_account,
-  isAllDay: false,
-  category: "",
-  logo: null,
-  background: null,
-  customWidget: "",
-  daoId: "",
-  tempHash: "",
-  hashTags: [],
-});
+if (!data) {
+  State.init({
+    id: UUID.generate(),
+    title: "",
+    description: {
+      content: "# New Event Description",
+    },
+    start: getCurrentDate(),
+    startTime: getCurrentTime(),
+    end: getCurrentDate(),
+    endTime: getCurrentTime(),
+    location: "",
+    link: "",
+    organizer: user_account,
+    isAllDay: false,
+    category: "",
+    logo: null,
+    background: null,
+    customWidget: "",
+    daoId: "",
+    tempHash: "",
+    hashTags: [],
+  });
+} else {
+  State.init({
+    id: data.id || UUID.generate(),
+    title: data.title,
+    description: data.description,
+    start: getCurrentDate(data.start, data.startTime),
+    startTime: getCurrentTime(data.start, data.startTime),
+    end: getCurrentDate(data.end, data.endTime),
+    endTime: getCurrentTime(data.end, data.endTime),
+    location: data.location,
+    link: data.link,
+    organizer: data.organizer,
+    isAllDay: data.isAllDay,
+    category: data.category,
+    logo: data.logo,
+    background: data.background,
+    customWidget: data.customWidget,
+    daoId: data.daoId,
+    tempHash: "",
+    hashTags: JSON.parse(data.hashTags),
+  });
+}
 
 const onTitleChange = ({ target }) => {
   State.update({ title: target.value });
@@ -166,6 +191,34 @@ const handleProposeEvent = () => {
 
   proposeEvent(newEvent);
   clearFields();
+};
+
+const handleEventEdit = () => {
+  const newEvent = {
+    data: {
+      id: state.id,
+      title: state.title,
+      description: state.description,
+      start: isoDate(state.start, state.startTime),
+      startTime: isoTime(state.start, state.startTime),
+      end: isoDate(state.end, state.endTime),
+      endTime: isoTime(state.end, state.endTime),
+      location: state.location,
+      link: state.link,
+      organizer: state.organizer,
+      isAllDay: state.isAllDay,
+      category: state.category,
+      logo: state.logo,
+      background: state.background,
+      hashTags: state.hashTags,
+    },
+    template: {
+      src: "itexpert120-contra.near/widget/EventView",
+    },
+    type: "every.near/type/event",
+  };
+
+  addEvent(newEvent);
 };
 
 const handleNewEvent = () => {
@@ -400,12 +453,26 @@ const EventForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <button onClick={handleNewEvent}>Add Event</button>
-          <Widget
-            src="itexpert120-contra.near/widget/EventProposalButton"
-            props={{ daoId: state.daoId, event: createNewEvent() }}
-          />
-          <button onClick={clearFields}>Clear Fields</button>
+          <div className="row">
+            {!data ? (
+              <div className="col">
+                <button onClick={handleNewEvent}>Add Event</button>
+              </div>
+            ) : (
+              <div className="col">
+                <button onClick={handleEventEdit}>Edit Event</button>
+              </div>
+            )}
+            <div className="col">
+              <Widget
+                src="itexpert120-contra.near/widget/EventProposalButton"
+                props={{ daoId: state.daoId, event: createNewEvent() }}
+              />
+            </div>
+            <div className="col">
+              <button onClick={clearFields}>Clear Fields</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

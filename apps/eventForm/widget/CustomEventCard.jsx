@@ -149,7 +149,7 @@ const EventCard = () => {
                           objectFit: "cover",
                         },
                         fallbackUrl:
-                          "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                          "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
                       }}
                     />
                   </div>

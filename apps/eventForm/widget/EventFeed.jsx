@@ -34,6 +34,7 @@ const dateH2 = styled.h2`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  width: 69px;
 `;
 
 const monthSpan = styled.span`
@@ -45,10 +46,18 @@ const monthSpan = styled.span`
   line-height: normal;
 `;
 
+const eventsContainer = styled.div`
+  @media (width <= 575px) {
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+  }
+`;
+
 return (
   <div className="border border-light-subtle p-3">
     {Object.keys(eventsOfMonths).map((date) => (
-      <div key={date} className="d-flex align-items-start">
+      <eventsContainer key={date} className="d-flex align-items-start">
         <dateH2 className="d-flex align-items-center">
           {Number(date)}{" "}
           <monthSpan>
@@ -66,7 +75,7 @@ return (
           })}
           {eventsOfMonths[date].length === 0 && <p>No Events Found</p>}
         </ul>
-      </div>
+      </eventsContainer>
     ))}
   </div>
 );

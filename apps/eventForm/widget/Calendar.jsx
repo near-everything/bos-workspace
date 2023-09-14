@@ -1,6 +1,6 @@
 // CALENDAR FROM https://github.com/fullcalendar/fullcalendar/tree/main/bundle
 const events = props.events || [];
-const dateToView = props.date || new Date("2020-10-1");
+const dateToView = props.date || new Date();
 
 const srcData = `
 <!DOCTYPE html>
@@ -76,13 +76,8 @@ const srcData = `
 </html>
 
 <style>
-  html,
-  body {
-    height: 100%;
-  }
-
-  #calendar: {
-    height:  100%;
+  #calendar {
+    min-height: 400px;
   }
 
   .fc-col-header {

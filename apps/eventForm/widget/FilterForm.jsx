@@ -125,7 +125,13 @@ return (
         onChange={onOrganizerUpdate}
       />
     </div>
-    <button onClick={onFilterClear}>Clear Filters</button>
-    <button onClick={onFilterEvents}>Filter Events</button>
+    <div className="row">
+      <div className="col">
+        <button onClick={onFilterClear}>Clear Filters</button>
+      </div>
+      <div className="col">
+        <button onClick={onFilterEvents}>Filter Events</button>
+      </div>
+    </div>
   </div>
 );
