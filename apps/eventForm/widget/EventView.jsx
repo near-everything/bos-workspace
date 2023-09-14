@@ -3,6 +3,11 @@ const data = props.data;
 const path = data.path;
 const blockHeight = data.blockHeight;
 
+if (!data) {
+  path = props.path;
+  blockHeight = props.blockHeight;
+}
+
 const eventThing = Social.getr(path, blockHeight);
 
 if (!eventThing) {

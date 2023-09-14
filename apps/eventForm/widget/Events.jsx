@@ -233,7 +233,12 @@ const handleFilter = () => {
 
 const newEventModalProps = {
   title: "Create event",
-  body: <Widget src="itexpert120-contra.near/widget/CreateEvent" />,
+  body: (
+    <Widget
+      src="itexpert120-contra.near/widget/CreateEvent"
+      props={{ toggleNewEventModal }}
+    />
+  ),
   confirmText: "Create a new event",
   onConfirm: () => {
     console.log("confirm");
@@ -268,10 +273,12 @@ const onFilterEvents = () => {
     );
   });
 
+  console.log("fetched Events", fetchedEvents);
   const filteredFeedEvents = fetchedEvents.filter((ev) => {
     return (
-      (filterFrom === null || ev.start >= filterFrom) &&
-      (filterTo === null || ev.end <= filterTo) &&
+      (filterFrom === null ||
+        new Date(`${ev.start}T${ev.startTime}`) >= filterFrom) &&
+      (filterTo === null || new Date(`${ev.end}T${ev.endTime}`) <= filterTo) &&
       (titleFilter === "" || ev.title.toLowerCase().includes(titleFilter)) &&
       (locationFilter === "" ||
         ev.location.toLowerCase().includes(locationFilter)) &&
@@ -281,6 +288,9 @@ const onFilterEvents = () => {
         ev.organizer.toLowerCase().includes(organizerFilter))
     );
   });
+
+  console.log(filteredEvents);
+  console.log(filteredFeedEvents);
 
   //   Update your state with the filtered events
   State.update({

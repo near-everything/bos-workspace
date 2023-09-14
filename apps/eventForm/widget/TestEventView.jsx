@@ -2,8 +2,8 @@ return (
   <Widget
     src="itexpert120-contra.near/widget/EventView"
     props={{
-      path: "itexpert120-contra.near/thing/34809326-e286-c6a1-b3f4-d711aec09506",
-      blockHeight: 99994211,
+      path: "hack.near/thing/fcdb6159-1e1f-5874-a852-fc12519f56e1",
+      blockHeight: 100978142,
     }}
   />
 );
