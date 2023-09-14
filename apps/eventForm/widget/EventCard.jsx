@@ -34,7 +34,7 @@ const EventCard = () => {
     font-weight: 500;
     line-height: normal;
 
-    @media (max-width: 550px) {
+    @media (max-width: 768px) {
       font-size: 12px;
     }
   `;
@@ -46,7 +46,7 @@ const EventCard = () => {
     font-weight: 600;
     line-height: normal;
 
-    @media (max-width: 550px) {
+    @media (max-width: 768px) {
       font-size: 12px;
     }
   `;
@@ -58,17 +58,9 @@ const EventCard = () => {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-
-    @media (max-width: 550px) {
-      font-size: 16px;
-    }
   `;
 
   const eventDescription = styled.div`
-    @media (max-width: 550px) {
-      font-size: 12px;
-    }
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -113,6 +105,10 @@ const EventCard = () => {
 
     outline: none;
     border: 1px solid #e9ecef;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   `;
 
   const formatStartTime = () => {
@@ -190,31 +186,33 @@ const EventCard = () => {
                   <styledA
                     href={`https://near.social/itexpert120-contra.near/widget/EventView?path=${path}&blockHeight=${blockHeight}`}
                   >
-                    <div>
-                      <Widget
-                        src="mob.near/widget/Image"
-                        props={{
-                          image: logo,
-                          alt: "event logo",
-                          style: {
-                            width: 40,
-                            height: 40,
-                            borderRadius: "4px",
-                            objectFit: "cover",
-                          },
-                          fallbackUrl:
-                            "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <eventTitle class="card-title">{title}</eventTitle>
-                      <eventDescription>
+                    <div className="d-flex">
+                      <div className="me-3">
                         <Widget
-                          src="efiz.near/widget/every.markdown.view"
-                          props={{ data: description }}
+                          src="mob.near/widget/Image"
+                          props={{
+                            image: logo,
+                            alt: "event logo",
+                            style: {
+                              width: 40,
+                              height: 40,
+                              borderRadius: "4px",
+                              objectFit: "cover",
+                            },
+                            fallbackUrl:
+                              "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
+                          }}
                         />
-                      </eventDescription>
+                      </div>
+                      <div>
+                        <eventTitle class="card-title">{title}</eventTitle>
+                        <eventDescription>
+                          <Widget
+                            src="efiz.near/widget/every.markdown.view"
+                            props={{ data: description }}
+                          />
+                        </eventDescription>
+                      </div>
                     </div>
                   </styledA>
                 </>
