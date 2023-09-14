@@ -1,12 +1,41 @@
-const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "liberty.sputnik-dao.near";
-const role = props.role ?? "community";
+const tabs = {
+  welcome: () => (
+    <>
+      <Container>
+        <Flex>
+          <H1>
+            🗽 Liberty <span>DAO</span>
+          </H1>
+          <Text style={{ maxWidth: "350px" }}>
+            New Yorkers building a better future with our local and global
+            communities.
+          </Text>
+        </Flex>
+      </Container>
+      <Flex>
+        <Text
+          size="14px"
+          weight="600"
+          style={{
+            textTransform: "uppercase",
+            letterSpacing: "0.17em",
+            textAlign: "center",
+          }}
+        >
+          Made Possible by Collaboration
+        </Text>
+        <Widget src="hack.near/widget/dev.Badge" />
+      </Flex>
+    </>
+  ),
+  boroughs: () => <Widget src="libertydao.near/widget/index" />,
+  supporting: () => <Widget src="hack.near/widget/NDC.WG.Page" />,
+  projects: () => <Widget src="hack.near/widget/NDC.WG.Page" />, // No widget for projects, just a placeholder,
+  initiatives: () => <Widget src="hack.near/widget/NDC.WG.Page" />,
+  happening: () => <Widget src="itexpert120-contra.near/widget/Calendar" />,
+};
 
-const tab = props.tab === "following" ? props.tab : "members";
-
-State.init({
-  selectedTab: tab || "discussion",
-});
+State.init({ selectedTab: "welcome" });
 
 const Wrapper = styled.div`
   --section-gap: 23px;
@@ -119,7 +148,7 @@ const Title = styled.h1`
   font-weight: 600;
   font-size: ${(p) => p.size || "25px"};
   line-height: 1.2em;
-  color: linear-gradient(89.97deg, #AE67FA 1.84%, #F49867 102.67%);
+  color: linear-gradient(89.97deg, #ae67fa 1.84%, #f49867 102.67%);
   margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
   overflow-wrap: anywhere;
 `;
@@ -131,6 +160,7 @@ const Tabs = styled.div`
   margin-bottom: 72px;
   overflow: auto;
   scroll-behavior: smooth;
+  cursor: pointer;
 
   @media (max-width: 1200px) {
     background: #f8f9fa;
@@ -170,128 +200,26 @@ const TabsButton = styled.a`
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(89.97deg, #AE67FA 1.84%, #F49867 102.67%);;
+    background: linear-gradient(89.97deg, #ae67fa 1.84%, #f49867 102.67%);
   }
- 
 `;
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 return (
   <Wrapper>
-    <Container>
-      <Flex>
-        <H1>
-          🗽 Liberty
-          <span>
-            DAO{" "}
-            <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
-              <path
-                d="M24.3767 8.06326L1.51965 0.0649912C1.10402 -0.0830767 0.639031 0.026026 0.327308 0.340346C0.0181841 0.657263 -0.0831256 1.12225 0.0701378 1.53788L8.071 23.2519C8.23726 23.7013 8.66587 24 9.14385 24H9.14644C9.62702 24 10.0556 23.6961 10.2167 23.2441L13.734 13.495L24.3325 10.2349C24.8053 10.0895 25.13 9.65824 25.1378 9.16468C25.1482 8.67112 24.8391 8.22691 24.3715 8.06326H24.3767Z"
-                fill="#323330"
-              />
-            </svg>
-          </span>
-        </H1>
-        <div className="mt-3">
-          <Text style={{ maxWidth: "350px" }}>
-            New Yorkers building a better future with our local and global
-            communities.
-          </Text>
-        </div>
-        {context.accountId && (
-          <div className="m-3" style={{ maxWidth: "75%" }}>
-            <Widget
-              src="near/widget/AccountProfileCard"
-              props={{ accountId: daoId }}
-            />
-          </div>
-        )}
-      </Flex>
-    </Container>
-    <Content>
-      <Tabs>
+    <Tabs>
+      {Object.keys(tabs).map((t) => (
         <TabsButton
-          onClick={() => State.update({ selectedTab: "discussion"})}
-          selected={state.selectedTab === "discussion"}
+          onClick={() => State.update({ selectedTab: t })}
+          selected={state.selectedTab === t}
         >
-          Discussion
+          {capitalizeFirstLetter(t)}
         </TabsButton>
-
-        <TabsButton
-          onClick={() => State.update({ selectedTab: "interactive-map"})}
-          selected={state.selectedTab === "interactive-map"}
-        >
-          What's your Borough?
-        </TabsButton>
-
-        <TabsButton
-          onClick={() => State.update({ selectedTab: "members"})}
-          selected={state.selectedTab === "members"}
-        >
-          Members
-        </TabsButton>
-
-        <TabsButton
-          onClick={() => State.update({ selectedTab: "groups"})}
-          selected={state.selectedTab === "groups"}
-        >
-          Groups
-        </TabsButton>
-
-        <TabsButton
-          onClick={() => State.update({ selectedTab: "projects"})}
-          selected={state.selectedTab === "projects"}
-        >
-          Projects
-        </TabsButton>
-
-        <TabsButton
-          onClick={() => State.update({ selectedTab: "events"})}
-          selected={state.selectedTab === "events"}
-        >
-          Events
-        </TabsButton>
-      </Tabs>
-
-      {state.selectedTab === "discussion" && (
-        <>
-          <Widget src="efiz.near/widget/Chat" props={{ daoId }} />
-        </>
-      )}
-      {state.selectedTab === "members" && (
-        <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
-      )}
-
-      {state.selectedTab === "interactive-map" && (
-        <Widget src="humans-of-near.near/widget/humans.nearverselabs.com" />
-      )}
-
-      {state.selectedTab === "projects" && (
-        <p>TODO: Projects</p>
-      )}
-
-
-      {state.selectedTab === "groups" && (
-        <Widget src="hack.near/widget/NDC.WG.Page" />
-      )}
-
-      {state.selectedTab === "events" && (
-        <Widget src="evrything.near/widget/Calendar" props={{ daoId }} />
-      )}
-    </Content>
-    <br />
-    <Flex>
-      <Text
-        size="14px"
-        weight="600"
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.17em",
-          textAlign: "center",
-        }}
-      >
-        Made Possible by Collaboration
-      </Text>
-      <Widget src="hack.near/widget/dev.Badge" />
-    </Flex>
+      ))}
+    </Tabs>
+    <Content>{tabs[state.selectedTab] && tabs[state.selectedTab]()}</Content>
   </Wrapper>
 );
