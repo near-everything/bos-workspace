@@ -1,3 +1,5 @@
+const tab = props.tab;
+
 const tabs = {
   welcome: () => (
     <>
@@ -28,34 +30,24 @@ const tabs = {
       </Flex>
     </>
   ),
-  boroughs: () => <Widget src="libertydao.near/widget/index" />,
+  boroughs: () => <Widget src="libertydao.near/widget/borough.index" />,
   supporting: () => <Widget src="hack.near/widget/NDC.WG.Page" />,
-  projects: () => <Widget src="hack.near/widget/NDC.WG.Page" />, // No widget for projects, just a placeholder,
-  initiatives: () => <Widget src="hack.near/widget/NDC.WG.Page" />,
+  projects: () => <Widget src="libertydao.near/widget/projects.index" />,
+  initiatives: () => <Widget src="hack.near/widget/every.group" />,
   happening: () => <Widget src="itexpert120-contra.near/widget/Calendar" />,
 };
 
-State.init({ selectedTab: "welcome" });
+State.init({ selectedTab: tab });
 
-const Wrapper = styled.div`
-  --section-gap: 23px;
-  padding-top: 42px;
-
-  @media (max-width: 1155px) {
-    .line-rounded-corners {
-      display: none !important;
-    }
-  }
-
-  @media (max-width: 998px) {
-    padding-top: 0;
-  }
+const Root = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 const H1 = styled.h1`
-  font-family: "FK Grotesk", sans-serif;
+  font-family: sans-serif;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 90px;
   line-height: 1;
   text-align: center;
@@ -124,7 +116,7 @@ const Flex = styled.div`
 const Container = styled.div`
   display: flex;
   max-width: 1080px;
-  margin: 0 auto;
+  margin: 128px auto;
   gap: var(--section-gap);
   flex-direction: column;
   align-items: center;
@@ -156,16 +148,14 @@ const Title = styled.h1`
 const Tabs = styled.div`
   display: flex;
   height: 48px;
+  margin: 12px 12px 0 0;
   border-bottom: 1px solid #eceef0;
-  margin-bottom: 72px;
   overflow: auto;
   scroll-behavior: smooth;
   cursor: pointer;
 
   @media (max-width: 1200px) {
-    background: #f8f9fa;
     border-top: 1px solid #eceef0;
-    margin: 0 -12px 48px;
 
     > * {
       flex: 1;
@@ -179,7 +169,7 @@ const TabsButton = styled.a`
   justify-content: center;
   height: 100%;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 24px;
   padding: 0 12px;
   position: relative;
   color: ${(p) => (p.selected ? "#11181C" : "#687076")};
@@ -209,10 +199,15 @@ function capitalizeFirstLetter(string) {
 }
 
 return (
-  <Wrapper>
+  <Root>
+    {/* <Widget
+        src={`nearhorizon.near/widget/NavbarControl`}
+        props={{ tab: props.tab }}
+      /> */}
     <Tabs>
       {Object.keys(tabs).map((t) => (
         <TabsButton
+          href={`?tab=${t}`}
           onClick={() => State.update({ selectedTab: t })}
           selected={state.selectedTab === t}
         >
@@ -221,5 +216,5 @@ return (
       ))}
     </Tabs>
     <Content>{tabs[state.selectedTab] && tabs[state.selectedTab]()}</Content>
-  </Wrapper>
+  </Root>
 );

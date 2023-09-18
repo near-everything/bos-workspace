@@ -14,7 +14,7 @@ const accountId = context.accountId;
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100vh - 190px);
+  height: calc(100vh - 80px);
   align-items: stretch;
   flex-direction: column;
   background: black;
@@ -128,7 +128,7 @@ getLocationsData();
 return (
   <Wrapper>
     <Header>
-      <Widget src={`${Owner}/widget/Header`} />
+      <Widget src={`${Owner}/widget/borough.Header`} />
     </Header>
 
     <div>
@@ -200,13 +200,13 @@ return (
 
     {accountId && state.showModal && (
       <Widget
-        src={`${Owner}/widget/Modal`}
+        src={`${Owner}/widget/borough.Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
       />
     )}
 
     <Widget
-      src={`${Owner}/widget/Mapbox`}
+      src={`${Owner}/widget/borough.Mapbox`}
       props={{
         API_URL,
         accessToken: MAP_TOKEN,
