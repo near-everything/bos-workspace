@@ -1,30 +1,22 @@
-
 if (!context.accountId) {
   return "";
 }
 
-// We index specifically to the type
-// hashtags work as normal
-// 
+const index = props.index || {
+  post: JSON.stringify({
+    key: "main",
+    value: {
+      type: "md",
+    },
+  }),
+};
+
 const composeData = () => {
   const data = {
     post: {
       main: JSON.stringify(state.content),
     },
-    index: {
-      post: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-      every: JSON.stringify({
-        key: "idea",
-        value: {
-          type: "md",
-        }
-      }),
-    },
+    index,
   };
 
   const item = {
