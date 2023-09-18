@@ -55,7 +55,7 @@ const eventsContainer = styled.div`
 `;
 
 return (
-  <div className="border border-top-0 border-light-subtle p-3">
+  <div className="border border-light-subtle p-3">
     {Object.keys(eventsOfMonths).map((date) => (
       <eventsContainer key={date} className="d-flex align-items-start">
         <dateH2 className="d-flex align-items-center">
