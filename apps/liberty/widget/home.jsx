@@ -40,8 +40,28 @@ const tabs = {
 State.init({ selectedTab: tab });
 
 const Root = styled.div`
-  width: 100%;
-  height: 100%;
+  font-family: "DM Sans", sans-serif;
+
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #4498e0;
+  }
+
+  // .ndc-card {
+  //   border-radius: 16px;
+  //   box-shadow:
+  //     rgba(0, 0, 0, 0.1) 0 1px 3px,
+  //     rgba(0, 0, 0, 0.05) 0 1px 20px;
+  //   background-color: #fff;
+  // }
 `;
 
 const H1 = styled.h1`
@@ -155,8 +175,6 @@ const Tabs = styled.div`
   cursor: pointer;
 
   @media (max-width: 1200px) {
-    border-top: 1px solid #eceef0;
-
     > * {
       flex: 1;
     }
@@ -200,6 +218,7 @@ function capitalizeFirstLetter(string) {
 
 return (
   <Root>
+    <Widget src={`libertydao.near/widget/Typography.DMSans`} />
     {/* <Widget
         src={`nearhorizon.near/widget/NavbarControl`}
         props={{ tab: props.tab }}

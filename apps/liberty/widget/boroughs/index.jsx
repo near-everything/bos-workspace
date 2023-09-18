@@ -1,32 +1,22 @@
-const Owner =
-  "libertydao.near";
-const API_URL = "https://humans.nearverselabs.com/api";
+const Owner = "libertydao.near";
+const API_URL = "https://glzgiyrxrptnsngxmgil.supabase.co/";
 const MAP_STYLE = "mapbox://styles/mapbox/streets-v12";
 const MAP_TOKEN =
   "pk.eyJ1IjoidGVqMDEiLCJhIjoiY2xqcHZ2dGpkMDB5azNsbzQ0bmMwNjRjaCJ9.FVv2zRPaLwzZMgagbI2YZw";
 
 const center = [-74.00597, 40.71427];
-const zoom = 8.9;
+const zoom = 10;
 const accountId = context.accountId;
-
-//Styles
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 120px);
   align-items: stretch;
   flex-direction: column;
   background: black;
   overflow: auto;
   position: relative;
-`;
-
-const Header = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  position: absolute;
 `;
 
 const Profile = styled.button`
@@ -68,6 +58,16 @@ const BtnStyle2 = {
   zIndex: 1,
 };
 
+State.init({
+  loading: false
+})
+
+const markers = Social.get(`*/thing/libertyMarkerTest`, "final");
+
+if (!markers) {
+  return <></>
+}
+
 const getMyData = () => {
   return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
     (res) => {
@@ -76,14 +76,6 @@ const getMyData = () => {
       }
     }
   );
-};
-
-const getLocations = () => {
-  return asyncFetch(API_URL + `/location`).then((res) => {
-    if (res.ok) {
-      return res.body;
-    }
-  });
 };
 
 const getMyInfor = async () => {
@@ -106,31 +98,32 @@ const onClose = () => {
   State.update({ showModal: false });
 };
 
-const onHumanClose = () => {
-  State.update({ humanAlert: false });
-};
-
 const handleSaveLocation = () => {
-  asyncFetch(`${API_URL}/location/bos`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  Social.set(
+    {
+      thing: {
+        libertyMarkerTest: {
+          "": JSON.stringify({}),
+          metadata: {
+            name: "",
+            description: "",
+            image: "",
+            backgroundImage: "",
+          },
+        },
+      },
     },
-    body: JSON.stringify({ accountId }),
-  }).then((res) => {
-    State.update({ edit: !state.edit });
-  });
+    {
+      onCommit: () => {
+        State.update({ edit: !state.edit });
+      },
+      onCancel: () => State.update({ edit: !state.edit }),
+    }
+  );
 };
-
-getMyInfor();
-getLocationsData();
 
 return (
   <Wrapper>
-    <Header>
-      <Widget src={`${Owner}/widget/boroughs.Header`} />
-    </Header>
-
     <div>
       <Profile
         class="btn"
@@ -139,7 +132,7 @@ return (
           State.update({ showModal: true });
         }}
       >
-        {`Form`}
+        {`What's your Borough?`}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -200,13 +193,13 @@ return (
 
     {accountId && state.showModal && (
       <Widget
-        src={`${Owner}/widget/boroughs.Modal`}
+        src={"libertydao.near/widget/boroughs.Modal"}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
       />
     )}
 
     <Widget
-      src={`${Owner}/widget/boroughs.Mapbox`}
+      src={"libertydao.near/widget/boroughs.Mapbox"}
       props={{
         API_URL,
         accessToken: MAP_TOKEN,

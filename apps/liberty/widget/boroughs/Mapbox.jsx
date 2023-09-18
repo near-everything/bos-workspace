@@ -30,7 +30,7 @@ const code = `
 
       // CHANGE MARKER
       .marker {
-        background-image: url('https://humans.nearverselabs.com/Human.png');
+        background-image: url('https://ipfs.near.social/ipfs/bafkreiens4ch3nptl7bqav5zyfnvcg7peurd3xmuvbngyg3hjdwj2xec6e');
         background-size: cover;
         width: 27px;
         height: 34px;
@@ -240,44 +240,6 @@ input {
   all: unset;
 }
 
-.DialogOverlay {
-  background-color: var(--blackA9);
-  position: fixed;
-  inset: 0;
-  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.DialogContent {
-  background-color: white;
-  border-radius: 6px;
-  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90vw;
-  max-width: 450px;
-  max-height: 85vh;
-  padding: 25px;
-  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.DialogContent:focus {
-  outline: none;
-}
-
-.DialogTitle {
-  margin: 0;
-  font-weight: 500;
-  color: var(--mauve12);
-  font-size: 17px;
-}
-
-.DialogDescription {
-  margin: 10px 0 20px;
-  color: var(--mauve11);
-  font-size: 15px;
-  line-height: 1.5;
-}
 
 .Button {
   display: inline-flex;
@@ -387,38 +349,10 @@ input {
 
 return (
   <Container>
-    <Dialog.Root open={state.opened}>
-      <Dialog.Overlay className="DialogOverlay" />
-      <Dialog.Content className="DialogContent">
-        <Dialog.Title className="DialogTitle">Redirect</Dialog.Title>
-        <Dialog.Description className="DialogDescription">
-          Click{" "}
-          <a href={state.url} target="_blank">
-            {" "}
-            here{" "}
-          </a>{" "}
-          to open the link in new tab.
-        </Dialog.Description>
-        <Dialog.Close asChild>
-          <button
-            className="IconButton"
-            aria-label="Close"
-            onClick={() => {
-              State.update({ opened: false });
-            }}
-          >
-            X
-          </button>
-        </Dialog.Close>
-      </Dialog.Content>
-    </Dialog.Root>
     <iframe
       id="myMap"
       className="w-100 h-100"
       srcDoc={code}
-      onMessage={(response) => {
-        State.update({ opened: true, url: response });
-      }}
     />
   </Container>
 );

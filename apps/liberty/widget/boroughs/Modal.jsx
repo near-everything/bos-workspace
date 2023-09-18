@@ -147,7 +147,7 @@ const saveMyProfile = () => {
 
   Social.set({
     thing: {
-      libertyMarker: {
+      libertyMarkerTest: {
         "": JSON.stringify(data),
       },
     },

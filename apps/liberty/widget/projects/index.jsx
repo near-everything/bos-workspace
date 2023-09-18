@@ -4,6 +4,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  height: 100vh;
 `;
 
 const Selector = styled.div``;
