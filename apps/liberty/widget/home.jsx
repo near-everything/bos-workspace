@@ -219,22 +219,17 @@ function capitalizeFirstLetter(string) {
 return (
   <Root>
     <Widget src={`libertydao.near/widget/Typography.DMSans`} />
-    {/* <Widget
-        src={`nearhorizon.near/widget/NavbarControl`}
-        props={{ tab: props.tab }}
-      /> */}
     <Tabs>
       {Object.keys(tabs).map((t) => (
-        <TabsButton
-          key={key}
-          href={`?tab=${t}`}
-          onClick={() => State.update({ selectedTab: t })}
-          selected={state.selectedTab === t}
-        >
-          {capitalizeFirstLetter(t)}
-        </TabsButton>
+        <Link key={key} href={`?tab=${t}`}>
+          <TabsButton selected={state.selectedTab === t}>
+            {capitalizeFirstLetter(t)}
+          </TabsButton>
+        </Link>
       ))}
     </Tabs>
-    <Content key={state.selectedTab}>{tabs[state.selectedTab] && tabs[state.selectedTab]()}</Content>
+    <Content key={state.selectedTab}>
+      {tabs[state.selectedTab] && tabs[state.selectedTab]()}
+    </Content>
   </Root>
 );

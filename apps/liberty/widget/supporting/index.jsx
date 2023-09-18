@@ -95,26 +95,134 @@ const PreviewInfo = styled.div`
   color: #666;
 `;
 
+const Tabs = styled.div`
+  display: flex;
+  height: 48px;
+  margin: 12px 12px 0 0;
+  border-bottom: 1px solid #eceef0;
+  overflow: auto;
+  scroll-behavior: smooth;
+  cursor: pointer;
+
+  @media (max-width: 1200px) {
+    > * {
+      flex: 1;
+    }
+  }
+`;
+
+const TabsButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 24px;
+  padding: 0 12px;
+  position: relative;
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+  &:hover {
+    color: #11181c;
+  }
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(89.97deg, #ae67fa 1.84%, #f49867 102.67%);
+  }
+`;
+
 const dummyData = {
   "opportunity funnels": [
-    { name: "Funnel A", description: "This is a description for Funnel A.", location: "New York", members: 120 },
-    { name: "Funnel B", description: "This is a description for Funnel B.", location: "Los Angeles", members: 85 },
-    { name: "Funnel C", description: "This is a description for Funnel C.", location: "Chicago", members: 95 }
+    {
+      name: "Funnel A",
+      description: "This is a description for Funnel A.",
+      location: "New York",
+      members: 120,
+    },
+    {
+      name: "Funnel B",
+      description: "This is a description for Funnel B.",
+      location: "Los Angeles",
+      members: 85,
+    },
+    {
+      name: "Funnel C",
+      description: "This is a description for Funnel C.",
+      location: "Chicago",
+      members: 95,
+    },
   ],
   daos: [
-    { name: "DAO Alpha", description: "Description for DAO Alpha.", location: "San Francisco", members: 300 },
-    { name: "DAO Beta", description: "Description for DAO Beta.", location: "Boston", members: 250 },
-    { name: "DAO Gamma", description: "Description for DAO Gamma.", location: "Seattle", members: 180 }
+    {
+      name: "DAO Alpha",
+      description: "Description for DAO Alpha.",
+      location: "San Francisco",
+      members: 300,
+    },
+    {
+      name: "DAO Beta",
+      description: "Description for DAO Beta.",
+      location: "Boston",
+      members: 250,
+    },
+    {
+      name: "DAO Gamma",
+      description: "Description for DAO Gamma.",
+      location: "Seattle",
+      members: 180,
+    },
   ],
   "web3 orgs": [
-    { name: "Org X", description: "Description for Org X.", location: "Miami", members: 220 },
-    { name: "Org Y", description: "Description for Org Y.", location: "Dallas", members: 210 },
-    { name: "Org Z", description: "Description for Org Z.", location: "Denver", members: 190 }
+    {
+      name: "Org X",
+      description: "Description for Org X.",
+      location: "Miami",
+      members: 220,
+    },
+    {
+      name: "Org Y",
+      description: "Description for Org Y.",
+      location: "Dallas",
+      members: 210,
+    },
+    {
+      name: "Org Z",
+      description: "Description for Org Z.",
+      location: "Denver",
+      members: 190,
+    },
   ],
   institutions: [
-    { name: "Institution One", description: "Description for Institution One.", location: "Atlanta", members: 500 },
-    { name: "Institution Two", description: "Description for Institution Two.", location: "Houston", members: 480 },
-    { name: "Institution Three", description: "Description for Institution Three.", location: "Phoenix", members: 460 }
+    {
+      name: "Institution One",
+      description: "Description for Institution One.",
+      location: "Atlanta",
+      members: 500,
+    },
+    {
+      name: "Institution Two",
+      description: "Description for Institution Two.",
+      location: "Houston",
+      members: 480,
+    },
+    {
+      name: "Institution Three",
+      description: "Description for Institution Three.",
+      location: "Phoenix",
+      members: 460,
+    },
   ],
 };
 
@@ -135,7 +243,13 @@ return (
       <ResourceHeader>Resource Network</ResourceHeader>
       <Navbar>
         {Object.keys(dummyData).map((key) => (
-          <button onClick={() => setActiveTab(key)}>{key}</button>
+          <TabsButton
+            key={key}
+            onClick={() => setActiveTab(key)}
+            selected={state.selectedTab === t}
+          >
+            {key}
+          </TabsButton>
         ))}
       </Navbar>
       <Grid>
@@ -154,9 +268,7 @@ return (
               content: (
                 <PreviewContainer>
                   <PreviewTitle>{item.name}</PreviewTitle>
-                  <PreviewDescription>
-                    {item.description}
-                  </PreviewDescription>
+                  <PreviewDescription>{item.description}</PreviewDescription>
                   <PreviewInfo>Location: {item.location}</PreviewInfo>
                   <PreviewInfo>Members: {item.members}</PreviewInfo>
                 </PreviewContainer>

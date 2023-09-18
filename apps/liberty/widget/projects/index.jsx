@@ -14,12 +14,14 @@ const Left = styled.div`
   background: #f8f8f9;
   overflow-y: scroll;
   flex: 3;
-  margin-right: 20px;
 `;
 
 const Center = styled.div`
   flex: 9;
   padding: 0 20px;
+  display: flex;
+  justify-contet: center;
+  background-color: ${(p) => p.color};
 `;
 
 const Card = styled.div`
@@ -35,36 +37,43 @@ const Card = styled.div`
   color: white;
 `;
 
+const Preview = styled.div`
+  width: 100%;
+  margin: 40px 40px 0 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+`;
+
 const dummyData = [
   {
     id: 1,
+    title: "Igniting Futures",
     color: "#FF5733",
     content: "Vibrant and fiery, this color evokes passion and energy.",
   },
   {
     id: 2,
+    title: "Data Citizens",
     color: "#33FF57",
     content: "Refreshing and lively, this shade reminds us of spring meadows.",
   },
   {
     id: 3,
+    title: "Digital Gardening",
     color: "#3357FF",
     content: "Deep and tranquil, this hue is reminiscent of the vast ocean.",
   },
   {
-    id: 4,
-    color: "#FF33A1",
-    content: "Bold and playful, this color is a nod to modern pop culture.",
-  },
-  {
-    id: 5,
+    id: "NEW",
+    title: "Create a Proposal",
     color: "#A833FF",
     content: "Mysterious and intriguing, this shade is for the dreamers.",
   },
 ];
 
 State.init({
-  selected: dummyData[0],
+  selected: dummyData[props.projectId || 0],
 });
 
 return (
@@ -76,13 +85,52 @@ return (
           color={item.color}
           onClick={() => State.update({ selected: item })}
         >
-          {item.id}
+          {item.title}
         </Card>
       ))}
     </Left>
-    <Center>
-      <h1>Preview</h1>
-      <p>{state.selected.content}</p>
+    <Center color={state.selected.color}>
+      <Preview>
+        <h1>{state.selected.title}</h1>
+        {state.selected.id === "NEW" ? (
+          <div className="d-flex flex-column gap-2">
+            <Widget
+              src="nearui.near/widget/Input.Text"
+              props={{
+                textarea: true,
+                size: "lg",
+                label: "What?",
+              }}
+            />
+            <Widget
+              src="nearui.near/widget/Input.Text"
+              props={{
+                textarea: true,
+                size: "lg",
+                label: "Why?",
+              }}
+            />
+            <Widget
+              src="nearui.near/widget/Input.Text"
+              props={{
+                textarea: true,
+                size: "lg",
+                label: "When?",
+              }}
+            />
+            <Widget
+              src="nearui.near/widget/Input.Text"
+              props={{
+                textarea: true,
+                size: "lg",
+                label: "With who?",
+              }}
+            />
+          </div>
+        ) : (
+          <p>{state.selected.content}</p> // TODO: SocialMarkdown
+        )}
+      </Preview>
     </Center>
   </Container>
 );
