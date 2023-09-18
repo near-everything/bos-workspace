@@ -1,12 +1,24 @@
 const Container = styled.div`
+  margin: 0;
   display: flex;
-  height: 100vh;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
-const Selector = styled.div`
-  flex: 1;
-  overflow-y: scroll;
+const Selector = styled.div``;
+
+const Left = styled.div`
   padding: 20px;
+  background: #f8f8f9;
+  overflow-y: scroll;
+  flex: 3;
+  margin-right: 20px;
+`;
+
+const Center = styled.div`
+  flex: 9;
+  padding: 0 20px;
 `;
 
 const Card = styled.div`
@@ -22,20 +34,33 @@ const Card = styled.div`
   color: white;
 `;
 
-const Preview = styled.div`
-  flex: 3;
-  padding: 20px;
-  border-left: 1px solid #ccc;
-`;
-
 const dummyData = [
-  { id: 1, color: "#FF5733", content: "Vibrant and fiery, this color evokes passion and energy." },
-  { id: 2, color: "#33FF57", content: "Refreshing and lively, this shade reminds us of spring meadows." },
-  { id: 3, color: "#3357FF", content: "Deep and tranquil, this hue is reminiscent of the vast ocean." },
-  { id: 4, color: "#FF33A1", content: "Bold and playful, this color is a nod to modern pop culture." },
-  { id: 5, color: "#A833FF", content: "Mysterious and intriguing, this shade is for the dreamers." },
+  {
+    id: 1,
+    color: "#FF5733",
+    content: "Vibrant and fiery, this color evokes passion and energy.",
+  },
+  {
+    id: 2,
+    color: "#33FF57",
+    content: "Refreshing and lively, this shade reminds us of spring meadows.",
+  },
+  {
+    id: 3,
+    color: "#3357FF",
+    content: "Deep and tranquil, this hue is reminiscent of the vast ocean.",
+  },
+  {
+    id: 4,
+    color: "#FF33A1",
+    content: "Bold and playful, this color is a nod to modern pop culture.",
+  },
+  {
+    id: 5,
+    color: "#A833FF",
+    content: "Mysterious and intriguing, this shade is for the dreamers.",
+  },
 ];
-
 
 State.init({
   selected: dummyData[0],
@@ -43,7 +68,7 @@ State.init({
 
 return (
   <Container>
-    <Selector>
+    <Left>
       {dummyData.map((item) => (
         <Card
           key={item.id}
@@ -53,10 +78,10 @@ return (
           {item.id}
         </Card>
       ))}
-    </Selector>
-    <Preview>
+    </Left>
+    <Center>
       <h1>Preview</h1>
       <p>{state.selected.content}</p>
-    </Preview>
+    </Center>
   </Container>
 );

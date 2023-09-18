@@ -128,7 +128,7 @@ getLocationsData();
 return (
   <Wrapper>
     <Header>
-      <Widget src={`${Owner}/widget/borough.Header`} />
+      <Widget src={`${Owner}/widget/boroughs.Header`} />
     </Header>
 
     <div>
@@ -200,13 +200,13 @@ return (
 
     {accountId && state.showModal && (
       <Widget
-        src={`${Owner}/widget/borough.Modal`}
+        src={`${Owner}/widget/boroughs.Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
       />
     )}
 
     <Widget
-      src={`${Owner}/widget/borough.Mapbox`}
+      src={`${Owner}/widget/boroughs.Mapbox`}
       props={{
         API_URL,
         accessToken: MAP_TOKEN,

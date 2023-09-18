@@ -30,10 +30,10 @@ const tabs = {
       </Flex>
     </>
   ),
-  boroughs: () => <Widget src="libertydao.near/widget/borough.index" />,
-  supporting: () => <Widget src="hack.near/widget/NDC.WG.Page" />,
+  boroughs: () => <Widget src="libertydao.near/widget/boroughs.index" />,
+  supporting: () => <Widget src="libertydao.near/widget/supporting.index" />,
   projects: () => <Widget src="libertydao.near/widget/projects.index" />,
-  initiatives: () => <Widget src="hack.near/widget/every.group" />,
+  initiatives: () => <Widget src="libertydao.near/widget/initiatives.index" />,
   happening: () => <Widget src="itexpert120-contra.near/widget/Calendar" />,
 };
 
