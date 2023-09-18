@@ -1,4 +1,4 @@
-const tab = props.tab;
+const tab = props.tab || "welcome";
 
 const tabs = {
   welcome: () => (
@@ -107,7 +107,6 @@ const H1 = styled.h1`
 `;
 
 const Text = styled.p`
-  font-family: "FK Grotesk", sans-serif;
   font-size: ${(p) => p.size ?? "18px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
