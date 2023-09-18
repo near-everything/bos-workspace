@@ -1,7 +1,7 @@
 const widgets = {
   header: "hack.near/widget/NDC.WG.Header",
-  card: "hack.near/widget/NDC.WG.Card",
-  about: "hack.near/widget/NDC.WG.About",
+  card: "libertydao.near/widget/initiatives.card",
+  about: "libertydao.near/widget/initiatives.list",
   styledComponents: "hack.near/widget/NDC.StyledComponents",
   participate: "hack.near/widget/NDC.Participate",
   compose: "hack.near/widget/NDC.WG.Create",
@@ -26,6 +26,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  flex: 1;
 `;
 
 const ActivityContainer = styled.div`
@@ -61,22 +62,11 @@ const CardWrapper = styled.div`
 return (
   <Container>
     <Left>
-      <H5>Learning Together</H5>
+      <H5>Your List</H5>
       <Widget src={widgets.about} />
-      <div style={{ marginTop: "50px" }}>
-        {state.sbt && (
-          <Widget
-            src={widgets.participate}
-            props={{
-              title: "Use Your Voice!",
-              small: true,
-            }}
-          />
-        )}
-      </div>
     </Left>
     <Center>
-      <Title>NDC Work Groups</Title>
+      <Title>Interest Groups</Title>
       <CardWrapper>
         {groupArray.map((group, i) => (
           <Widget

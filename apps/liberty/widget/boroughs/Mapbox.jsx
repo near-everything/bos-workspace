@@ -8,10 +8,7 @@ const zoom = props.zoom || 9; // starting zoom
 const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
-
-state = State.init({
-  opened: false,
-});
+const onMapClick = props.onMapClick || (() => {});
 
 const code = `
 <!DOCTYPE html>
@@ -171,57 +168,42 @@ const code = `
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
         markersData.forEach(marker => {
-          
-        const el = document.createElement('div');
-        el.className = 'marker';
-        ${
-          accountId
-            ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
-            : ``
-        }
-        new mapboxgl.Marker(el)
-            .setLngLat([marker.longitude, marker.latitude])
-            .setPopup(
-                new mapboxgl.Popup({ offset: 25 }) // add popups
-                  .setHTML(
-                    getDetail(marker)
-              )
-            ).addTo(map);
+          const el = document.createElement('div');
+          el.className = 'marker';
+          ${
+            accountId
+              ? `if(marker.accountId === "${accountId}") el.id = 'mymarker';`
+              : ``
+          }
+          new mapboxgl.Marker()
+              .setLngLat([marker.lng, marker.lat])
+              .addTo(map);
         });
     }
 
     populateMarkers();
 
     ${
-      accountId && edit
-        ? `map.on('click', function(event) {
-            const { lngLat } = event;
+      accountId &&
+      `
+      map.on('click', function(event) {
+        const { lngLat } = event;
 
-            const _el = document.getElementById("mymarker");
-            const myel = _el ? _el : document.createElement('div');
-            myel.className = 'marker';
-            myel.id = 'mymarker';
-            
-            new mapboxgl.Marker(myel)
-                .setLngLat([lngLat.lng, lngLat.lat])
-                .addTo(map);
-
-            const data = {
-              lngLat,
-              accountId : "${accountId}"
-            };
-
-            fetch("${API_URL}/location/bos", {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(data),
-            });
+        // const _el = document.getElementById("mymarker");
+        // const myel = _el ? _el : document.createElement('div');
+        // myel.className = 'marker';
+        // myel.id = 'mymarker';
         
-      });     
-`
-        : ``
+        new mapboxgl.Marker(myel)
+            .setLngLat([lngLat.lng, lngLat.lat])
+            .addTo(map);
+
+        window.parent.postMessage({
+          handler: 'map-click',
+          coordinates: lngLat
+        }, '*');
+      });
+    `
     }
     
     </script>
@@ -230,121 +212,15 @@ const code = `
   `;
 
 const Container = styled.div`
-height: 100%;
-display: flex;
-
-/* reset */
-button,
-fieldset,
-input {
-  all: unset;
-}
-
-
-.Button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  padding: 0 15px;
-  font-size: 15px;
-  line-height: 1;
-  font-weight: 500;
-  height: 35px;
-}
-.Button.violet {
-  background-color: white;
-  color: var(--violet11);
-  box-shadow: 0 2px 10px var(--blackA7);
-}
-.Button.violet:hover {
-  background-color: var(--mauve3);
-}
-.Button.violet:focus {
-  box-shadow: 0 0 0 2px black;
-}
-.Button.green {
-  background-color: var(--green4);
-  color: var(--green11);
-}
-.Button.green:hover {
-  background-color: var(--green5);
-}
-.Button.green:focus {
-  box-shadow: 0 0 0 2px var(--green7);
-}
-
-.IconButton {
-  font-family: inherit;
-  border-radius: 100%;
-  height: 25px;
-  width: 25px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--violet11);
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-.IconButton:hover {
-  background-color: var(--violet4);
-}
-.IconButton:focus {
-  box-shadow: 0 0 0 2px var(--violet7);
-}
-
-.Fieldset {
+  height: 100%;
   display: flex;
-  gap: 20px;
-  align-items: center;
-  margin-bottom: 15px;
-}
 
-.Label {
-  font-size: 15px;
-  color: var(--violet11);
-  width: 90px;
-  text-align: right;
-}
-
-.Input {
-  width: 100%;
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  padding: 0 10px;
-  font-size: 15px;
-  line-height: 1;
-  color: var(--violet11);
-  box-shadow: 0 0 0 1px var(--violet7);
-  height: 35px;
-}
-.Input:focus {
-  box-shadow: 0 0 0 2px var(--violet8);
-}
-
-@keyframes overlayShow {
-  from {
-    opacity: 0;
+  /* reset */
+  button,
+  fieldset,
+  input {
+    all: unset;
   }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes contentShow {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
 `;
 
 return (
@@ -353,6 +229,24 @@ return (
       id="myMap"
       className="w-100 h-100"
       srcDoc={code}
+      onMessage={(e) => {
+        switch (e.handler) {
+          case "map-click": {
+            onMapClick(e.coordinates);
+            break;
+          }
+          //   case "update": {
+          //     onChange(e.content);
+          //   }
+          //   case "resize": {
+          //     const offset = 0;
+          //     if (statusConfig.length) {
+          //       offset = 10;
+          //     }
+          //     State.update({ iframeHeight: e.height + offset });
+          //   }
+        }
+      }}
     />
   </Container>
 );

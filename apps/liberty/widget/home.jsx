@@ -226,6 +226,7 @@ return (
     <Tabs>
       {Object.keys(tabs).map((t) => (
         <TabsButton
+          key={key}
           href={`?tab=${t}`}
           onClick={() => State.update({ selectedTab: t })}
           selected={state.selectedTab === t}
@@ -234,6 +235,6 @@ return (
         </TabsButton>
       ))}
     </Tabs>
-    <Content>{tabs[state.selectedTab] && tabs[state.selectedTab]()}</Content>
+    <Content key={state.selectedTab}>{tabs[state.selectedTab] && tabs[state.selectedTab]()}</Content>
   </Root>
 );

@@ -59,7 +59,8 @@ const BtnStyle2 = {
 };
 
 State.init({
-  loading: false
+  loading: false,
+  locations: []
 })
 
 const markers = Social.get(`*/thing/libertyMarkerTest`, "final");
@@ -208,6 +209,11 @@ return (
         zoom,
         markers: state.locations,
         edit: state.edit,
+        onMapClick: (e) => {
+          State.update({
+            locations: [...state.locations, { ...e, accountId }],
+          });
+        }
       }}
     />
   </Wrapper>
