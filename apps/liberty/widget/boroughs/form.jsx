@@ -88,14 +88,40 @@ const SaveButton = styled.button`
   padding: 5px 20px;
   text-align: center;
 `;
+// ... (other imports and styled components)
+
+State.init({
+  name: "",
+  description: "",
+  questions: [
+    "How would you recognize someone from your borough?",
+    "What's a popular dish in your borough?",
+    "Name a famous landmark in your borough.",
+  ],
+  currentQuestionIndex: 0,
+  answers: {},
+});
+
+function shuffleQuestion() {
+  const randomIndex = Math.floor(Math.random() * state.questions.length);
+  State.update({ currentQuestionIndex: randomIndex });
+}
+
+const handleAnswerChange = (value) => {
+  const currentQuestion = state.questions[state.currentQuestionIndex];
+  State.update({
+    answers: {
+      ...state.answers,
+      [currentQuestion]: value,
+    },
+  });
+};
 
 const saveMyProfile = () => {
   const data = {
     name: state.name,
-    social: state.description,
-    answer1: state.answer1,
-    answer2: state.answer2,
-    answer3: state.answer3,
+    description: state.description,
+    answers: state.answers,
   };
 
   Social.set({
@@ -106,10 +132,6 @@ const saveMyProfile = () => {
     },
   });
 };
-
-// Borough Name
-// Description
-// How would you recognize someone from your borough?
 
 return (
   <ModalOverlay>
@@ -122,8 +144,24 @@ return (
       <div>
         <Label>Describe it!</Label>
         <Input
-          onChange={(v) => State.update({ description: v.target.value })}
+          onChange={(v) =>
+            State.update({
+              description: v.target.value,
+            })
+          }
         />
+      </div>
+      <div>
+        <Label>
+          {state.questions[state.currentQuestionIndex]}
+          <Button onClick={shuffleQuestion}>Shuffle</Button>
+        </Label>
+        <textarea
+          onChange={(e) => handleAnswerChange(e.target.value)}
+          value={
+            state.answers[state.questions[state.currentQuestionIndex]] || ""
+          }
+        ></textarea>
       </div>
       <div>
         <SaveButton onClick={saveMyProfile}>Save</SaveButton>
