@@ -65,20 +65,16 @@ if (!markers) {
   return <></>;
 }
 
-function extractCoordinates(data) {
-  const coordinatesMap = {};
+const dataMap = {};
 
-  Object.keys(data).forEach((accountId) => {
-    if (data[accountId].thing && data[accountId].thing.libertyMarkerTest) {
-      const coordinates = JSON.parse(
-        data[accountId].thing.libertyMarkerTest
-      ).coordinates;
-      coordinatesMap[accountId] = { accountId, coordinates };
-    }
-  });
-
-  return coordinatesMap;
-}
+Object.keys(markers).forEach((accountId) => {
+  if (markers[accountId].thing && markers[accountId].thing.libertyMarkerTest) {
+    const coordinates = JSON.parse(
+      markers[accountId].thing.libertyMarkerTest
+    ).coordinates;
+    dataMap[accountId] = { accountId, coordinates };
+  }
+});
 
 State.init({
   locations: [],
@@ -100,11 +96,14 @@ function setFocusedMarker(marker) {
 }
 
 const handleSaveLocation = () => {
+  // TODO: I want to keep any unmodified data
+  console.log(dataMap[accountId]);
+
   Social.set(
     {
       thing: {
         libertyMarkerTest: {
-          "": JSON.stringify({ coordinates: currentLocation }),
+          "": JSON.stringify({ coordinates: currentLocation, ...state.data }),
           metadata: {
             name: "",
             description: "",
@@ -186,7 +185,10 @@ return (
     {state.showInspect && (
       <Widget
         src={"libertydao.near/widget/boroughs.inspect"}
-        props={{ data: state.focusedMarker }}
+        props={{
+          data: state.focusedMarker,
+          handleSave: (v) => State.update({ data: v }),
+        }}
       />
     )}
 
@@ -222,7 +224,7 @@ return (
         styleUrl: MAP_STYLE,
         center,
         zoom,
-        markers: Object.values(extractCoordinates(markers)),
+        markers: Object.values(dataMap),
         edit: state.edit,
         onMapClick: (e) => {
           setCurrentLocation(e.coordinates);

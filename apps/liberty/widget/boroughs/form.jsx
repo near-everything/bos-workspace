@@ -1,3 +1,5 @@
+const handleSave = props.handleSave || (() => {});
+
 const ModalOverlay = styled.div`
   position: absolute;
   right: 50px;
@@ -36,7 +38,16 @@ const Input = styled.input`
   min-height: 46px;
   color: #fff;
   font-size: 14px;
-  border-radius: 1000px;
+  width: 100%;
+  padding: 0px 11px;
+  margin-bottom: 10px;
+`;
+const Textarea = styled.textarea`
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  min-height: 120px;
+  color: #fff;
+  font-size: 14px;
   width: 100%;
   padding: 0px 11px;
   margin-bottom: 10px;
@@ -88,7 +99,27 @@ const SaveButton = styled.button`
   padding: 5px 20px;
   text-align: center;
 `;
-// ... (other imports and styled components)
+
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const QuestionText = styled.span`
+  flex-grow: 1;
+  margin-right: 10px;
+  white-space: normal;
+  word-wrap: break-word;
+`;
+
+const ShuffleIcon = styled.span`
+  cursor: pointer;
+  flex-shrink: 0;
+  background-image: linear-gradient(145deg, #016eda, #6c1ecf, #016eda, #6c1ecf);
+  padding: 5px 8px;
+  border-radius: 10px;
+`;
 
 State.init({
   name: "",
@@ -97,6 +128,7 @@ State.init({
     "How would you recognize someone from your borough?",
     "What's a popular dish in your borough?",
     "Name a famous landmark in your borough.",
+    "What's some slang from your neighborhood?",
   ],
   currentQuestionIndex: 0,
   answers: {},
@@ -113,22 +145,6 @@ const handleAnswerChange = (value) => {
     answers: {
       ...state.answers,
       [currentQuestion]: value,
-    },
-  });
-};
-
-const saveMyProfile = () => {
-  const data = {
-    name: state.name,
-    description: state.description,
-    answers: state.answers,
-  };
-
-  Social.set({
-    thing: {
-      libertyMarkerTest: {
-        "": JSON.stringify(data),
-      },
     },
   });
 };
@@ -153,18 +169,24 @@ return (
       </div>
       <div>
         <Label>
-          {state.questions[state.currentQuestionIndex]}
-          <Button onClick={shuffleQuestion}>Shuffle</Button>
+          <FlexContainer>
+            <QuestionText>
+              {state.questions[state.currentQuestionIndex]}
+            </QuestionText>
+            <ShuffleIcon onClick={shuffleQuestion}>
+              <i className="bi bi-shuffle" />
+            </ShuffleIcon>
+          </FlexContainer>
         </Label>
-        <textarea
+        <Textarea
           onChange={(e) => handleAnswerChange(e.target.value)}
           value={
             state.answers[state.questions[state.currentQuestionIndex]] || ""
           }
-        ></textarea>
+        ></Textarea>
       </div>
       <div>
-        <SaveButton onClick={saveMyProfile}>Save</SaveButton>
+        <SaveButton onClick={() => handleSave(state)}>Save</SaveButton>
       </div>
     </ModalContent>
   </ModalOverlay>
