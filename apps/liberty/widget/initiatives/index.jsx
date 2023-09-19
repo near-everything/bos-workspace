@@ -76,6 +76,7 @@ const Container = styled.div`
   justify-content: space-between;
   width: 100%;
   flex: 1;
+  height: 100vh;
 `;
 
 const ActivityContainer = styled.div`

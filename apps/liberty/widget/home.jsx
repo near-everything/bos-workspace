@@ -32,7 +32,7 @@ const tabs = {
   ),
   boroughs: () => <Widget src="libertydao.near/widget/boroughs.index" />,
   supporting: () => <Widget src="libertydao.near/widget/supporting.index" />,
-  projects: () => <Widget src="libertydao.near/widget/projects.index" />,
+  // projects: () => <Widget src="libertydao.near/widget/projects.index" />,
   initiatives: () => <Widget src="libertydao.near/widget/initiatives.index" />,
   happening: () => <Widget src="itexpert120-contra.near/widget/Calendar" />,
 };
