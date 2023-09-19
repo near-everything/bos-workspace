@@ -1,134 +1,148 @@
-const creatorId = props.creatorId ?? context.accountId;
+const creatorId = props.creatorId;
+const groupId = props.groupId;
 
-const groupId = props.groupId ?? "cefe2651fd468lm0x9mg91d69d351d0c4";
+const groupInfo = Social.get(
+  `${creatorId}/thing/${groupId}/metadata/**`,
+  "final"
+);
 
-const groupData = props.data ?? Social.get(`hack.near/thing/${groupId}/**`);
+if (!groupInfo) {
+  return "group details not found";
+}
 
-const widgets = {
-  styledComponents: "hack.near/widget/NDC.StyledComponents",
-  groupPage: "near/widget/ProfilePage",
-};
+const canJoin = props.canJoin ?? true;
 
 const Card = styled.div`
-  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
   gap: 16px;
-  background: #f8f8f8;
-  border-radius: 10px;
-`;
-const HeaderCard = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
   width: 100%;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #eceef0;
+  box-shadow:
+    0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+  padding: 16px;
 `;
-const HeaderContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 4px;
-  flex-grow: 1;
-`;
-const UserLink = styled.a`
-  width: 100%;
-  cursor: pointer;
-  &:hover {
+
+const Bell = styled.div`
+  .bell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .bell-icon {
+    font-size: 23px;
+    color: #000;
+    margin-left: 5px;
     text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .bell-icon:hover {
+    color: #000;
+  }
+
+  .bell-icon .bi-bell {
+    display: inline;
+  }
+
+  .bell-icon .bi-bell-fill {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell-fill {
+    display: inline;
   }
 `;
-const GroupName = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  margin: 0;
-  align-items: center;
-  color: #000000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-const GroupCreator = styled.p`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  margin: 0px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  color: #828688;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-const LowerSection = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 8px;
-`;
-const LowerSectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 12px;
-  align-self: stretch;
-`;
-const ButtonsLowerSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  width: 100%;
-  height: 28px;
-`;
 
-const Wrapper = styled.div`
+const CardLeft = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
 
-  @media only screen and (max-width: 610px) {
+  > div {
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    min-width: 0;
   }
-  width: 50%;
 `;
 
-const trimText = (text, limit) => {
-  if (!text) return "";
+const TextLink = styled.a`
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
+  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  font-size: ${(p) => (p.small ? "12px" : "14px")};
+  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
+  white-space: nowrap;
+  outline: none;
 
-  const _limit = limit ?? 200;
-  const ending = text.length > _limit ? "..." : "";
-  const trimmed = text.slice(0, limit ?? 200);
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
-  return `${trimmed}${ending}`;
-};
+const TagsWrapper = styled.div`
+  padding-top: 4px;
+`;
 
 return (
-  <Wrapper className="p-2 col-lg-4 col-md-6 col-sm-12">
-    <Card>
-      <HeaderCard className="d-flex justify-content-between w-100">
-        <div className="d-flex align-items-center gap-2 w-100 justify-content-between">
-          <HeaderContent>
-            <UserLink
-              href={`/${widgets.groupPage}?accountId=${groupData.creatorId}`}
-            >
-              <GroupName>{groupData.title}</GroupName>
-            </UserLink>
-          </HeaderContent>
+  <Card>
+    <a
+      href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
+      style={{ textDecoration: "none" }}
+    >
+      <CardLeft>
+        <Widget
+          src="hack.near/widget/group.inline"
+          props={{ group: groupInfo, groupId, accountId: creatorId }}
+        />
+      </CardLeft>
+    </a>
+    <Bell>
+      <div className="ms-autome-md-2 d-flex align-items-center">
+        <div className="bell">
+          <a
+            href={`/hack.near/widget/group.index?groupId=${groupId}`}
+            className="bell-icon"
+          >
+            <i className="bi bi-bell"></i>
+            <i className="bi bi-bell-fill"></i>
+          </a>
         </div>
-      </HeaderCard>
-      <LowerSection>
-        <LowerSectionContainer>
-          <div className="d-flex w-100 align-items-center">
-            <div className="d-flex w-100 gap-2 justify-content-between">
-            </div>
-          </div>
-        </LowerSectionContainer>
-      </LowerSection>
-    </Card>
-  </Wrapper>
+      </div>
+    </Bell>
+    {canJoin && context.accountId && (
+      <>
+        {groupKey === context.accountId && (
+          <a
+            className="btn btn-outline-dark"
+            href={`/hack.near/widget/group.edit?groupId=${groupId}`}
+          >
+            edit
+          </a>
+        )}
+        <Widget
+          src="hack.near/widget/group.join"
+          props={{ groupId, accountId, creatorId: props.creatorId }}
+        />
+      </>
+    )}
+  </Card>
 );
