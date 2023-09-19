@@ -22,8 +22,8 @@ const EventCard = () => {
   const location = data.location;
 
   return (
-    <div class="card mb-3">
-      <div class="card-body">
+    <div className="card mb-3">
+      <div className="card-body">
         <div className="d-flex gap-3">
           <div className="">
             <Widget
@@ -44,15 +44,15 @@ const EventCard = () => {
             />
           </div>
           <div className="">
-            <h5 class="card-title">{title}</h5>
+            <h5 className="card-title">{title}</h5>
             <Widget
               src="efiz.near/widget/every.markdown.view"
               props={{ data: description }}
             />
-            <a href={eventLink} class="card-link">
+            <a href={eventLink} className="card-link">
               Go to event
             </a>
-            <a href="#" class="card-link">
+            <a href="#" className="card-link">
               Event Feed
             </a>
           </div>

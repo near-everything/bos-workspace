@@ -1,103 +1,3 @@
-const accountId = context.accountId;
-if (!accountId) return;
-
-const { onClose } = props;
-
-const styles = {
-  label: {
-    display: "block",
-    color: "#fff",
-    fontSize: "16px",
-    position: "relative",
-    paddingRight: "5px",
-    marginBottom: "10px",
-  },
-  textbox: {
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    border: "2px solid rgba(255, 255, 255, 0.8)",
-    minHeight: "46px",
-    color: "#fff",
-    fontSize: "14px",
-    borderRadius: "1000px",
-    width: "100%",
-    padding: "0px 11px",
-    marginBottom: "10px",
-  },
-  textarea: {
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    minHeight: "100px",
-    color: "#fff",
-    fontSize: "14px",
-    borderRadius: "6px",
-    width: "100%",
-    padding: "4px 11px",
-    resize: "none",
-  },
-  contentdiv: {
-    padding: "32px",
-    background: "#29244e",
-    borderRadius: "0px 0px 10px 10px",
-  },
-  pagename: {
-    color: "#fff",
-    padding: "16px",
-    fontSize: "22px",
-    backgroundColor: "#231D4B",
-    fontWeight: 600,
-    borderRadius: "5px",
-    display: "flex",
-    justifyContent: "center",
-  },
-  formwrap: {
-    background: "#29244e",
-    maxWidth: "700px",
-    margin: "16px auto",
-    borderRadius: "10px",
-  },
-  btnrow: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  btnback: {
-    color: "rgba(255, 255, 255, 0.8)",
-    fontSize: "16px",
-    padding: "5px 16px",
-    fontWeight: 400,
-    background: "none",
-    backgroundColor: "rgba(60, 53, 109, 0.5)",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: "0 2px 0 rgba(0, 0, 0, 0.02)",
-    height: "40px",
-    borderRadius: "40px",
-    lineHeight: "29px",
-    letterSpacing: "0.01em",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  btn: {
-    color: "rgba(255, 255, 255, 0.8)",
-    fontSize: "16px",
-    padding: "5px 16px",
-    fontWeight: 400,
-    background: "none",
-    backgroundImage:
-      "linear-gradient(145deg, #016EDA, #6C1ECF, #016EDA, #6C1ECF)",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    boxShadow: "0 2px 0 rgba(0, 0, 0, 0.02)",
-    height: "40px",
-    borderRadius: "40px",
-    lineHeight: "29px",
-    letterSpacing: "0.01em",
-    display: "flex",
-    alignItems: "center",
-    marginLeft: "16px",
-    justifyContent: "center",
-    width: "100%",
-  },
-};
-
 const ModalOverlay = styled.div`
   position: absolute;
   right: 50px;
@@ -107,7 +7,7 @@ const ModalOverlay = styled.div`
   border: 1px solid rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  // z-index: 100;
   width: 400px;
   @media (max-width: 510px) {
     right: 10px;
@@ -126,14 +26,67 @@ const ModalContent = styled.div`
   gap: 5px;
 `;
 
-const ModalAction = styled.div`
-  display: flex;
-  padding: 10px;
-  width: 100%;
-`;
-
 const ModalTitle = styled.h4`
   margin-bottom: 10px;
+`;
+
+const Input = styled.input`
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  min-height: 46px;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 1000px;
+  width: 100%;
+  padding: 0px 11px;
+  margin-bottom: 10px;
+`;
+
+const Label = styled.label`
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  position: relative;
+  padding-right: 5px;
+  margin-bottom: 10px;
+`;
+
+const Button = styled.button`
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  padding: 5px 16px;
+  font-weight: 400;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  height: 40px;
+  border-radius: 40px;
+  line-height: 29px;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+`;
+
+const SaveButton = styled.button`
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  padding: 5px 16px;
+  font-weight: 400;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  height: 40px;
+  border-radius: 40px;
+  line-height: 29px;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+
+  background-image: linear-gradient(145deg, #016eda, #6c1ecf, #016eda, #6c1ecf);
+  width: 100%;
+  margin-left: auto;
+  padding: 5px 20px;
+  text-align: center;
 `;
 
 const saveMyProfile = () => {
@@ -161,58 +114,20 @@ const saveMyProfile = () => {
 return (
   <ModalOverlay>
     <ModalContent>
-      <button
-        style={{
-          width: 40,
-          position: "absolute",
-          right: 25,
-          background: "unset",
-          borderColor: "white",
-        }}
-        onClick={onClose}
-      >
-        X
-      </button>
       <ModalTitle>What's your Borough?</ModalTitle>
-      <div style={styles.formrow}>
-        <label style={styles.label}>Borough name*</label>
-        <input
-          style={styles.textbox}
-          onChange={(v) => State.update({ name: v.target.value })}
-        />
+      <div>
+        <Label>Name it!</Label>
+        <Input onChange={(v) => State.update({ name: v.target.value })} />
       </div>
-      <div style={styles.formrow}>
-        <label style={styles.label}>Borough Description*</label>
-        <input
-          style={styles.textbox}
+      <div>
+        <Label>Describe it!</Label>
+        <Input
           onChange={(v) => State.update({ description: v.target.value })}
         />
       </div>
-      <div style={styles.formrow}>
-        <label style={styles.label}>
-          Three ways you would Describe someone from your Borough
-        </label>
-        <input
-          style={styles.textbox}
-          placeholder={"Description 1"}
-          onChange={(v) => State.update({ answer1: v.target.value })}
-        />
-        <input
-          style={styles.textbox}
-          placeholder={"Description 2"}
-          onChange={(v) => State.update({ answer2: v.target.value })}
-        />
-        <input
-          style={styles.textbox}
-          placeholder={"Description 3"}
-          onChange={(v) => State.update({ answer3: v.target.value })}
-        />
+      <div>
+        <SaveButton onClick={saveMyProfile}>Save</SaveButton>
       </div>
     </ModalContent>
-    <ModalAction>
-      <button style={styles.btn} onClick={saveMyProfile}>
-        Save
-      </button>
-    </ModalAction>
   </ModalOverlay>
 );

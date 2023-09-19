@@ -191,11 +191,11 @@ const EventForm = () => {
     <div className="container">
       <div>
         <div className="mb-3">
-          <label class="form-label" for="title">
+          <label className="form-label" for="title">
             Event Title
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="title"
             value={state.title}
             onChange={onTitleChange}
@@ -203,7 +203,7 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="description">
+          <label className="form-label" for="description">
             Event Description
           </label>
           <Widget
@@ -219,7 +219,7 @@ const EventForm = () => {
           <div className="col">
             <label for="start">Event Start Date</label>
             <input
-              class="form-control"
+              className="form-control"
               id="start"
               type="date"
               value={state.start}
@@ -229,7 +229,7 @@ const EventForm = () => {
           <div className="col">
             <label for="startTime">Event Start Time</label>
             <input
-              class="form-control"
+              className="form-control"
               id="startTime"
               type="time"
               value={state.startTime}
@@ -241,7 +241,7 @@ const EventForm = () => {
           <div className="col">
             <label for="end">Event End Date</label>
             <input
-              class="form-control"
+              className="form-control"
               id="end"
               type="date"
               value={state.end}
@@ -251,7 +251,7 @@ const EventForm = () => {
           <div className="col">
             <label for="endTime">Event End Time</label>
             <input
-              class="form-control"
+              className="form-control"
               id="endTime"
               type="time"
               value={state.endTime}
@@ -260,11 +260,11 @@ const EventForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label class="form-label" for="location">
+          <label className="form-label" for="location">
             Event Location
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="location"
             value={state.location}
             onChange={onLocationChange}
@@ -272,11 +272,11 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="link">
+          <label className="form-label" for="link">
             Event Link
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="link"
             type="url"
             value={state.link}
@@ -285,11 +285,11 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="organizer">
+          <label className="form-label" for="organizer">
             Event Organizer
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="organizer"
             value={state.organizer}
             onChange={onOrganizerChange}
@@ -297,14 +297,14 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <div class="form-check">
-            <label class="form-check-label" for="isAllDay">
+          <div className="form-check">
+            <label className="form-check-label" for="isAllDay">
               All Day Event
             </label>
             <input
               value={state.isAllDay}
               checked={state.isAllDay}
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="isAllDay"
               onChange={onIsAllDayChange}
@@ -312,11 +312,11 @@ const EventForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label class="form-label" for="category">
+          <label className="form-label" for="category">
             Event Category
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="category"
             value={state.category}
             onChange={onCategoryChange}

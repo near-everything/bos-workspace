@@ -8,6 +8,8 @@ const zoom = props.zoom || 9; // starting zoom
 const accountId = context.accountId;
 const markers = props.markers || [];
 const onMapClick = props.onMapClick || (() => {});
+const onMarkerClick = props.onMarkerClick || (() => {});
+const edit = props.edit || false;
 
 const code = `
 <!DOCTYPE html>
@@ -24,19 +26,17 @@ const code = `
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
-      // CHANGE MARKER
       .marker {
-        background-image: url('https://ipfs.near.social/ipfs/bafkreiens4ch3nptl7bqav5zyfnvcg7peurd3xmuvbngyg3hjdwj2xec6e');
+        background-image: url('https://www.svgrepo.com/show/352251/map-marker-alt.svg');
         background-size: cover;
-        width: 27px;
-        height: 34px;
-        border-radius: 50%;
+        width: 40px;
+        height: 40px;
         cursor: pointer;
       }
 
-      // CHANGE MARKER ACTIVE 
       #mymarker {
-        background-image: url('https://humans.nearverselabs.com/active.svg') !important;
+        background-image: url('https://www.svgrepo.com/show/352251/map-marker-alt.svg') !important;
+        // filter: invert(1);
       }
 
       h6 {
@@ -56,42 +56,9 @@ const code = `
         color: white;
       }
 
-      .popup{
-          padding: 10px; 
-          display:flex; 
-          gap:12px;
-          @media (max-width: 510px) {
-            padding: 0;
-          }
-      }
-
-      .logo{
-        width:48px; 
-        height:60px;
-        @media (max-width: 510px) {
-          width:36px; 
-          height:50px;
-        }        
-      }
       .mapboxgl-ctrl-logo {
-    display: none !important;
-}
-
-      .gap-16{
-        display:flex; 
-        align-items:center;
-        gap: 16px;
+        display: none !important;
       }
-
-      .gap-14{
-        display:flex; 
-        gap: 14px;
-        flex-direction:column;
-        @media (max-width: 510px) {
-          gap: 3px;
-        } 
-      }
-
       a {
         outline: 0;
       }
@@ -102,6 +69,10 @@ const code = `
     <div id="map"></div>
 
     <script>
+    const accountId = "${accountId}";
+    const isEditActive = ${edit};
+    const markersByAccount = {};
+    let selectedMarkerElement = null;
 
     mapboxgl.accessToken = "${ACCESS_TOKEN}";
 
@@ -112,99 +83,94 @@ const code = `
         zoom: ${zoom}
     });
 
-    function handleLink (link){
-      window.top.postMessage(link, "*");
+    function handleMarkerClick(marker) {
+      map.flyTo({
+        center: [marker.coordinates.lng, marker.coordinates.lat],
+        essential: true
+      });
+
+      if (selectedMarkerElement) {
+        selectedMarkerElement.style.border = '';
+        selectedMarkerElement.style.boxShadow = '';
+      }
+
+      const markerInstance = markersByAccount[marker.accountId];
+      if (markerInstance) {
+          const el = markerInstance.getElement();
+          el.style.border = '3px solid blue';
+          el.style.boxShadow = '0px 0px 10px 3px rgba(0,0,0,0.5)';
+          selectedMarkerElement = el;
+      }
+  
+      // Post message with marker data
+      window.parent.postMessage({
+          handler: 'marker-click',
+          data: marker
+      }, '*');
     }
-
-    function getDetail (row) {
-      const user = row.user;
-       var title = "";
-       const near = row.user.accountId.indexOf(".near");
-       if(user.name){
-        title = user.name;
-       } else if(near !== -1){
-        title = user.accountId;
-       } else {
-          title = user.accountId.slice(0, 12);
-       }
-
-      var state = {
-        twitter: false,
-        social:false
-      }
-
-      if(user.twitter !== "https://twitter.com/"){
-        state.twitter = true
-      }
-      if(user.social !== "https://social.near.page/u/"){
-        state.social = true
-      }
-      const profileImageUrl = "https://i.near.social/magic/large/https://near.social/magic/img/account/"+ user.accountId;
-      
-      
-        // CUSTOMIZE POP UP
-       const HTML = '<div class="popup">'+
-       '<div class="logo-container">'+
-          '<img src="'+ profileImageUrl +'" class="logo" />'+
-          '</div>'+
-          '<div class="gap-14">'+
-            '<h6>'+title+'</h6>'+
-            '<div class="gap-16">'+
-            (state.social? "<a href='"+user.social+"' target='_blank' onclick='handleLink("+JSON.stringify(user.social)+")'   >  " : '') +
-            '<svg width="29" height="12" viewBox="0 0 29 12" fill="'+(state.social?'white':'grey')+'" xmlns="http://www.w3.org/2000/svg"><path d="M0.240133 7.38517V4.85885L10.3454 0.409091V3.31579L3.42674 6.0933L3.52004 5.94258V6.30144L3.42674 6.15072L10.3454 8.92823V11.8349L0.240133 7.38517ZM28.7599 7.38517L18.6546 11.8349V8.92823L25.5733 6.15072L25.48 6.30144V5.94258L25.5733 6.0933L18.6546 3.31579V0.409091L28.7599 4.85885V7.38517Z"></path></svg>'+
-             (state.social? '</a>' : '') +
-             (state.twitter? "<a href='"+user.twitter+"' target='_blank' onclick='handleLink("+JSON.stringify(user.twitter)+")'   >  " : '') +
-            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"><path fill="'+(state.twitter?'white':'grey')+'" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'+
-             (state.twitter? '</a>' : '') +
-           '</div>'+
-          '</div>'+
-        '</div>';
-        
-        return HTML;
-    };
 
     // Function to populate markers to the map
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
         markersData.forEach(marker => {
-          const el = document.createElement('div');
-          el.className = 'marker';
-          ${
-            accountId
-              ? `if(marker.accountId === "${accountId}") el.id = 'mymarker';`
-              : ``
+
+          try {
+            const el = document.createElement('div');
+            el.className = 'marker';
+            el.dataset.accountId = marker.accountId;
+            if (marker.accountId === accountId) el.id = 'mymarker';
+
+            markersByAccount[marker.accountId] = new mapboxgl.Marker(el)
+                .setLngLat([marker.coordinates.lng, marker.coordinates.lat])
+                .addTo(map);
+            
+            el.addEventListener('click', () => {
+              event.stopPropagation();
+              handleMarkerClick(marker); 
+            });
+          } catch (e) {
+            console.log(e);
           }
-          new mapboxgl.Marker()
-              .setLngLat([marker.lng, marker.lat])
-              .addTo(map);
         });
     }
 
     populateMarkers();
 
-    ${
-      accountId &&
-      `
-      map.on('click', function(event) {
-        const { lngLat } = event;
+    map.on('click', function(event) {
+      const { lngLat } = event;
 
-        // const _el = document.getElementById("mymarker");
-        // const myel = _el ? _el : document.createElement('div');
-        // myel.className = 'marker';
-        // myel.id = 'mymarker';
-        
-        new mapboxgl.Marker()
-            .setLngLat([lngLat.lng, lngLat.lat])
-            .addTo(map);
+      if (selectedMarkerElement) {
+        selectedMarkerElement.style.border = '';
+        selectedMarkerElement.style.boxShadow = '';
+        selectedMarkerElement = null;
+      }
 
-        window.parent.postMessage({
-          handler: 'map-click',
+      if (accountId && isEditActive) {
+
+        if (markersByAccount[accountId]) {
+          markersByAccount[accountId].remove();
+        }
+          
+        const _el = document.getElementById("mymarker");
+        const myel = _el ? _el : document.createElement('div');
+        myel.className = 'marker';
+        myel.id = 'mymarker';
+
+        const newMarker = new mapboxgl.Marker(myel)
+          .setLngLat([lngLat.lng, lngLat.lat])
+          .addTo(map);
+
+        markersByAccount[accountId] = newMarker;
+      }
+
+      window.parent.postMessage({
+        handler: 'map-click',
+        data: {
+          accountId,
           coordinates: lngLat
-        }, '*');
-      });
-    `
-    }
-    
+        }
+      }, '*');
+    });
     </script>
   </body>
 </html>
@@ -231,19 +197,13 @@ return (
       onMessage={(e) => {
         switch (e.handler) {
           case "map-click": {
-            onMapClick(e.coordinates);
+            onMapClick(e.data);
             break;
           }
-          //   case "update": {
-          //     onChange(e.content);
-          //   }
-          //   case "resize": {
-          //     const offset = 0;
-          //     if (statusConfig.length) {
-          //       offset = 10;
-          //     }
-          //     State.update({ iframeHeight: e.height + offset });
-          //   }
+          case "marker-click": {
+            onMarkerClick(e.data);
+            break;
+          }
         }
       }}
     />
