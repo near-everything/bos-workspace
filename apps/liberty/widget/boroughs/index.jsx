@@ -37,6 +37,17 @@ const Profile = styled.div`
   }
 `;
 
+const Inspect = styled.div`
+  position: absolute;
+  left: 50px;
+  top: 30px;
+  @media (max-width: 510px) {
+    padding: 6px 15px;
+    right: 15px;
+    top: 15px;
+  }
+`;
+
 const Location = styled.div`
   position: absolute;
   bottom: 50px;
@@ -75,13 +86,17 @@ State.init({
 });
 
 const onClose = () => {
-  State.update({ showModal: false });
+  State.update({ showForm: false });
 };
 
 let currentLocation = {};
 
 function setCurrentLocation(coordinates) {
   currentLocation = coordinates;
+}
+
+function setFocusedMarker(marker) {
+  State.update({ focusedMarker: marker, showInspect: true });
 }
 
 const handleSaveLocation = () => {
@@ -153,17 +168,29 @@ function LocationIcon() {
 
 return (
   <Wrapper>
+    {/* Absolute Positioning */}
     <Profile>
       <Button
         onClick={() => {
-          State.update({ showModal: !state.showModal });
+          State.update({ showForm: !state.showForm });
         }}
       >
         {`What's your Borough?`}
         <DownIcon />
       </Button>
     </Profile>
+    {accountId && state.showForm && (
+      <Widget src={"libertydao.near/widget/boroughs.form"} />
+    )}
 
+    {state.showInspect && (
+      <Widget
+        src={"libertydao.near/widget/boroughs.inspect"}
+        props={{ data: state.focusedMarker }}
+      />
+    )}
+
+    {/* Absolute Positioning */}
     {accountId && (
       <div
         style={{
@@ -187,12 +214,8 @@ return (
       </div>
     )}
 
-    {accountId && state.showModal && (
-      <Widget src={"libertydao.near/widget/boroughs.Modal"} />
-    )}
-
     <Widget
-      src={"libertydao.near/widget/boroughs.Mapbox"}
+      src={"libertydao.near/widget/boroughs.map"}
       props={{
         API_URL,
         accessToken: MAP_TOKEN,
@@ -203,6 +226,10 @@ return (
         edit: state.edit,
         onMapClick: (e) => {
           setCurrentLocation(e.coordinates);
+          State.update({ showInspect: false });
+        },
+        onMarkerClick: (e) => {
+          setFocusedMarker(e);
         },
       }}
     />
