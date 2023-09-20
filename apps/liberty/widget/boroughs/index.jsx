@@ -28,6 +28,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow: auto;
   position: relative;
+  z-index: 100;
 `;
 
 const Button = styled.button`

@@ -1,11 +1,23 @@
 const Container = styled.div`
-  max-width: 400px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  // align-items: center;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--light-color);
 `;
+
+// const Container = styled.div`
+//   width: 100%;
+//   max-width: 400px;
+//   margin: 0 auto;
+//   padding: 20px;
+//   background-color: #f5f5f5;
+//   border-radius: 8px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// `;
 
 const Header = styled.div`
   font-size: 18px;
@@ -18,7 +30,7 @@ const FormLabel = styled.label`
   font-weight: bold;
 `;
 
-const TextInput = styled.input`
+const TextInput = styled.textarea`
   width: 100%;
   padding: 8px;
   margin-top: 5px;

@@ -3,12 +3,19 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: var(--light-color);
+  margin: 0 auto;
 `;
 
 const Header = styled.div`
+  display: flex;
+  justify-content: center;
   text-align: center;
   font-size: 28px;
-  margin-bottom: 20px;
+  background-color: var(--secondary-color);
+  height: 48px;
+  padding: 8px;
+  text-decoration: underline;
 `;
 
 const Navbar = styled.div`
@@ -20,19 +27,13 @@ const Navbar = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 const Card = styled.div`
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 15px;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 `;
 
 const CardTitle = styled.h4`
@@ -202,10 +203,10 @@ const TabsButton = styled.a`
 `;
 
 const TopBanner = styled.div`
-  background-color: #f5f5f5;
+  background-color: var(--secondary-color);
   padding: 20px;
   text-align: center;
-  font-size: 24px;
+  font-size: 16px;
 `;
 
 State.init({

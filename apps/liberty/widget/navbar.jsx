@@ -16,6 +16,7 @@ function capitalizeFirstLetter(string) {
 
 const Navbar = styled.div`
   height: var(--header-height);
+  // background-color: ${(p) => (p.background ? "#1c6758" : "transparent")};
   
   @media (max-width: 768px) {
     background-color: #1c6758;
@@ -44,7 +45,7 @@ const TabsButton = styled.a`
 `;
 
 return (
-  <Navbar className="navbar navbar-expand-lg px-4">
+  <Navbar className="navbar navbar-expand-lg px-4" background={tab !== "welcome"}>
     <a
       className="navbar-brand d-flex align-items-center gap-2 text-decoration-none"
       href="//*__@appAccount__*//widget/home"

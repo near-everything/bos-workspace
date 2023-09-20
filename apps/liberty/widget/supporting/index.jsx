@@ -5,6 +5,7 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
   margin-top: var(--header-height);
+  background-color: var(--light-color);
 `;
 
 
@@ -20,8 +21,8 @@ const Footer = styled.div`
 
 return (
   <Container>
-    <Widget src="libertydao.near/widget/supporting.resources" />
-    <Widget src="libertydao.near/widget/supporting.projects" />
+    {/* <Widget src="libertydao.near/widget/supporting.resources" /> */}
+    {/* <Widget src="libertydao.near/widget/supporting.projects" /> */}
     <Widget src="libertydao.near/widget/supporting.proposal" />
   </Container>
 );
