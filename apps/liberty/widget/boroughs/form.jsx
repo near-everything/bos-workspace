@@ -1,4 +1,6 @@
+const data = props.data;
 const handleSave = props.handleSave || (() => {});
+const questions = props.questions;
 
 const ModalOverlay = styled.div`
   position: absolute;
@@ -121,30 +123,27 @@ const ShuffleIcon = styled.span`
   border-radius: 10px;
 `;
 
+function getRandomIndex() {
+  return Math.floor(Math.random() * questions.length);
+}
+
 State.init({
-  name: "",
-  description: "",
-  questions: [
-    "How would you recognize someone from your borough?",
-    "What's a popular dish in your borough?",
-    "Name a famous landmark in your borough.",
-    "What's some slang from your neighborhood?",
-  ],
-  currentQuestionIndex: 0,
-  answers: {},
+  name: data.name || "",
+  description: data.description || "",
+  currentQuestionIndex: getRandomIndex(),
+  answers: data.answers || {},
 });
 
 function shuffleQuestion() {
-  const randomIndex = Math.floor(Math.random() * state.questions.length);
-  State.update({ currentQuestionIndex: randomIndex });
+  State.update({ currentQuestionIndex: getRandomIndex() });
 }
 
 const handleAnswerChange = (value) => {
-  const currentQuestion = state.questions[state.currentQuestionIndex];
+  const currentQuestion = questions[state.currentQuestionIndex];
   State.update({
     answers: {
       ...state.answers,
-      [currentQuestion]: value,
+      [currentQuestion.key]: value,
     },
   });
 };
@@ -155,11 +154,15 @@ return (
       <ModalTitle>What's your Borough?</ModalTitle>
       <div>
         <Label>Name it!</Label>
-        <Input onChange={(v) => State.update({ name: v.target.value })} />
+        <Input
+          value={state.name}
+          onChange={(v) => State.update({ name: v.target.value })}
+        />
       </div>
       <div>
         <Label>Describe it!</Label>
         <Input
+          value={state.description}
           onChange={(v) =>
             State.update({
               description: v.target.value,
@@ -171,7 +174,7 @@ return (
         <Label>
           <FlexContainer>
             <QuestionText>
-              {state.questions[state.currentQuestionIndex]}
+              {questions[state.currentQuestionIndex].value}
             </QuestionText>
             <ShuffleIcon onClick={shuffleQuestion}>
               <i className="bi bi-shuffle" />
@@ -180,13 +183,21 @@ return (
         </Label>
         <Textarea
           onChange={(e) => handleAnswerChange(e.target.value)}
-          value={
-            state.answers[state.questions[state.currentQuestionIndex]] || ""
-          }
+          value={state.answers[questions[state.currentQuestionIndex].key] || ""}
         ></Textarea>
       </div>
       <div>
-        <SaveButton onClick={() => handleSave(state)}>Save</SaveButton>
+        <SaveButton
+          onClick={() =>
+            handleSave({
+              name: state.name,
+              description: state.description,
+              answers: state.answers,
+            })
+          }
+        >
+          Save
+        </SaveButton>
       </div>
     </ModalContent>
   </ModalOverlay>

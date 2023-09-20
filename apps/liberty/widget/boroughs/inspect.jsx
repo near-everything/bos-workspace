@@ -1,4 +1,6 @@
-const data = props.data;
+const focusedMarker = props.focusedMarker;
+const { accountId, coordinates, data } = focusedMarker;
+const questions = props.questions;
 
 const ModalOverlay = styled.div`
   position: absolute;
@@ -91,10 +93,27 @@ const SaveButton = styled.button`
   text-align: center;
 `;
 
+const Question = styled.div`
+  font-weight: bold;
+`;
+
+const Answer = styled.div`
+  margin-left: 20px;
+`;
+
 return (
   <ModalOverlay>
     <ModalContent>
-      <p>{JSON.stringify(data)}</p>
+      <Widget src="mob.near/widget/Profile" props={{ accountId: accountId }} />
+      <p>Name: {data.name}</p>
+      <p>Description: {data.description}</p>
+      <h2>Answers:</h2>
+      {data.answers && Object.entries(data.answers).map(([key, value]) => (
+        <div key={key}>
+           <Question>{questions[key] && questions[key].value}: </Question>
+          <Answer>{value}</Answer>
+        </div>
+      ))}
     </ModalContent>
   </ModalOverlay>
 );

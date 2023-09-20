@@ -6,6 +6,19 @@ const center = [-74.00597, 40.71427];
 const zoom = 10;
 const accountId = context.accountId;
 
+const questions = [
+  { key: 1, value: "How would you recognize someone from your borough?" },
+  { key: 2, value: "What's a popular dish?" },
+  { key: 3, value: "Name a famous landmark." },
+  { key: 4, value: "What's some slang from your neighborhood?" },
+  { key: 5, value: "What are the top 3 destinations?" },
+  { key: 6, value: "What are people most likely doing on a Saturday?" },
+  { key: 7, value: "What are you most likely to see on the train?" },
+  { key: 8, value: "How do people say goodbye?" },
+  { key: 9, value: "What’s the first thing a stranger asks when visiting?" },
+  { key: 10, value: "Where do the locals go?" },
+];
+
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -69,55 +82,38 @@ const dataMap = {};
 
 Object.keys(markers).forEach((accountId) => {
   if (markers[accountId].thing && markers[accountId].thing.libertyMarkerTest) {
-    const coordinates = JSON.parse(
-      markers[accountId].thing.libertyMarkerTest
-    ).coordinates;
-    dataMap[accountId] = { accountId, coordinates };
+    const markerObj = JSON.parse(markers[accountId].thing.libertyMarkerTest);
+    dataMap[accountId] = { accountId, ...markerObj };
   }
 });
 
 State.init({
   locations: [],
   edit: false,
+  currentLocation: (dataMap[accountId] && dataMap[accountId].coordinates) || {},
 });
 
-const onClose = () => {
-  State.update({ showForm: false });
-};
-
-let currentLocation = {};
-
-function setCurrentLocation(coordinates) {
-  currentLocation = coordinates;
-}
-
-function setFocusedMarker(marker) {
-  State.update({ focusedMarker: marker, showInspect: true });
-}
-
-const handleSaveLocation = () => {
-  // TODO: I want to keep any unmodified data
-  console.log(dataMap[accountId]);
-
+const handleSave = (data) => {
+  if (!data) {
+    data = dataMap[accountId].data;
+  }
   Social.set(
     {
       thing: {
         libertyMarkerTest: {
-          "": JSON.stringify({ coordinates: currentLocation, ...state.data }),
-          metadata: {
-            name: "",
-            description: "",
-            image: "",
-            backgroundImage: "",
-          },
+          "": JSON.stringify({
+            coordinates: state.currentLocation,
+            data,
+          }),
         },
       },
     },
     {
       onCommit: () => {
-        State.update({ edit: !state.edit });
+        State.update({ edit: false, showForm: false, showInspect: false });
       },
-      onCancel: () => State.update({ edit: !state.edit }),
+      onCancel: () =>
+        State.update({ edit: false, showForm: false, showInspect: false }),
     }
   );
 };
@@ -179,15 +175,22 @@ return (
       </Button>
     </Profile>
     {accountId && state.showForm && (
-      <Widget src={"libertydao.near/widget/boroughs.form"} />
+      <Widget
+        src={"libertydao.near/widget/boroughs.form"}
+        props={{
+          data: (dataMap[accountId] && dataMap[accountId].data) || {},
+          handleSave,
+          questions,
+        }}
+      />
     )}
 
     {state.showInspect && (
       <Widget
         src={"libertydao.near/widget/boroughs.inspect"}
         props={{
-          data: state.focusedMarker,
-          handleSave: (v) => State.update({ data: v }),
+          focusedMarker: state.focusedMarker,
+          questions,
         }}
       />
     )}
@@ -205,11 +208,11 @@ return (
           <Button
             onClick={
               state.edit
-                ? handleSaveLocation
-                : () => State.update({ edit: !state.edit })
+                ? () => handleSave()
+                : () => State.update({ edit: !state.edit, showForm: true })
             }
           >
-            {`${!state.edit ? "Edit" : "Save"} location`}
+            {`${!state.edit ? "Mark your Borough!" : "Save"}`}
             <LocationIcon />
           </Button>
         </Location>
@@ -227,11 +230,10 @@ return (
         markers: Object.values(dataMap),
         edit: state.edit,
         onMapClick: (e) => {
-          setCurrentLocation(e.coordinates);
-          State.update({ showInspect: false });
+          State.update({ currentLocation: e.coordinates, showInspect: false });
         },
         onMarkerClick: (e) => {
-          setFocusedMarker(e);
+          State.update({ focusedMarker: marker, showInspect: true });
         },
       }}
     />

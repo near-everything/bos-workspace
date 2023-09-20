@@ -29,17 +29,6 @@ const Root = styled.div`
   }
 `;
 
-
-
-const Title = styled.h1`
-  font-weight: 600;
-  font-size: ${(p) => p.size || "25px"};
-  line-height: 1.2em;
-  color: linear-gradient(89.97deg, #ae67fa 1.84%, #f49867 102.67%);
-  margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
-  overflow-wrap: anywhere;
-`;
-
 const Tabs = styled.div`
   display: flex;
   height: 48px;
