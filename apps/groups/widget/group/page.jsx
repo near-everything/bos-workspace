@@ -1,14 +1,12 @@
 const creatorId = props.creatorId;
 const groupId = props.groupId;
 
-const groupInfo = Social.get(
-  `${creatorId}/thing/${groupId}/metadata/**`,
-  "final"
-);
+const groupInfo = Social.get(`${creatorId}/thing/${groupId}/**`, "final");
 
 if (!groupInfo) {
   return "group details not found";
 }
+const groupData = JSON.parse(groupInfo[""]);
 
 const NavUnderline = styled.ul`
   border-bottom: 1px #eceef0 solid;
@@ -35,7 +33,6 @@ const Button = styled.button`
 
 const Banner = styled.div`
   max-width: 100%;
-  width: 1320px;
   min-height: 240px;
   height: 240px;
 `;
@@ -66,6 +63,12 @@ const tabs = [
                     type: "thing",
                     path: `${creatorId}/thing/${groupId}`,
                   },
+                  value: {
+                    type: "md",
+                  },
+                },
+                {
+                  key: "main",
                   value: {
                     type: "md",
                   },
@@ -133,20 +136,40 @@ const tabs = [
     title: "Graphs",
     module: () => (
       <>
-        <p>These are the users that have created their versions of this group.</p>
+        <p>
+          These are the users that have created their versions of this group.
+        </p>
         <Widget src="hack.near/widget/group.members" props={{ groupId }} />
       </>
     ),
   },
+  {
+    iconClass: "bi bi-gear",
+    title: "Settings",
+    module: () => (
+      <Widget
+        src="hack.near/widget/group.settings"
+        props={{ groupId, groupData }}
+      />
+    ),
+  },
+  ...(groupData.tabs || []),
 ];
 
 State.init({
   selectedTab: tabs[0],
 });
 
-const { name, description, image, backgroundImage } = groupInfo;
+const { metadata } = groupInfo;
+const { name, description, image, backgroundImage } = metadata;
 
-console.log(imageSrc)
+function Module({ module }) {
+  if (typeof module === "function") {
+    return module();
+  } else {
+    return <Widget src={module.src} />;
+  }
+}
 
 return (
   <div className="d-flex flex-column gap-3 bg-white">
@@ -179,6 +202,12 @@ return (
       </div>
 
       <div className="d-flex align-items-end gap-3">
+        <Button
+          className="btn btn-outline-primary"
+          onClick={() => State.update({ selectedTab: tabs[3] })}
+        >
+          Configure Community
+        </Button>
         <Button className="btn btn-outline-primary">Join</Button>
       </div>
     </div>
@@ -202,7 +231,7 @@ return (
       )}
     </NavUnderline>
     <Content>
-      {state.selectedTab.module()}
+      <Module module={state.selectedTab.module} />
     </Content>
   </div>
 );

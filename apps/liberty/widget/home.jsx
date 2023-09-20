@@ -1,35 +1,7 @@
 const tab = props.tab || "welcome";
 
 const tabs = {
-  welcome: () => (
-    <>
-      <Container>
-        <Flex>
-          <H1>
-            🗽 Liberty <span>DAO</span>
-          </H1>
-          <Text style={{ maxWidth: "350px" }}>
-            New Yorkers building a better future with our local and global
-            communities.
-          </Text>
-        </Flex>
-      </Container>
-      <Flex>
-        <Text
-          size="14px"
-          weight="600"
-          style={{
-            textTransform: "uppercase",
-            letterSpacing: "0.17em",
-            textAlign: "center",
-          }}
-        >
-          Made Possible by Collaboration
-        </Text>
-        <Widget src="hack.near/widget/dev.Badge" />
-      </Flex>
-    </>
-  ),
+  welcome: () => <Widget src="libertydao.near/widget/welcome.index" />,
   boroughs: () => <Widget src="libertydao.near/widget/boroughs.index" />,
   supporting: () => <Widget src="libertydao.near/widget/supporting.index" />,
   // projects: () => <Widget src="libertydao.near/widget/projects.index" />,
@@ -41,6 +13,7 @@ State.init({ selectedTab: tab });
 
 const Root = styled.div`
   font-family: "DM Sans", sans-serif;
+  height: 100vh;
 
   font-size: 16px;
   line-height: 1.5;
@@ -54,106 +27,9 @@ const Root = styled.div`
   a:hover {
     color: #4498e0;
   }
-
-  // .ndc-card {
-  //   border-radius: 16px;
-  //   box-shadow:
-  //     rgba(0, 0, 0, 0.1) 0 1px 3px,
-  //     rgba(0, 0, 0, 0.05) 0 1px 20px;
-  //   background-color: #fff;
-  // }
 `;
 
-const H1 = styled.h1`
-  font-family: sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 90px;
-  line-height: 1;
-  text-align: center;
-  letter-spacing: -0.03em;
-  color: #000;
-  margin: 0;
-  max-width: 700px;
 
-  span {
-    display: inline-block;
-    background: #96d2b7;
-    border-radius: 20px;
-    position: relative;
-    padding: 0.1em 0.2em 0;
-
-    svg {
-      position: absolute;
-      bottom: -8px;
-      right: -10px;
-      width: 24px;
-    }
-  }
-
-  @media (max-width: 900px) {
-    font-size: 50px;
-
-    span {
-      border-radius: 12px;
-      svg {
-        position: absolute;
-        bottom: -6px;
-        right: -7px;
-        width: 16px;
-      }
-    }
-  }
-`;
-
-const Text = styled.p`
-  font-size: ${(p) => p.size ?? "18px"};
-  line-height: ${(p) => p.lineHeight ?? "1.5"};
-  font-weight: ${(p) => p.weight ?? "400"};
-  color: ${(p) => p.color ?? "#000"};
-  margin: 0;
-  max-width: 670px;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
-`;
-
-const Flex = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-direction: column;
-  flex-wrap: "nowrap";
-
-  @media (max-width: 998px) {
-    flex-direction: column;
-    gap: var(--section-gap);
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  max-width: 1080px;
-  margin: 128px auto;
-  gap: var(--section-gap);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--section-gap) 24px;
-
-  @media (max-width: 768px) {
-    padding: var(--section-gap) 12px;
-  }
-`;
-
-const Content = styled.div`
-  .post {
-    padding-left: 0;
-    padding-right: 0;
-  }
-`;
 
 const Title = styled.h1`
   font-weight: 600;
@@ -227,8 +103,6 @@ return (
         </Link>
       ))}
     </Tabs>
-    <Content key={state.selectedTab}>
-      {tabs[state.selectedTab] && tabs[state.selectedTab]()}
-    </Content>
+    {tabs[state.selectedTab] && tabs[state.selectedTab]()}
   </Root>
 );
