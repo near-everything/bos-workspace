@@ -77,6 +77,7 @@ const Container = styled.div`
   width: 100%;
   flex: 1;
   height: 100vh;
+  margin-top: var(--header-height);
 `;
 
 const ActivityContainer = styled.div`

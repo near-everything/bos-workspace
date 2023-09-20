@@ -19,13 +19,13 @@ const questions = [
   { key: 10, value: "Where do the locals go?" },
 ];
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
   width: 100%;
+  margin-top: var(--header-height);
   height: calc(100vh - 120px);
   align-items: stretch;
   flex-direction: column;
-  background: black;
   overflow: auto;
   position: relative;
 `;
@@ -162,7 +162,7 @@ function LocationIcon() {
 }
 
 return (
-  <Wrapper>
+  <Container>
     {/* Absolute Positioning */}
     <Profile>
       <Button
@@ -237,5 +237,5 @@ return (
         },
       }}
     />
-  </Wrapper>
+  </Container>
 );
