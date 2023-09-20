@@ -1,24 +1,15 @@
+const { handleSubmit } = props || (() => {});
+
 const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 800px;
-  // align-items: center;
   margin: 0 auto;
   background-color: var(--light-color);
   padding-bottom: 80px;
 `;
-
-// const Container = styled.div`
-//   width: 100%;
-//   max-width: 400px;
-//   margin: 0 auto;
-//   padding: 20px;
-//   background-color: #f5f5f5;
-//   border-radius: 8px;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-// `;
 
 const Header = styled.div`
   font-size: 18px;
@@ -56,19 +47,6 @@ const [why, setWhy] = useState("");
 const [status, setStatus] = useState("");
 const [timeline, setTimeline] = useState("");
 const [needs, setNeeds] = useState("");
-
-const handleSubmit = () => {
-  // Handle form submission here using the individual state variables.
-  console.log({
-    proposal,
-    what,
-    forWho,
-    why,
-    status,
-    timeline,
-    needs,
-  });
-};
 
 return (
   <Container>
@@ -130,6 +108,6 @@ return (
       onChange={(e) => setNeeds(e.target.value)}
     />
 
-    <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
+    <SubmitButton onClick={handleSubmit(state)}>Submit</SubmitButton>
   </Container>
 );

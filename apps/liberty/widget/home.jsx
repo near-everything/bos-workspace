@@ -12,6 +12,7 @@ const tabs = {
 State.init({ selectedTab: tab });
 
 const Root = styled.div`
+  position: relative;
   font-family: "DM Sans", sans-serif;
   height: 100vh;
 

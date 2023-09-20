@@ -109,7 +109,7 @@ return (
       <ul className="navbar-nav">
         {Object.keys(tabs).map((t) => (
           <li className="nav-item">
-            <Link key={key} href={`?tab=${t}`}>
+            <Link key={key} href={`//*__@appAccount__*//widget/home?tab=${t}`}>
               <TabsButton selected={tab === t}>
                 {capitalizeFirstLetter(t)}
               </TabsButton>
