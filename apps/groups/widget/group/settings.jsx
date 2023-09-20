@@ -1,11 +1,13 @@
 const { groupData, groupId } = props;
 const initialTabs = groupData.tabs || [];
-const [tabs, setTabs] = useState(initialTabs);
-const [src, setSrc] = useState("");
-const [blockHeight, setBlockHeight] = useState("");
-const [iconClass, setIconClass] = useState("");
-const [title, setTitle] = useState("");
-const [hasChanges, setHasChanges] = useState(false);
+State.init({
+  tabs: initialTabs,
+  src: "",
+  blockHeight: "",
+  iconClass: "",
+  title: "",
+  hasChanges: false,
+});
 
 const handleAddTab = () => {
   const newTab = {
@@ -16,15 +18,13 @@ const handleAddTab = () => {
       blockHeight: blockHeight,
     },
   };
-  setTabs([...tabs, newTab]);
-  setHasChanges(true);
+  State.update({ tabs: [...tabs, newTab], hasChanges: true });
 };
 
 const handleRemoveTab = (index) => {
   const newTabs = [...tabs];
   newTabs.splice(index, 1);
-  setTabs(newTabs);
-  setHasChanges(true);
+  State.update({ tabs: newTabs, hasChanges: true });
 };
 
 const handleSave = () => {
@@ -44,22 +44,22 @@ return (
       <input
         placeholder="iconClass"
         value={iconClass}
-        onChange={(e) => setIconClass(e.target.value)}
+        onChange={(e) => State.update({ iconClass: e.target.value })}
       />
       <input
         placeholder="title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => State.update({ title: e.target.value })}
       />
       <input
         placeholder="src"
         value={src}
-        onChange={(e) => setSrc(e.target.value)}
+        onChange={(e) => State.update({ src: e.target.value })}
       />
       <input
         placeholder="blockHeight"
         value={blockHeight}
-        onChange={(e) => setBlockHeight(e.target.value)}
+        onChange={(e) => State.update({ blockHeight: e.target.value })}
       />
       <button onClick={handleAddTab}>Add Tab</button>
     </div>

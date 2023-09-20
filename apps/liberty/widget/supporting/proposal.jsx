@@ -40,13 +40,15 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-const [proposal, setProposal] = useState("");
-const [what, setWhat] = useState("");
-const [forWho, setForWho] = useState("");
-const [why, setWhy] = useState("");
-const [status, setStatus] = useState("");
-const [timeline, setTimeline] = useState("");
-const [needs, setNeeds] = useState("");
+State.init({
+  proposal: "",
+  what: "",
+  forWho: "",
+  why: "",
+  status: "",
+  timeline: "",
+  needs: "",
+});
 
 return (
   <Container>
@@ -62,50 +64,50 @@ return (
     <FormLabel>Proposal:</FormLabel>
     <TextInput
       type="text"
-      value={proposal}
-      onChange={(e) => setProposal(e.target.value)}
+      value={state.proposal}
+      onChange={(e) => State.update({ proposal: e.target.value })}
     />
 
     <FormLabel>What:</FormLabel>
     <TextInput
       type="text"
-      value={what}
-      onChange={(e) => setWhat(e.target.value)}
+      value={state.what}
+      onChange={(e) => State.update({ what: e.target.value })}
     />
 
     <FormLabel>For Who:</FormLabel>
     <TextInput
       type="text"
-      value={forWho}
-      onChange={(e) => setForWho(e.target.value)}
+      value={state.forWho}
+      onChange={(e) => State.update({ forWho: e.target.value })}
     />
 
     <FormLabel>Why:</FormLabel>
     <TextInput
       type="text"
-      value={why}
-      onChange={(e) => setWhy(e.target.value)}
+      value={state.why}
+      onChange={(e) => State.update({ why: e.target.value })}
     />
 
     <FormLabel>Status:</FormLabel>
     <TextInput
       type="text"
-      value={status}
-      onChange={(e) => setStatus(e.target.value)}
+      value={state.status}
+      onChange={(e) => State.update({ status: e.target.value })}
     />
 
     <FormLabel>Timeline:</FormLabel>
     <TextInput
       type="text"
-      value={timeline}
-      onChange={(e) => setTimeline(e.target.value)}
+      value={state.timeline}
+      onChange={(e) => State.update({ timeline: e.target.value })}
     />
 
     <FormLabel>Needs:</FormLabel>
     <TextInput
       type="text"
-      value={needs}
-      onChange={(e) => setNeeds(e.target.value)}
+      value={state.needs}
+      onChange={(e) => State.update({ needs: e.target.value })}
     />
 
     <SubmitButton onClick={handleSubmit(state)}>Submit</SubmitButton>
