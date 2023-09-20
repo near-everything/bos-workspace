@@ -15,9 +15,14 @@ function capitalizeFirstLetter(string) {
 }
 
 const Navbar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   height: var(--header-height);
-  // background-color: ${(p) => (p.background ? "#1c6758" : "transparent")};
-  
+  background-color: ${(p) => (p.background ? "#1c6758" : "transparent")};
+
   @media (max-width: 768px) {
     background-color: #1c6758;
   }
@@ -38,14 +43,17 @@ const TabsButton = styled.a`
   position: relative;
   color: ${(p) => (p.selected ? "#11181C" : "#FDFFFE")};
   text-decoration: none !important;
-  
+
   &:hover {
     color: #11181c;
   }
 `;
 
 return (
-  <Navbar className="navbar navbar-expand-lg px-4" background={tab !== "welcome"}>
+  <Navbar
+    className="navbar navbar-expand-lg px-4"
+    background={tab !== "welcome"}
+  >
     <a
       className="navbar-brand d-flex align-items-center gap-2 text-decoration-none"
       href="//*__@appAccount__*//widget/home"

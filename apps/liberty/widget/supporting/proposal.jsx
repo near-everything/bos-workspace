@@ -7,6 +7,7 @@ const Container = styled.div`
   // align-items: center;
   margin: 0 auto;
   background-color: var(--light-color);
+  padding-bottom: 80px;
 `;
 
 // const Container = styled.div`

@@ -1,13 +1,9 @@
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
   height: 100vh;
+  padding: 40px;
   margin-top: var(--header-height);
   background-color: var(--light-color);
 `;
-
 
 const Footer = styled.div`
   height: 400px;
@@ -20,9 +16,12 @@ const Footer = styled.div`
 `;
 
 return (
-  <Container>
-    {/* <Widget src="libertydao.near/widget/supporting.resources" /> */}
-    {/* <Widget src="libertydao.near/widget/supporting.projects" /> */}
-    <Widget src="libertydao.near/widget/supporting.proposal" />
+  <Container className="row">
+    <div className="col">
+      <Widget src="libertydao.near/widget/supporting.resources" />
+    </div>
+    <div className="col">
+      <Widget src="libertydao.near/widget/supporting.proposal" />
+    </div>
   </Container>
 );

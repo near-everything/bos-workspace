@@ -16,12 +16,12 @@ const Root = styled.div`
   height: 100vh;
 
   --primary-color: #1c6758;
-  --secondary-color: #E1E7D2;
+  --secondary-color: #e1e7d2;
   --light-color: #fdfffe;
-  --dark-color: #0B1E28;
+  --dark-color: #0b1e28;
 
   --header-height: 70px;
-  
+
   background-color: var(--primary-color);
 
   font-size: 16px;
@@ -35,20 +35,10 @@ const Root = styled.div`
   // TODO: Define theme colors
 `;
 
-const Header = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-`;
-
 return (
   <Root>
     <Widget src={`libertydao.near/widget/Typography.DMSans`} />
-    <Header>
-      <Widget src={"libertydao.near/widget/navbar"} props={{ tab, tabs }} />
-    </Header>
+    <Widget src={"libertydao.near/widget/navbar"} props={{ tab, tabs }} />
     {tabs[state.selectedTab] && tabs[state.selectedTab]()}
   </Root>
 );
