@@ -173,6 +173,7 @@ const Container = styled.div`
   flex: 1;
   height: 100vh;
   margin-top: var(--header-height);
+  background-color: var(--light-color);
 `;
 
 const ActivityContainer = styled.div`
@@ -206,15 +207,6 @@ const CardWrapper = styled.div`
 
 return (
   <Container>
-    <Left>
-      <button
-        onClick={() => State.update({ showModal: true })}
-        className="btn btn-success"
-      >
-        create
-      </button>
-      <Widget src={"libertydao.near/widget/initiatives.list"} />
-    </Left>
     <Center>
       {state.groupId && state.creatorId ? (
         <Widget
@@ -244,7 +236,11 @@ return (
                   props={{
                     creatorId: p.accountId,
                     groupId: p.value.id,
-                    onClick: () => State.update({ creatorId: p.accountId, groupId: p.value.id }),
+                    onClick: () =>
+                      State.update({
+                        creatorId: p.accountId,
+                        groupId: p.value.id,
+                      }),
                   }}
                 />
               );

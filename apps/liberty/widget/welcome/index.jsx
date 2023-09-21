@@ -81,7 +81,12 @@ const Ignition = styled.a`
   background-color: var(--dark-color);
   margin: 20px;
   padding: 10px 60px;
-  border-radius: 4px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: #e5e5e5;
+    color: #111;
+  }
 `;
 
 function Logo() {
@@ -119,7 +124,13 @@ return (
           New Yorkers building a better future with our local and global
           communities.
         </Text>
-        <Ignition type="button" href="https://shard.dog/ignitethefuture" target="_blank">IGNITE THE FUTURE</Ignition>
+        <Ignition
+          type="button"
+          href="https://shard.dog/ignitethefuture"
+          target="_blank"
+        >
+          IGNITE THE FUTURE
+        </Ignition>
       </Headline>
     </Body>
     <RoundedContainer>

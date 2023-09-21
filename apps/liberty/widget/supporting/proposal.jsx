@@ -45,8 +45,13 @@ const SubmitButton = styled.button`
   padding: 10px 20px;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #e5e5e5;
+    color: #111;
+  }
 `;
 
 State.init({
