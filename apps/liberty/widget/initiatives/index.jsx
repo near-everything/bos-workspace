@@ -88,12 +88,10 @@ const Left = styled.div`
   padding: 20px;
   background: #f8f8f9;
   flex: 3;
-  margin-right: 20px;
 `;
 
 const Center = styled.div`
   flex: 9;
-  padding: 0 20px;
 `;
 
 const H5 = styled.h5`
@@ -114,7 +112,6 @@ const CardWrapper = styled.div`
 return (
   <Container>
     <Left>
-      <H5>Your List</H5>
       <button
         onClick={() => State.update({ showModal: true })}
         className="btn btn-success"
@@ -124,32 +121,43 @@ return (
       <Widget src={"libertydao.near/widget/initiatives.list"} />
     </Left>
     <Center>
-      <CardWrapper>
-        <Feed
-          index={{
-            action: "every",
-            key: "group",
-            options: {
-              limit: 10,
-              order: "desc",
-              accountId: undefined,
-            },
+      {state.groupId && state.creatorId ? (
+        <Widget
+          src={"libertydao.near/widget/initiatives.page"}
+          props={{
+            creatorId: state.creatorId,
+            groupId: state.groupId,
           }}
-          Item={(p) => {
-            return (
-              <Widget
-                key={p}
-                src={"libertydao.near/widget/initiatives.card"}
-                props={{
-                  creatorId: p.accountId,
-                  groupId: p.value.id,
-                }}
-              />
-            );
-          }}
-          Layout={Grid}
         />
-      </CardWrapper>
+      ) : (
+        <CardWrapper>
+          <Feed
+            index={{
+              action: "every",
+              key: "group",
+              options: {
+                limit: 10,
+                order: "desc",
+                accountId: undefined,
+              },
+            }}
+            Item={(p) => {
+              return (
+                <Widget
+                  key={p}
+                  src={"libertydao.near/widget/initiatives.card"}
+                  props={{
+                    creatorId: p.accountId,
+                    groupId: p.value.id,
+                    onClick: () => State.update({ creatorId: p.accountId, groupId: p.value.id }),
+                  }}
+                />
+              );
+            }}
+            Layout={Grid}
+          />
+        </CardWrapper>
+      )}
     </Center>
     {state.showModal && (
       <Widget

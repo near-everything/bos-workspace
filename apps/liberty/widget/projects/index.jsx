@@ -10,15 +10,21 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-weight: bold;
   text-align: center;
   font-size: 28px;
-  margin-bottom: 20px;
+  background-color: var(--secondary-color);
+  padding: 16px;
 `;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
+  margin-top: 48px;
   max-width: 1200px;
   width: 100%;
 `;
@@ -65,22 +71,21 @@ const data = [
   {
     title: "Pass the Torch",
     description:
-      "Developing new and more meaningful ways of inviting high value humans into support communities",
+      "Developing new and more meaningful ways of inviting high value humans into support communities.",
   },
   {
     title: "Liberty Turnpike",
     description:
-      "The universal onramp where all roads lead to someplace personally meaningful",
+      "The universal onramp where all roads lead to someplace personally meaningful.",
   },
   {
     title: "Data Citizens",
-    description:
-      "Igniting change one data point at a time",
+    description: "Igniting change one data point at a time.",
   },
   {
     title: "Ignite the Future",
     description:
-      "Inspiring the creators of tomorrow to step up and carry the flame to new possibilities",
+      "Inspiring the creators of tomorrow to step up and carry the flame to new possibilities.",
   },
   {
     title: "Digital Gardening",
@@ -104,7 +109,6 @@ return (
     </Grid>
   </Container>
 );
-
 
 // const Container = styled.div`
 //   margin: 0;

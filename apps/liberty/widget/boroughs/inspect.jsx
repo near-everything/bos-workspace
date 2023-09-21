@@ -2,6 +2,7 @@ const focusedMarker = props.focusedMarker;
 const { accountId, coordinates, data } = focusedMarker;
 const questions = props.questions;
 
+
 const ModalOverlay = styled.div`
   position: absolute;
   left: 50px;

@@ -1,5 +1,6 @@
 const creatorId = props.creatorId;
 const groupId = props.groupId;
+const onClick = props.onClick || (() => {});
 
 const groupInfo = Social.get(
   `${creatorId}/thing/${groupId}/metadata/**`,
@@ -104,17 +105,12 @@ const TagsWrapper = styled.div`
 
 return (
   <Card>
-    <a
-      href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
-      style={{ textDecoration: "none" }}
-    >
-      <CardLeft>
-        <Widget
-          src="hack.near/widget/group.inline"
-          props={{ group: groupInfo, groupId, accountId: creatorId }}
-        />
-      </CardLeft>
-    </a>
+    <CardLeft onClick={onClick}>
+      <Widget
+        src="hack.near/widget/group.inline"
+        props={{ group: groupInfo, groupId, accountId: creatorId }}
+      />
+    </CardLeft>
     <Bell>
       <div className="ms-autome-md-2 d-flex align-items-center">
         <div className="bell">
@@ -122,27 +118,17 @@ return (
             href={`/hack.near/widget/group.index?groupId=${groupId}`}
             className="bell-icon"
           >
-            <i className="bi bi-bell"></i>
-            <i className="bi bi-bell-fill"></i>
+            <i className="bi bi-bell" />
+            <i className="bi bi-bell-fill" />
           </a>
         </div>
       </div>
     </Bell>
     {canJoin && context.accountId && (
-      <>
-        {groupKey === context.accountId && (
-          <a
-            className="btn btn-outline-dark"
-            href={`/hack.near/widget/group.edit?groupId=${groupId}`}
-          >
-            edit
-          </a>
-        )}
-        <Widget
-          src="hack.near/widget/group.join"
-          props={{ groupId, accountId, creatorId: props.creatorId }}
-        />
-      </>
+      <Widget
+        src="hack.near/widget/group.join"
+        props={{ groupId, accountId, creatorId: props.creatorId }}
+      />
     )}
   </Card>
 );

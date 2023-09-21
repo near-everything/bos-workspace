@@ -27,15 +27,15 @@ const code = `
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
       .marker {
-        background-image: url('https://www.svgrepo.com/show/352251/map-marker-alt.svg');
+        background-image: url('https://i.ibb.co/w6QRm4h/Liberty-Map-Pin-Dark.png');
         background-size: cover;
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 45px;
         cursor: pointer;
       }
-
+      
       #mymarker {
-        background-image: url('https://www.svgrepo.com/show/352251/map-marker-alt.svg') !important;
+        background-image: url('https://i.ibb.co/w6QRm4h/Liberty-Map-Pin-Dark.png') !important;
         // filter: invert(1);
       }
 
@@ -90,15 +90,13 @@ const code = `
       });
 
       if (selectedMarkerElement) {
-        selectedMarkerElement.style.border = '';
         selectedMarkerElement.style.boxShadow = '';
       }
 
       const markerInstance = markersByAccount[marker.accountId];
       if (markerInstance) {
           const el = markerInstance.getElement();
-          el.style.border = '3px solid blue';
-          el.style.boxShadow = '0px 0px 10px 3px rgba(0,0,0,0.5)';
+          // el.style.boxShadow = '0px 0px 10px 3px rgba(0,0,0,0.5)';
           selectedMarkerElement = el;
       }
   
@@ -140,8 +138,7 @@ const code = `
       const { lngLat } = event;
 
       if (selectedMarkerElement) {
-        selectedMarkerElement.style.border = '';
-        selectedMarkerElement.style.boxShadow = '';
+        // selectedMarkerElement.style.boxShadow = '';
         selectedMarkerElement = null;
       }
 

@@ -1,4 +1,4 @@
-const MAP_STYLE = "mapbox://styles/mapbox/streets-v12";
+const MAP_STYLE = "mapbox://styles/mapbox/outdoors-v12";
 const MAP_TOKEN =
   "pk.eyJ1IjoidGVqMDEiLCJhIjoiY2xqcHZ2dGpkMDB5azNsbzQ0bmMwNjRjaCJ9.FVv2zRPaLwzZMgagbI2YZw";
 
@@ -23,7 +23,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   margin-top: var(--header-height);
-  height: calc(100vh - 120px);
+  height: calc(100vh - 70px);
   align-items: stretch;
   flex-direction: column;
   overflow: auto;
@@ -234,7 +234,7 @@ return (
           State.update({ currentLocation: e.coordinates, showInspect: false });
         },
         onMarkerClick: (e) => {
-          State.update({ focusedMarker: marker, showInspect: true });
+          State.update({ focusedMarker: e, showInspect: true });
         },
       }}
     />
