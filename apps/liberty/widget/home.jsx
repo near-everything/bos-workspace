@@ -44,6 +44,18 @@ const Root = styled.div`
   }
 
   // TODO: Define theme colors
+
+  .l__card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 `;
 
 return (

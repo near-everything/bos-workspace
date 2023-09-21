@@ -1,5 +1,3 @@
-const handleSubmit = props.handleSubmit || (() => {});
-
 const Container = styled.div`
   flex: 1;
   display: flex;
@@ -10,11 +8,21 @@ const Container = styled.div`
   background-color: var(--light-color);
   padding-bottom: 80px;
   padding: 40px;
+  border-radius: 8px;
+`;
+
+const Title = styled.h1`
+  color: #1b856b;
+`;
+
+const Subtitle = styled.h3`
+  margin-top: 10px;
 `;
 
 const Header = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
+  text-align: center;
 `;
 
 const FormLabel = styled.label`
@@ -32,9 +40,9 @@ const TextInput = styled.textarea`
 `;
 
 const SubmitButton = styled.button`
+  background-color: var(--dark-color);
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -51,15 +59,50 @@ State.init({
   needs: "",
 });
 
+function handleSubmit() {
+  Social.set(
+    {
+      thing: {
+        libertydaoSponsorship: {
+          "": JSON.stringify(state),
+        },
+      },
+    },
+    {
+      onCommit: () => {
+        State.update({
+          proposal: "",
+          what: "",
+          forWho: "",
+          why: "",
+          status: "",
+          timeline: "",
+          needs: "",
+        });
+      },
+      onCancel: () => {
+        State.update({
+          proposal: "",
+          what: "",
+          forWho: "",
+          why: "",
+          status: "",
+          timeline: "",
+          needs: "",
+        });
+      },
+    }
+  );
+}
+
 return (
   <Container>
     <Header>
-      <p>
-        We're developing support systems through an ever-growing network for
-        your success.
-      </p>
-      <p>What will you do with it?</p>
-      <p>Tell us about your vision for a better future.</p>
+      <Title>
+        Each of these plays a role in supporting the people and projects that
+        make Liberty so special.
+      </Title>
+      <Subtitle>What/Who should join our network next?</Subtitle>
     </Header>
 
     <FormLabel>Proposal:</FormLabel>
@@ -111,6 +154,6 @@ return (
       onChange={(e) => State.update({ needs: e.target.value })}
     />
 
-    <SubmitButton onClick={handleSubmit(state)}>Submit</SubmitButton>
+    <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
   </Container>
 );

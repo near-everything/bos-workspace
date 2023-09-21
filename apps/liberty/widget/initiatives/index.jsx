@@ -1,3 +1,98 @@
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   height: 100%;
+//   margin-top: var(--header-height);
+//   background-color: var(--secondary-color);
+
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//   }
+// `;
+
+// const Column = styled.div`
+//   flex: 1;
+//   padding: 20px;
+// `;
+
+// const Card = styled.div`
+//   padding: 20px;
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 10px;
+
+//   @media (min-width: 769px) and (max-width: 1024px) {
+//     flex-direction: column;
+//   }
+// `;
+
+// const Icon = styled.i`
+//   font-size: 24px;
+//   margin-right: 20px;
+
+//   @media (min-width: 769px) and (max-width: 1024px) {
+//     margin-right: 0;
+//     margin-bottom: 10px;
+//   }
+// `;
+
+// const Title = styled.h3``;
+
+// const VerticalDivider = styled.div`
+//   width: 1px;
+//   height: 100%;
+//   background-color: #000;
+
+//   @media (max-width: 768px) {
+//     height: 1px;
+//     width: 100%;
+//   }
+// `;
+
+// const HorizontalDivider = styled.div`
+//   width: 100%;
+//   height: 1px;
+//   background-color: #000;
+
+//   @media (min-width: 769px) {
+//     display: none;
+//   }
+// `;
+
+// const ColumnTitle = styled.h2`
+//   margin-bottom: 20px;
+// `;
+
+// const CardItem = ({ iconClass, title }) => (
+//   <Card className="l__card">
+//     <Icon className={iconClass}></Icon>
+//     <Title>{title}</Title>
+//   </Card>
+// );
+
+// return (
+//   <Container>
+//     <Column>
+//       <ColumnTitle>Actions</ColumnTitle>
+//       <CardItem iconClass="bi bi-brush" title="Painting" />
+//       <CardItem iconClass="bi bi-music-note-beamed" title="Singing" />
+//     </Column>
+//     <VerticalDivider />
+//     <Column>
+//       <ColumnTitle>Disciplines</ColumnTitle>
+//       <CardItem iconClass="bi bi-book" title="Philosophy" />
+//       <CardItem iconClass="bi bi-gear" title="Engineering" />
+//     </Column>
+//     <VerticalDivider />
+//     <Column>
+//       <ColumnTitle>Objects</ColumnTitle>
+//       <CardItem iconClass="bi bi-book-half" title="Books" />
+//       <CardItem iconClass="bi bi-laptop" title="Computers" />
+//     </Column>
+//   </Container>
+// );
+
 const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 const creatorId = props.creatorId ?? "hack.near";

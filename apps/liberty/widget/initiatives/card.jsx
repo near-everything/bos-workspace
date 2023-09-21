@@ -103,6 +103,46 @@ const TagsWrapper = styled.div`
   padding-top: 4px;
 `;
 
+let members = Social.keys(`*/graph/${groupId}/*`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+const keys = Object.values(members) || {}
+    .map(item => Object.keys(item.graph["f8ad9d1a76259lmdpjnd74e69162a0a014"]))
+    .flat();
+
+console.log(keys);
+
+
+// function Counter() {
+
+//   let members = Social.keys(`*/graph/${groupId}/*`, "final", {
+//     return_type: "BlockHeight",
+//     values_only: true,
+//   });
+
+// if (!members) {
+//   return "Loading...";
+// }
+
+// const groupKey = Object.keys(members)[0];
+
+// members = Object.entries(members[groupKey]?.graph[groupId] || {});
+// members.sort((a, b) => b[1] - a[1]);
+// return (
+//   <>
+//     {members.map(([accountId], i) => (
+//       <div key={i} className="d-flex justify-content-between mb-3">
+//         <div className="me-4">
+//           <Widget src="mob.near/widget/Profile" props={{ accountId }} />
+//         </div>
+//       </div>
+//     ))}
+//   </>
+// );
+// }
+
 return (
   <Card>
     <CardLeft onClick={onClick}>
