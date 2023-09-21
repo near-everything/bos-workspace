@@ -119,7 +119,7 @@ const mainContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
-  margin: auto 0;
+  margin: 0 auto;
 
   @media (width < 786px) {
     width: 100%;
