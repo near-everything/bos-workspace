@@ -10,6 +10,7 @@ State.init({
   location: "",
   category: "",
   organizer: "",
+  tag: "",
 });
 
 const onFilterFromUpdate = ({ target }) => {
@@ -36,6 +37,10 @@ const onOrganizerUpdate = ({ target }) => {
   State.update({ organizer: target.value });
 };
 
+const onTagUpdate = ({ target }) => {
+  State.update({ tag: target.value });
+};
+
 const onFilterClear = () => {
   State.update({
     filterFrom: null,
@@ -44,6 +49,7 @@ const onFilterClear = () => {
     location: "",
     category: "",
     organizer: "",
+    tag: "",
   });
 
   if (filterEvents) {
@@ -60,6 +66,7 @@ const onFilterEvents = () => {
     category: state.category,
     organizer: state.organizer,
     title: state.title,
+    tag: state.tag,
   });
 };
 
@@ -90,7 +97,7 @@ return (
       </div>
     </div>
     <div className="mb-3">
-      <label htmlFor="location">Title</label>
+      <label htmlFor="title">Title</label>
       <input
         id="title"
         name="title"
@@ -117,7 +124,7 @@ return (
       />
     </div>
     <div className="mb-3">
-      <label htmlFor="category">Organizer</label>
+      <label htmlFor="organizer">Organizer</label>
       <input
         id="organizer"
         name="organizer"
@@ -125,13 +132,18 @@ return (
         onChange={onOrganizerUpdate}
       />
     </div>
-    <div className="row">
-      <div className="col">
-        <button onClick={onFilterClear}>Clear Filters</button>
-      </div>
-      <div className="col">
-        <button onClick={onFilterEvents}>Filter Events</button>
-      </div>
+    <div className="mb-3">
+      <label htmlFor="tag">Tag</label>
+      <input id="tag" name="tag" value={state.tag} onChange={onTagUpdate} />
+    </div>
+    <div className="row gap-2 mx-1">
+      <button className="col btn btn-outline-dark " onClick={onFilterClear}>
+        Clear Filters
+      </button>
+
+      <button className="col btn btn-primary" onClick={onFilterEvents}>
+        Filter Events
+      </button>
     </div>
   </div>
 );

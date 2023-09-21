@@ -453,25 +453,27 @@ const EventForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <div className="row">
+          <div className="row mx-1">
             {!data ? (
-              <div className="col">
-                <button onClick={handleNewEvent}>Add Event</button>
-              </div>
+              <button className="btn btn-primary col" onClick={handleNewEvent}>
+                Add Event
+              </button>
             ) : (
-              <div className="col">
-                <button onClick={handleEventEdit}>Edit Event</button>
-              </div>
+              <button className="btn btn-primary col" onClick={handleEventEdit}>
+                Edit Event
+              </button>
             )}
+
             <div className="col">
               <Widget
                 src="itexpert120-contra.near/widget/EventProposalButton"
                 props={{ daoId: state.daoId, event: createNewEvent() }}
               />
             </div>
-            <div className="col">
-              <button onClick={clearFields}>Clear Fields</button>
-            </div>
+
+            <button className="btn btn-primary col" onClick={clearFields}>
+              Clear Fields
+            </button>
           </div>
         </div>
       </div>

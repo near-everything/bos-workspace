@@ -51,7 +51,11 @@ const handleProposal = () => {
 
 return (
   <>
-    <button disabled={daoId === ""} onClick={handleProposal}>
+    <button
+      className="w-100 btn btn-primary"
+      disabled={daoId === ""}
+      onClick={handleProposal}
+    >
       Propose Event
     </button>
   </>

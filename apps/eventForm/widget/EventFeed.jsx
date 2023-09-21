@@ -28,6 +28,11 @@ const currentDayFormatted = currentDate.toISOString().substr(8, 2);
 // Access events for the selected year, month, and day
 const eventsOfMonths = groupedEvents[currentDateFormatted] || [];
 
+// Sort the keys (dates) in descending order
+const sortedDates = Object.keys(eventsOfMonths).sort((a, b) => {
+  return parseInt(b, 10) - parseInt(a, 10);
+});
+
 const dateH2 = styled.h2`
   color: #000;
   font-size: 24px;
@@ -56,26 +61,31 @@ const eventsContainer = styled.div`
 
 return (
   <div className="border border-light-subtle p-3">
-    {Object.keys(eventsOfMonths).map((date) => (
-      <eventsContainer key={date} className="d-flex align-items-start">
-        <dateH2 className="d-flex align-items-center">
-          {Number(date)}{" "}
-          <monthSpan>
-            {currentDate.toLocaleString("en-us", { month: "short" })}
-          </monthSpan>
-        </dateH2>
-        <ul className="ps-4 w-100">
-          {eventsOfMonths[date].map((event) => {
-            return (
-              <Widget
-                src="itexpert120-contra.near/widget/EventCard"
-                props={{ data: event }}
-              />
-            );
-          })}
-          {eventsOfMonths[date].length === 0 && <p>No Events Found</p>}
-        </ul>
-      </eventsContainer>
-    ))}
+    {sortedDates.length !== 0 ? (
+      sortedDates.map((date) => (
+        <eventsContainer key={date} className="d-flex align-items-start">
+          <dateH2 className="d-flex align-items-center">
+            {Number(date)}{" "}
+            <monthSpan>
+              {currentDate.toLocaleString("en-us", { month: "short" })}
+            </monthSpan>
+          </dateH2>
+          <ul className="ps-4 w-100">
+            {eventsOfMonths[date].map((event) => {
+              return (
+                <Widget
+                  src="itexpert120-contra.near/widget/EventCard"
+                  props={{ data: event }}
+                />
+              );
+            })}
+          </ul>
+        </eventsContainer>
+      ))
+    ) : (
+      <div className="d-flex justify-content-center">
+        <p className="m-0">No Events found</p>
+      </div>
+    )}
   </div>
 );

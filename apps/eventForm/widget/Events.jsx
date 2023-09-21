@@ -15,6 +15,7 @@ State.init({
     location: "",
     category: "",
     organizer: "",
+    tag: "",
   },
 });
 
@@ -171,6 +172,7 @@ const formattedEvents = fetchedEvents.map((event) => {
       location: event.location,
       organizer: event.organizer,
       href: `https://near.social/itexpert120-contra.near/widget/EventView?path=${path}`,
+      tags: JSON.parse(event.hashTags),
     },
     description: event.description,
   };
@@ -270,6 +272,7 @@ const onFilterEvents = () => {
   const categoryFilter = filterForm.category.toLowerCase(); // Make it case-insensitive
   const organizerFilter = filterForm.organizer.toLowerCase(); // Make it case-insensitive
   const titleFilter = filterForm.title.toLowerCase();
+  const tagFilter = filterForm.tag.toLowerCase();
 
   const filteredEvents = formattedEvents.filter((ev) => {
     return (
@@ -281,11 +284,14 @@ const onFilterEvents = () => {
       (categoryFilter === "" ||
         ev.extendedProps.category.toLowerCase().includes(categoryFilter)) &&
       (organizerFilter === "" ||
-        ev.extendedProps.organizer.toLowerCase().includes(organizerFilter))
+        ev.extendedProps.organizer.toLowerCase().includes(organizerFilter)) &&
+      (tagFilter === "" ||
+        ev.extendedProps.tags.some((tag) =>
+          tag.toLowerCase().includes(tagFilter)
+        ))
     );
   });
 
-  console.log("fetched Events", fetchedEvents);
   const filteredFeedEvents = fetchedEvents.filter((ev) => {
     return (
       (filterFrom === null ||
@@ -297,12 +303,13 @@ const onFilterEvents = () => {
       (categoryFilter === "" ||
         ev.category.toLowerCase().includes(categoryFilter)) &&
       (organizerFilter === "" ||
-        ev.organizer.toLowerCase().includes(organizerFilter))
+        ev.organizer.toLowerCase().includes(organizerFilter)) &&
+      (tagFilter === "" ||
+        JSON.parse(ev.hashTags).some((tag) =>
+          tag.toLowerCase().includes(tagFilter)
+        ))
     );
   });
-
-  console.log(filteredEvents);
-  console.log(filteredFeedEvents);
 
   //   Update your state with the filtered events
   State.update({
@@ -521,7 +528,7 @@ return (
         <div className="ms-auto d-flex gap-2">
           <filterButton onClick={toggleFilterModal}>Filter</filterButton>
           <addEventButton onClick={toggleNewEventModal}>
-            Add <i className="bi bi-plus-circle-fill"></i>
+            Add Your Event <i className="bi bi-plus-circle-fill"></i>
           </addEventButton>
         </div>
       </div>
