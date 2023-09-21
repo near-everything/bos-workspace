@@ -81,7 +81,6 @@ const Sidebar = () => {
 const componentView = ({ it }) => {
   const categoryDiv = styled.div`
     margin-bottom: 1rem;
-    width: 100%;
   `;
 
   return (
@@ -91,7 +90,7 @@ const componentView = ({ it }) => {
         <hr />
         <div className="d-flex flex-column">
           {it.components.map((comp) => (
-            <div className="mb-2" style={{ maxWidth: "100%" }}>
+            <div className="mb-2">
               <Widget
                 src="near/widget/ComponentCard"
                 props={{
@@ -115,19 +114,23 @@ const responsiveSidebar = styled.div`
   }
 `;
 
+const mainContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: auto 0;
+
+  @media (width < 786px) {
+    width: 100%;
+  }
+`;
+
 return (
-  <div className="container">
+  <div>
     <responsiveSidebar>
       <Sidebar />
-      <div
-        style={{
-          flex: 1,
-          marginRight: "1rem",
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-        }}
-      >
+      <mainContent>
         <div className="mb-4">
           <h1>Component Libraries</h1>
           <p className="lead">Libraries for building a better BOS.</p>
@@ -146,7 +149,7 @@ return (
         {state.components.map((it) => (
           <componentView it={it} />
         ))}
-      </div>
+      </mainContent>
     </responsiveSidebar>
   </div>
 );
