@@ -94,7 +94,7 @@ const SaveButton = styled.button`
   display: flex;
   align-items: center;
 
-  background-image: linear-gradient(145deg, #016eda, #6c1ecf, #016eda, #6c1ecf);
+  background-color: var(--primary-color);
   width: 100%;
   margin-left: auto;
   padding: 5px 20px;
@@ -117,7 +117,7 @@ const QuestionText = styled.span`
 const ShuffleIcon = styled.span`
   cursor: pointer;
   flex-shrink: 0;
-  background-image: linear-gradient(145deg, #016eda, #6c1ecf, #016eda, #6c1ecf);
+  background-color: var(--primary-color);
   padding: 5px 8px;
   border-radius: 10px;
 `;

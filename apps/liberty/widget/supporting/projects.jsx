@@ -49,9 +49,11 @@ const Description = styled.p`
   text-align: center;
 `;
 
-function Card({ title, description }) {
+function Card({ title, description, id }) {
   return (
-    <CardContainer>
+    <CardContainer
+      onClick={() => State.update({ showPage: true, thingId: id })}
+    >
       <Title>{title}</Title>
       <Description>{description}</Description>
     </CardContainer>
@@ -60,31 +62,37 @@ function Card({ title, description }) {
 
 const data = [
   {
+    id: "be5d6bdc-2d23-ed6d-b485-0ed561771b20",
     title: "Pass the Torch",
     description:
       "Developing new and more meaningful ways of inviting high value humans into support communities",
   },
   {
+    id: "",
     title: "Liberty Turnpike",
     description:
       "The universal onramp where all roads lead to someplace personally meaningful",
   },
   {
+    id: "",
     title: "Citizens Data",
     description:
       "Activating, Enriching, and Connecting our access to insights through shared data and information",
   },
   {
+    id: "",
     title: "Ignite the Future",
     description:
       "Inspiring the creators of tomorrow to step up and carry the flame to new possibilities",
   },
   {
+    id: "",
     title: "Digital Gardening",
     description:
       "Cultivating our portals to digital futures. Helping each other develop a rich presence on BOS, growing meaningful use as BOS grows.",
   },
   {
+    id: "",
     title: "Liberty Academy",
     description:
       "Sharing, Learning, Building the skills to set the future free. From html, to JS3.",
@@ -94,10 +102,22 @@ const data = [
 return (
   <Container>
     <Header>Active Projects</Header>
-    <Grid>
-      {data.map((it) => (
-        <Card key={index} {...it} />
-      ))}
-    </Grid>
+    {state.showPage ? (
+      <div>
+        <button onClick={() => State.update({ showPage: false })}>back</button>
+        <Widget
+          src={"libertydao.near/widget/projects.page"}
+          props={{
+            thingId: state.thingId,
+          }}
+        />
+      </div>
+    ) : (
+      <Grid>
+        {data.map((it) => (
+          <Card key={index} {...it} />
+        ))}
+      </Grid>
+    )}
   </Container>
 );

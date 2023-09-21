@@ -256,13 +256,13 @@ return (
 //   <Container>
 //     <Center>
 //       {state.groupId && state.creatorId ? (
-//         <Widget
-//           src={"libertydao.near/widget/initiatives.page"}
-//           props={{
-//             creatorId: state.creatorId,
-//             groupId: state.groupId,
-//           }}
-//         />
+        // <Widget
+        //   src={"libertydao.near/widget/initiatives.page"}
+        //   props={{
+        //     creatorId: state.creatorId,
+        //     groupId: state.groupId,
+        //   }}
+        // />
 //       ) : (
 //         <CardWrapper>
 //           <Feed
