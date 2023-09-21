@@ -1,47 +1,47 @@
 const data = [
   {
     title: "Banyan Collective",
-    img: "path/to/banyan-collective-img.jpg",
+    img: "https://uploads-ssl.webflow.com/63b3350a8d515011bfbff918/63b3350a8d51500805bffa62_BANYANWHITE%20(1).svg",
     link: "https://www.banyan.gg/",
   },
   {
     title: "Shard Dog",
-    img: "path/to/shard-dog-img.jpg",
+    img: "https://my.shard.dog/_next/image?url=%2Fimages%2FShardDogLogo.png&w=96&q=75",
     link: "https://shard.dog/",
   },
   {
     title: "everything",
-    img: "path/to/everything-img.jpg",
+    img: "https://i.near.social/magic/large/https://near.social/magic/img/account/every.near",
     link: "https://everything.dev",
   },
   {
     title: "Lynkable",
-    img: "path/to/lynkable-img.jpg",
+    img: "https://ipfs.near.social/ipfs/bafkreiakn6qoxvhht2a6tgoz5ulvtbrzug3fpvo3lh3co524jumud3m3je",
     link: "https://lynkable.near.social/",
   },
   {
     title: "NEAR NYC",
-    img: "path/to/near-nyc-img.jpg",
+    img: "https://pages.near.org/wp-content/uploads/2021/12/near-nyc.jpg",
     link: "https://near.org/nyc",
   },
   {
     title: "Republic Crypto",
-    img: "path/to/republic-crypto-img.jpg",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Republic.co_company_logo_2017.png/440px-Republic.co_company_logo_2017.png",
     link: "https://republiccrypto.com/",
   },
   {
     title: "Techquity Labs",
-    img: "path/to/techquitylabs-img.jpg",
+    img: "https://techquitylabs.io/images/0faaef84219ea41176049f8fbf442bed.png",
     link: "https://techquitylabs.io/",
   },
   {
     title: "Sparx Labs",
-    img: "path/to/sparxlabs-img.jpg",
+    img: "https://images.squarespace-cdn.com/content/v1/63f29ca803709059039dc7a6/6c3a0b29-d38d-4c13-ae95-bf1b08bdf355/Sparx-White.png?format=1500w",
     link: "https://www.sparxlabs.io/",
   },
   {
     title: "Blue Collar Blockchain",
-    img: "path/to/blue-collar-blockchain-img.jpg",
+    img: "https://i0.wp.com/bc2bc.org/wp-content/uploads/2023/05/cropped-cir.png?w=500&ssl=1",
     link: "https://bc2bc.org/",
   },
 ];
@@ -104,11 +104,8 @@ const CardContainer = styled.a`
   height: 200px;
   cursor: pointer;
   transition: transform 0.2s;
-  background-color: var(--light-color);
-  background-image: url(${(props) => props.img});
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: var(--dark-color);
+  position: relative; // Added for positioning the title over the image
 
   &:hover {
     transform: scale(1.05);
@@ -119,18 +116,26 @@ const Title = styled.h2`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #fff; // White color for better visibility on images
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); // Shadow for better readability
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+`;
+
+const CardImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 function Card({ title, img, link }) {
   return (
-    <CardContainer
-      href={link}
-      img={img}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <CardContainer href={link} target="_blank" rel="noopener noreferrer">
+      <CardImage src={img} alt={title} />
       <Title>{title}</Title>
     </CardContainer>
   );
