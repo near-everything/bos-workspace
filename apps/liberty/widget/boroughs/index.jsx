@@ -34,7 +34,6 @@ const Container = styled.div`
 const Button = styled.button`
   background: #191a1a;
   border-radius: 6px;
-  border: 1px solid rgb(255, 255, 255);
   color: white;
   z-index: 1;
   padding: 10px 22px;
@@ -216,6 +215,13 @@ return (
             {`${!state.edit ? "Mark your Borough!" : "Save"}`}
             <LocationIcon />
           </Button>
+          {state.edit && (
+            <Button
+              onClick={() => State.update({ edit: false, showForm: false })}
+            >
+              Cancel
+            </Button>
+          )}
         </Location>
       </div>
     )}

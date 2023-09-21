@@ -8,7 +8,6 @@ const ModalOverlay = styled.div`
   top: 80px;
   background-color: #191a1a;
   border-radius: 12px;
-  border: 1px solid rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
   // z-index: 100;
