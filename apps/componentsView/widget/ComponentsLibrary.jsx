@@ -94,7 +94,15 @@ return (
   <div className="container">
     <responsiveSidebar>
       <Sidebar />
-      <div style={{ flex: 1, marginRight: "1rem" }}>
+      <div
+        style={{
+          flex: 1,
+          marginRight: "1rem",
+          display: "flex",
+          flexDirection: "column",
+          width: "75%",
+        }}
+      >
         <div className="mb-4">
           <h1>Component Libraries</h1>
           <p className="lead">Libraries for building a better BOS.</p>
