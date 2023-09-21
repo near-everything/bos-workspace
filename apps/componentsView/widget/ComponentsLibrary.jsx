@@ -18,26 +18,50 @@ State.init({
 const Sidebar = () => {
   const sidebarDiv = styled.div`
     min-width: 20%;
+    margin-right: 1.5rem;
+
+    @media (width < 786px) {
+      margin-right: 0;
+    }
+  `;
+
+  const sidebarButton = styled.div`
+    border: 1px solid #dee2e6;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    cursor: pointer;
+
+    transition: all 300ms;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.075);
+    }
+
+    &:active {
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+    }
   `;
 
   return (
-    <sidebarDiv className="me-4">
+    <sidebarDiv>
       <h2 className="mb-4">📚 Libraries</h2>
       <div>
-        <div
-          style={{ cursor: "pointer" }}
-          className="border p-2 d-flex align-items-center rounded-pill justify-content-center mb-2 shadow-sm "
+        <sidebarButton
           onClick={() => {
             State.update({ components: componentList });
           }}
         >
           All Components
-        </div>
+        </sidebarButton>
         <hr />
         {componentList.map((it) => (
-          <div
-            style={{ cursor: "pointer" }}
-            className="border p-2 d-flex align-items-center rounded-pill justify-content-center mb-2 shadow-sm "
+          <sidebarButton
             onClick={() => {
               const filterCategory = componentList.filter(
                 (cat) => cat.category === it.category
@@ -46,9 +70,10 @@ const Sidebar = () => {
             }}
           >
             {it.category}
-          </div>
+          </sidebarButton>
         ))}
       </div>
+      <hr />
     </sidebarDiv>
   );
 };
@@ -100,7 +125,7 @@ return (
           marginRight: "1rem",
           display: "flex",
           flexDirection: "column",
-          width: "75%",
+          width: "100%",
         }}
       >
         <div className="mb-4">
