@@ -38,7 +38,7 @@ const Headline = styled.b`
   align-items: center;
   width: 80%;
   height: auto;
-  z-index: 100;
+  z-index: 50;
   text-align: center;
 `;
 

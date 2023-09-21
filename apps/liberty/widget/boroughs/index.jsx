@@ -100,7 +100,7 @@ const handleSave = (data) => {
   Social.set(
     {
       thing: {
-        libertyMarkerTest: {
+        libertyMarker: {
           "": JSON.stringify({
             coordinates: state.currentLocation,
             data,
