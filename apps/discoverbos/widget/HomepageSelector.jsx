@@ -4,7 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your homepage";
 }
 
-const defaultHomepage = "itexpert120-contra.near/widget/Homepage";
+const defaultHomepage = "itexpert120-contra.near/widget/DefaultHomepage";
 
 const homepage = Social.get(`${accountId}/settings/discover.bos/homepage`);
 
@@ -45,7 +45,7 @@ return (
         </button>
       )}
       {homepage === state.homepage && (
-        <a className="btn btn-outline-primary ms-2" href={`#/`}>
+        <a className="btn btn-outline-primary ms-2" href={`/`}>
           Open homepage
         </a>
       )}
