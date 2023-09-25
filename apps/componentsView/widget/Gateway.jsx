@@ -1,4 +1,5 @@
 const gatewaysURL =
+  props.url ||
   "https://raw.githubusercontent.com/itexpert120/bos-gateway/main/gateways.json";
 
 function loadGateways() {
