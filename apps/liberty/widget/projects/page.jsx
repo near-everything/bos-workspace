@@ -1,12 +1,11 @@
-const creatorId = props.creatorId;
-const groupId = props.groupId;
+const thingId = props.thingId;
 
-const groupInfo = Social.get(`${creatorId}/thing/${groupId}/**`, "final");
+const thingInfo = Social.get(`libertydao.near/thing/project/${thingId}/**`, "final");
 
-if (!groupInfo) {
+if (!thingInfo) {
   return "group details not found";
 }
-const groupData = JSON.parse(groupInfo[""]);
+const groupData = JSON.parse(thingInfo[""]);
 
 const NavUnderline = styled.ul`
   border-bottom: 1px #eceef0 solid;
@@ -61,7 +60,7 @@ const tabs = [
                 {
                   key: {
                     type: "thing",
-                    path: `${creatorId}/thing/${groupId}`,
+                    path: thingId,
                   },
                   value: {
                     type: "md",
@@ -83,7 +82,7 @@ const tabs = [
               action: "post",
               key: {
                 type: "thing",
-                path: `${creatorId}/thing/${groupId}`,
+                path: thingId,
               },
               options: {
                 limit: 10,
@@ -98,7 +97,7 @@ const tabs = [
               action: "repost",
               key: JSON.stringify({
                 type: "thing",
-                path: `${creatorId}/thing/${groupId}`,
+                path: thingId,
               }),
               options: {
                 limit: 10,
@@ -121,47 +120,14 @@ const tabs = [
       </>
     ),
   },
-  {
-    iconClass: "bi bi-house-door",
-    title: "Members",
-    module: () => (
-      <>
-        <p>These are mutual members across all graphs</p>
-        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
-      </>
-    ),
-  },
-  {
-    iconClass: "bi bi-house-door",
-    title: "Graphs",
-    module: () => (
-      <>
-        <p>
-          These are the users that have created their versions of this group.
-        </p>
-        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
-      </>
-    ),
-  },
-  {
-    iconClass: "bi bi-gear",
-    title: "Settings",
-    module: () => (
-      <Widget
-        src="hack.near/widget/group.settings"
-        props={{ groupId, groupData }}
-      />
-    ),
-  },
-  ...(groupData.tabs || []),
 ];
 
 State.init({
   selectedTab: tabs[0],
 });
 
-const { metadata } = groupInfo;
-const { name, description, image, backgroundImage } = metadata;
+const { metadata } = thingInfo;
+const { title, image, backgroundImage } = metadata;
 
 function Module({ module }) {
   if (typeof module === "function") {
@@ -172,7 +138,7 @@ function Module({ module }) {
 }
 
 return (
-  <div className="d-flex flex-column gap-3 bg-white">
+  <div className="d-flex flex-column gap-3 bg-white w-full">
     <Banner
       className="object-fit-cover"
       style={{
@@ -182,33 +148,9 @@ return (
 
     <div className="d-md-flex d-block justify-content-between container">
       <div className="d-md-flex d-block align-items-end">
-        <div className="position-relative">
-          <div style={{ width: 150, height: 100 }}>
-            <img
-              alt="Loading logo..."
-              className="border border-3 border-white rounded-circle shadow position-absolute"
-              width="150"
-              height="150"
-              src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`}
-              style={{ top: -50 }}
-            />
-          </div>
-        </div>
-
         <div className="d-flex flex-column ps-3 pt-3 pb-2">
-          <span className="h1 text-nowrap">{name}</span>
-          <span className="text-secondary">{description}</span>
+          <span className="h1 text-nowrap">{title}</span>
         </div>
-      </div>
-
-      <div className="d-flex align-items-end gap-3">
-        <Button
-          className="btn btn-outline-primary"
-          onClick={() => State.update({ selectedTab: tabs[3] })}
-        >
-          Configure Community
-        </Button>
-        <Button className="btn btn-outline-primary">Join</Button>
       </div>
     </div>
 

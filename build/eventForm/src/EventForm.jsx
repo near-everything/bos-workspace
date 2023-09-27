@@ -1,64 +1,74 @@
-/*__@import:everything/utils/UUID__*/
-/*__@import:everything/utils/date-time__*/
+const UUID = {
+  generate: (template) => {
+    if (typeof template !== "string") {
+      template = "xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx";
+    }
+    return template.replace(/[xy]/g, (c) => {
+      var r = (Math.random() * 16) | 0;
+      var v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  },
+};
 
-const data = props.data;
+const getCurrentDate = () => {
+  const currentDate = new Date();
 
-const accountId = context.accountId;
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
+  const day = currentDate.getDate().toString().padStart(2, "0");
 
-if (!accountId) {
-  return "Please connect your NEAR account";
-}
+  return `${year}-${month}-${day}`;
+};
+
+const getCurrentTime = () => {
+  const currentDate = new Date();
+
+  const hours = currentDate.getHours().toString().padStart(2, "0");
+  const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+};
+
+const isoTime = (date, time) => {
+  const temp = new Date(`${date} ${time}`);
+  const now = temp.toISOString();
+
+  return now.split("T")[1];
+};
+
+const isoDate = (date, time) => {
+  const temp = new Date(`${date} ${time}`);
+  const now = temp.toISOString();
+
+  return now.split("T")[0];
+};
+
 
 const addEvent = props.addEvent;
-const proposeEvent = props.proposeEvent;
 
 let user_account = context.accountId;
 
-if (!data) {
-  State.init({
-    id: UUID.generate(),
-    title: "",
-    description: {
-      content: "# New Event Description",
-    },
-    start: getCurrentDate(),
-    startTime: getCurrentTime(),
-    end: getCurrentDate(),
-    endTime: getCurrentTime(),
-    location: "",
-    link: "",
-    organizer: user_account,
-    isAllDay: false,
-    category: "",
-    logo: null,
-    background: null,
-    customWidget: "",
-    daoId: "",
-    tempHash: "",
-    hashTags: [],
-  });
-} else {
-  State.init({
-    id: data.id || UUID.generate(),
-    title: data.title,
-    description: data.description,
-    start: getCurrentDate(data.start, data.startTime),
-    startTime: getCurrentTime(data.start, data.startTime),
-    end: getCurrentDate(data.end, data.endTime),
-    endTime: getCurrentTime(data.end, data.endTime),
-    location: data.location,
-    link: data.link,
-    organizer: data.organizer,
-    isAllDay: data.isAllDay,
-    category: data.category,
-    logo: data.logo,
-    background: data.background,
-    customWidget: data.customWidget,
-    daoId: data.daoId,
-    tempHash: "",
-    hashTags: JSON.parse(data.hashTags),
-  });
-}
+State.init({
+  id: UUID.generate(),
+  title: "",
+  description: {
+    content: "# New Event Description",
+  },
+  start: getCurrentDate(),
+  startTime: getCurrentTime(),
+  end: getCurrentDate(),
+  endTime: getCurrentTime(),
+  location: "",
+  link: "",
+  organizer: user_account,
+  isAllDay: false,
+  category: "",
+  logo: null,
+  background: null,
+  tempHash: "",
+  hashTags: [],
+});
 
 const onTitleChange = ({ target }) => {
   State.update({ title: target.value });
@@ -126,14 +136,6 @@ const onHashTagRemove = (target) => {
   State.update({ hashTags: newTags });
 };
 
-const onCustomWidgetChange = ({ target }) => {
-  State.update({ customWidget: target.value });
-};
-
-const onDaoIDChange = ({ target }) => {
-  State.update({ daoId: target.value });
-};
-
 const clearFields = () => {
   State.update({
     title: "",
@@ -152,79 +154,13 @@ const clearFields = () => {
     logo: null,
     background: null,
     tempHash: "",
-    customWidget: "",
-    daoId: "",
     hashTags: [],
   });
-};
-
-const createNewEvent = () => {
-  const newEvent = {
-    data: {
-      id: state.id,
-      title: state.title,
-      description: state.description,
-      start: isoDate(state.start, state.startTime),
-      startTime: isoTime(state.start, state.startTime),
-      end: isoDate(state.end, state.endTime),
-      endTime: isoTime(state.end, state.endTime),
-      location: state.location,
-      link: state.link,
-      organizer: state.organizer,
-      isAllDay: state.isAllDay,
-      category: state.category,
-      logo: state.logo,
-      background: state.background,
-      hashTags: state.hashTags,
-    },
-    template: {
-      src: "itexpert120-contra.near/widget/EventView",
-    },
-    type: "every.near/type/event",
-  };
-
-  return newEvent;
-};
-
-const handleProposeEvent = () => {
-  const newEvent = createNewEvent();
-
-  proposeEvent(newEvent);
-  clearFields();
-};
-
-const handleEventEdit = () => {
-  const newEvent = {
-    data: {
-      id: state.id,
-      title: state.title,
-      description: state.description,
-      start: isoDate(state.start, state.startTime),
-      startTime: isoTime(state.start, state.startTime),
-      end: isoDate(state.end, state.endTime),
-      endTime: isoTime(state.end, state.endTime),
-      location: state.location,
-      link: state.link,
-      organizer: state.organizer,
-      isAllDay: state.isAllDay,
-      category: state.category,
-      logo: state.logo,
-      background: state.background,
-      hashTags: state.hashTags,
-    },
-    template: {
-      src: "itexpert120-contra.near/widget/EventView",
-    },
-    type: "every.near/type/event",
-  };
-
-  addEvent(newEvent);
 };
 
 const handleNewEvent = () => {
   const newEvent = {
     data: {
-      id: state.id,
       title: state.title,
       description: state.description,
       start: isoDate(state.start, state.startTime),
@@ -387,18 +323,6 @@ const EventForm = () => {
             placeholder="New Event Category"
           />
         </div>
-        <div className="mb-3">
-          <label class="form-label" for="customWidget">
-            Custom Event Card Source
-          </label>
-          <input
-            class="form-control"
-            id="customWidget"
-            value={state.customWidget}
-            onChange={onCustomWidgetChange}
-            placeholder="Custom Event Card Source"
-          />
-        </div>
         <div className="mb-3 row ">
           <div className="col">
             <label>Logo Image</label>
@@ -433,7 +357,7 @@ const EventForm = () => {
                 ))}
             </p>
           </label>
-          <div className="mb-3 d-flex gap-3">
+          <div className="d-flex gap-3">
             <input
               id="hashtags"
               value={state.tempHash}
@@ -442,39 +366,10 @@ const EventForm = () => {
             />
             <button onClick={onHashTagAdd}>Add</button>
           </div>
-          <div className="mb-3">
-            <label for="daoId">DAO ID</label>
-            <input
-              id="daoId"
-              name="daoId"
-              value={state.daoId}
-              onChange={onDaoIDChange}
-            />
-          </div>
         </div>
         <div className="mb-3">
-          <div className="row mx-1">
-            {!data ? (
-              <button className="btn btn-primary col" onClick={handleNewEvent}>
-                Add Event
-              </button>
-            ) : (
-              <button className="btn btn-primary col" onClick={handleEventEdit}>
-                Edit Event
-              </button>
-            )}
-
-            <div className="col">
-              <Widget
-                src="itexpert120-contra.near/widget/EventProposalButton"
-                props={{ daoId: state.daoId, event: createNewEvent() }}
-              />
-            </div>
-
-            <button className="btn btn-primary col" onClick={clearFields}>
-              Clear Fields
-            </button>
-          </div>
+          <button onClick={handleNewEvent}>Add Event</button>
+          <button onClick={clearFields}>Clear Fields</button>
         </div>
       </div>
     </div>
