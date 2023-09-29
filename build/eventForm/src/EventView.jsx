@@ -1,5 +1,12 @@
-const path = props.path;
-const blockHeight = props.blockHeight;
+const data = props.data;
+
+const path = data.path;
+const blockHeight = data.blockHeight;
+
+if (!data) {
+  path = props.path;
+  blockHeight = props.blockHeight;
+}
 
 const eventThing = Social.getr(path, blockHeight);
 
@@ -51,7 +58,7 @@ const tags = JSON.parse(hashTags);
 
 return (
   <>
-    <div className="container">
+    <div>
       <div className="shadow mb-5 rounded">
         <div className="position-relative ">
           {/* Background Image */}
@@ -63,7 +70,7 @@ return (
               className: "img-fluid rounded-top mb-3 shadow",
               style: { width: "100%", height: "14rem", objectFit: "cover" },
               fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
             }}
           />
 
@@ -81,7 +88,7 @@ return (
                 left: 25,
               },
               fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
             }}
           />
         </div>

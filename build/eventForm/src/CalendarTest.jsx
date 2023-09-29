@@ -9,8 +9,12 @@ const fetchAllEvents = () => {
     const blockHeight = item.blockHeight;
 
     const eventThing = Social.getr(path, blockHeight);
-    fetchedEvents.push(eventThing.data);
+    fetchedEvents.push({ ...eventThing.data, path, blockHeight });
   });
+
+  fetchedEvents = fetchedEvents.filter(
+    (ev) => ev.path !== "itexpert120-contra.near/thing/"
+  );
 
   return fetchedEvents;
 };
@@ -162,7 +166,7 @@ const calendarProps = {
 };
 
 return (
-  <div>
+  <div className="container">
     <Widget
       src="itexpert120-contra.near/widget/Calendar"
       props={{

@@ -4,7 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your homepage";
 }
 
-const defaultHomepage = "itexpert120-contra.near/widget/DefaultHomepage";
+const defaultHomepage = "devs.near/widget/Home";
 
 const homepage = Social.get(`${accountId}/settings/discover.bos/homepage`);
 

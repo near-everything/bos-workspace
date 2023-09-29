@@ -34,7 +34,7 @@ const ModalDialog = styled.div`
     0 4px 6px -1px rgb(0 0 0 / 0.1),
     0 2px 4px -2px rgb(0 0 0 / 0.1);
 
-  overflow-y: initial;
+  overflow-y: auto;
 
   @media (width < 720px) {
     width: 100%;
@@ -94,7 +94,7 @@ const ModalContent = styled.div`
   margin-top: 4px;
   margin-bottom: 4px;
   overflow-y: auto;
-  max-height: 550px;
+  max-height: 50%;
 `;
 
 return (
