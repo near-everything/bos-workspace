@@ -1,30 +1,64 @@
 /*__@import:everything/utils/UUID__*/
 /*__@import:everything/utils/date-time__*/
 
+const data = props.data;
+
+const accountId = context.accountId;
+
+if (!accountId) {
+  return "Please connect your NEAR account";
+}
+
 const addEvent = props.addEvent;
+const proposeEvent = props.proposeEvent;
 
 let user_account = context.accountId;
 
-State.init({
-  id: UUID.generate(),
-  title: "",
-  description: {
-    content: "# New Event Description",
-  },
-  start: getCurrentDate(),
-  startTime: getCurrentTime(),
-  end: getCurrentDate(),
-  endTime: getCurrentTime(),
-  location: "",
-  link: "",
-  organizer: user_account,
-  isAllDay: false,
-  category: "",
-  logo: null,
-  background: null,
-  tempHash: "",
-  hashTags: [],
-});
+if (!data) {
+  State.init({
+    id: UUID.generate(),
+    title: "",
+    description: {
+      content: "# New Event Description",
+    },
+    start: getCurrentDate(),
+    startTime: getCurrentTime(),
+    end: getCurrentDate(),
+    endTime: getCurrentTime(),
+    location: "",
+    link: "",
+    organizer: user_account,
+    isAllDay: false,
+    category: "",
+    logo: null,
+    background: null,
+    customWidget: "",
+    daoId: "",
+    tempHash: "",
+    hashTags: [],
+  });
+} else {
+  State.init({
+    id: data.id || UUID.generate(),
+    title: data.title,
+    description: data.description,
+    start: getCurrentDate(data.start, data.startTime),
+    startTime: getCurrentTime(data.start, data.startTime),
+    end: getCurrentDate(data.end, data.endTime),
+    endTime: getCurrentTime(data.end, data.endTime),
+    location: data.location,
+    link: data.link,
+    organizer: data.organizer,
+    isAllDay: data.isAllDay,
+    category: data.category,
+    logo: data.logo,
+    background: data.background,
+    customWidget: data.customWidget,
+    daoId: data.daoId,
+    tempHash: "",
+    hashTags: JSON.parse(data.hashTags),
+  });
+}
 
 const onTitleChange = ({ target }) => {
   State.update({ title: target.value });
@@ -92,6 +126,14 @@ const onHashTagRemove = (target) => {
   State.update({ hashTags: newTags });
 };
 
+const onCustomWidgetChange = ({ target }) => {
+  State.update({ customWidget: target.value });
+};
+
+const onDaoIDChange = ({ target }) => {
+  State.update({ daoId: target.value });
+};
+
 const clearFields = () => {
   State.update({
     title: "",
@@ -110,13 +152,79 @@ const clearFields = () => {
     logo: null,
     background: null,
     tempHash: "",
+    customWidget: "",
+    daoId: "",
     hashTags: [],
   });
+};
+
+const createNewEvent = () => {
+  const newEvent = {
+    data: {
+      id: state.id,
+      title: state.title,
+      description: state.description,
+      start: isoDate(state.start, state.startTime),
+      startTime: isoTime(state.start, state.startTime),
+      end: isoDate(state.end, state.endTime),
+      endTime: isoTime(state.end, state.endTime),
+      location: state.location,
+      link: state.link,
+      organizer: state.organizer,
+      isAllDay: state.isAllDay,
+      category: state.category,
+      logo: state.logo,
+      background: state.background,
+      hashTags: state.hashTags,
+    },
+    template: {
+      src: "itexpert120-contra.near/widget/EventView",
+    },
+    type: "every.near/type/event",
+  };
+
+  return newEvent;
+};
+
+const handleProposeEvent = () => {
+  const newEvent = createNewEvent();
+
+  proposeEvent(newEvent);
+  clearFields();
+};
+
+const handleEventEdit = () => {
+  const newEvent = {
+    data: {
+      id: state.id,
+      title: state.title,
+      description: state.description,
+      start: isoDate(state.start, state.startTime),
+      startTime: isoTime(state.start, state.startTime),
+      end: isoDate(state.end, state.endTime),
+      endTime: isoTime(state.end, state.endTime),
+      location: state.location,
+      link: state.link,
+      organizer: state.organizer,
+      isAllDay: state.isAllDay,
+      category: state.category,
+      logo: state.logo,
+      background: state.background,
+      hashTags: state.hashTags,
+    },
+    template: {
+      src: "itexpert120-contra.near/widget/EventView",
+    },
+    type: "every.near/type/event",
+  };
+
+  addEvent(newEvent);
 };
 
 const handleNewEvent = () => {
   const newEvent = {
     data: {
+      id: state.id,
       title: state.title,
       description: state.description,
       start: isoDate(state.start, state.startTime),
@@ -147,11 +255,11 @@ const EventForm = () => {
     <div className="container">
       <div>
         <div className="mb-3">
-          <label class="form-label" for="title">
+          <label className="form-label" for="title">
             Event Title
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="title"
             value={state.title}
             onChange={onTitleChange}
@@ -159,7 +267,7 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="description">
+          <label className="form-label" for="description">
             Event Description
           </label>
           <Widget
@@ -175,7 +283,7 @@ const EventForm = () => {
           <div className="col">
             <label for="start">Event Start Date</label>
             <input
-              class="form-control"
+              className="form-control"
               id="start"
               type="date"
               value={state.start}
@@ -185,7 +293,7 @@ const EventForm = () => {
           <div className="col">
             <label for="startTime">Event Start Time</label>
             <input
-              class="form-control"
+              className="form-control"
               id="startTime"
               type="time"
               value={state.startTime}
@@ -197,7 +305,7 @@ const EventForm = () => {
           <div className="col">
             <label for="end">Event End Date</label>
             <input
-              class="form-control"
+              className="form-control"
               id="end"
               type="date"
               value={state.end}
@@ -207,7 +315,7 @@ const EventForm = () => {
           <div className="col">
             <label for="endTime">Event End Time</label>
             <input
-              class="form-control"
+              className="form-control"
               id="endTime"
               type="time"
               value={state.endTime}
@@ -216,11 +324,11 @@ const EventForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label class="form-label" for="location">
+          <label className="form-label" for="location">
             Event Location
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="location"
             value={state.location}
             onChange={onLocationChange}
@@ -228,11 +336,11 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="link">
+          <label className="form-label" for="link">
             Event Link
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="link"
             type="url"
             value={state.link}
@@ -241,11 +349,11 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="organizer">
+          <label className="form-label" for="organizer">
             Event Organizer
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="organizer"
             value={state.organizer}
             onChange={onOrganizerChange}
@@ -253,14 +361,14 @@ const EventForm = () => {
           />
         </div>
         <div className="mb-3">
-          <div class="form-check">
-            <label class="form-check-label" for="isAllDay">
+          <div className="form-check">
+            <label className="form-check-label" for="isAllDay">
               All Day Event
             </label>
             <input
               value={state.isAllDay}
               checked={state.isAllDay}
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="isAllDay"
               onChange={onIsAllDayChange}
@@ -268,15 +376,27 @@ const EventForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label class="form-label" for="category">
+          <label className="form-label" for="category">
             Event Category
           </label>
           <input
-            class="form-control"
+            className="form-control"
             id="category"
             value={state.category}
             onChange={onCategoryChange}
             placeholder="New Event Category"
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="customWidget">
+            Custom Event Card Source
+          </label>
+          <input
+            class="form-control"
+            id="customWidget"
+            value={state.customWidget}
+            onChange={onCustomWidgetChange}
+            placeholder="Custom Event Card Source"
           />
         </div>
         <div className="mb-3 row ">
@@ -313,7 +433,7 @@ const EventForm = () => {
                 ))}
             </p>
           </label>
-          <div className="d-flex gap-3">
+          <div className="mb-3 d-flex gap-3">
             <input
               id="hashtags"
               value={state.tempHash}
@@ -322,10 +442,39 @@ const EventForm = () => {
             />
             <button onClick={onHashTagAdd}>Add</button>
           </div>
+          <div className="mb-3">
+            <label for="daoId">DAO ID</label>
+            <input
+              id="daoId"
+              name="daoId"
+              value={state.daoId}
+              onChange={onDaoIDChange}
+            />
+          </div>
         </div>
         <div className="mb-3">
-          <button onClick={handleNewEvent}>Add Event</button>
-          <button onClick={clearFields}>Clear Fields</button>
+          <div className="row mx-1">
+            {!data ? (
+              <button className="btn btn-primary col" onClick={handleNewEvent}>
+                Add Event
+              </button>
+            ) : (
+              <button className="btn btn-primary col" onClick={handleEventEdit}>
+                Edit Event
+              </button>
+            )}
+
+            <div className="col">
+              <Widget
+                src="itexpert120-contra.near/widget/EventProposalButton"
+                props={{ daoId: state.daoId, event: createNewEvent() }}
+              />
+            </div>
+
+            <button className="btn btn-primary col" onClick={clearFields}>
+              Clear Fields
+            </button>
+          </div>
         </div>
       </div>
     </div>

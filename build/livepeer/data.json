@@ -1,0 +1,24 @@
+{
+  "type": {
+    "video": "{\"properties\":{\"name\":{\"type\":\"string\"},\"playbackPolicy\":{\"type\":\"PlaybackPolicy\"},\"storage\":{\"type\":\"object\",\"properties\":{\"ipfs\":{\"type\":\"object\",\"properties\":{\"cid\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"gatewayUrl\":{\"type\":\"string\"},\"spec\":{\"type\":\"object\",\"properties\":{\"nftMetadataTemplate\":{\"type\":\"string\",\"enum\":[\"player\",\"file\"]},\"nftMetadata\":{\"type\":\"object\"}}},\"nftMetadata\":{\"type\":\"object\",\"properties\":{\"cid\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"gatewayUrl\":{\"type\":\"string\"}}}}}}},\"type\":{\"type\":\"string\",\"defaultValue\":\"video\"},\"playbackId\":{\"type\":\"string\"},\"playbackUrl\":{\"type\":\"string\"},\"downloadUrl\":{\"type\":\"string\"},\"createdAt\":{\"type\":\"number\"},\"size\":{\"type\":\"number\"}},\"widgets\":{\"view\":\"efiz.near/widget/Livepeer.Player\",\"create\":\"efiz.near/widget/Livepeer.Creator\"}}"
+  },
+  "widget": {
+    "App": {
+      "index": {
+        "metadata": {
+          "name": "every video",
+          "description": "A hub for every video indexed across the BOS.",
+          "image": {
+            "ipfs_cid": "bafkreihi3qh72njb3ejg7t2mbxuho2vk447kzkvpjtmulsb2njd6m2cfgi"
+          },
+          "tags": {
+            "app": "",
+            "video": "",
+            "livepeer": "",
+            "everything": ""
+          }
+        }
+      }
+    }
+  }
+}
