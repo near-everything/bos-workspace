@@ -37,21 +37,21 @@ const Description = styled.div`
 return (
   <div className="d-flex flex-column gap-1">
     <a
-      href={`#/hack.near/widget/group?groupId=${groupId}`}
+      href={`#/devs.near/widget/group?groupId=${groupId}`}
       className="link-dark text-truncate"
     >
-      <Widget src="hack.near/widget/group.inline" props={{ groupId }} />
+      <Widget src="devs.near/widget/group.inline" props={{ groupId }} />
     </a>
     <Description>
       <Markdown text={description} />
     </Description>
     <div className="d-flex">
       <div className="me-3">
-        <Widget src="hack.near/widget/group.stats" props={{ accountId }} />
+        <Widget src="devs.near/widget/group.stats" props={{ accountId }} />
       </div>
     </div>
     <div className="d-flex gap-2 mt-2">
-      <Widget src="hack.near/widget/group.join" props={{ accountId }} />
+      <Widget src="devs.near/widget/group.join" props={{ accountId }} />
     </div>
   </div>
 );

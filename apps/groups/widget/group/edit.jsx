@@ -130,7 +130,7 @@ return (
         <div className="col-lg-6">
           <h5 className="mb-3">Details</h5>
           <Widget
-            src="hack.near/widget/group.card"
+            src="devs.near/widget/group.card"
             props={{ groupId, canJoin: false }}
           />
           <div className="mb-2 mt-3">

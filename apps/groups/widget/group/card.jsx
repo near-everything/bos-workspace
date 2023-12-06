@@ -105,12 +105,12 @@ const TagsWrapper = styled.div`
 return (
   <Card>
     <a
-      href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
+      href={`/devs.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
       style={{ textDecoration: "none" }}
     >
       <CardLeft>
         <Widget
-          src="hack.near/widget/group.inline"
+          src="devs.near/widget/group.inline"
           props={{ group: groupInfo, groupId, accountId: creatorId }}
         />
       </CardLeft>
@@ -119,7 +119,7 @@ return (
       <div className="ms-autome-md-2 d-flex align-items-center">
         <div className="bell">
           <a
-            href={`/hack.near/widget/group.index?groupId=${groupId}`}
+            href={`/devs.near/widget/group.index?groupId=${groupId}`}
             className="bell-icon"
           >
             <i className="bi bi-bell"></i>
@@ -133,13 +133,13 @@ return (
         {groupKey === context.accountId && (
           <a
             className="btn btn-outline-dark"
-            href={`/hack.near/widget/group.edit?groupId=${groupId}`}
+            href={`/devs.near/widget/group.edit?groupId=${groupId}`}
           >
             edit
           </a>
         )}
         <Widget
-          src="hack.near/widget/group.join"
+          src="devs.near/widget/group.join"
           props={{ groupId, accountId, creatorId: props.creatorId }}
         />
       </>

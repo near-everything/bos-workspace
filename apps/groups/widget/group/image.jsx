@@ -36,7 +36,7 @@ const inner = (
 return props.tooltip ? (
   <>
     <Widget
-      src="hack.near/widget/group.overlay.trigger"
+      src="devs.near/widget/group.overlay.trigger"
       props={{ groupId, accountId, children: inner }}
     />
   </>

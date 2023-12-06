@@ -1,12 +1,12 @@
 const tabs = {
   metadata: {
-    widget: "createit.near/widget/project.metadata",
+    widget: "create.near/widget/project.metadata",
   },
   template: {
-    widget: "createit.near/widget/project.template",
+    widget: "create.near/widget/project.template",
   },
   settings: {
-    widget: "createit.near/widget/project.settings",
+    widget: "create.near/widget/project.settings",
   },
 };
 

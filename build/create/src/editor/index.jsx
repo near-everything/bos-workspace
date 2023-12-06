@@ -139,7 +139,7 @@ return (
         {/*
          * We can now swap out the editor below
          */}
-        <Widget src="createit.near/widget/editor.ui" props={{
+        <Widget src="create.near/widget/editor.ui" props={{
           key: path,
           data: doc.data,
           on,

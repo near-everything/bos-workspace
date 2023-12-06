@@ -127,7 +127,7 @@ const renderFolder = (folder) => {
       className={classNames([path.length > 1 ? "folder__child" : "folder"])}
       key={path}
     >
-      <Widget src="createit.near/widget/editor.uiFoldersMenu" props={{
+      <Widget src="create.near/widget/editor.uiFoldersMenu" props={{
         path,
         handler,
         renderTrigger: () =>
@@ -181,7 +181,7 @@ const renderProject = (project) => {
     <Project>
       <a
         target="_blank"
-        href={Url.construct("#/createit.near/widget/p", {
+        href={Url.construct("#/create.near/widget/p", {
           id: projectId,
           by: context.accountId,
         })}
@@ -197,7 +197,7 @@ const renderProject = (project) => {
           onClick={() => {
             navigate("manage", { project: projectId });
           }}
-          href={Url.construct("#/createit.near/widget/home", {
+          href={Url.construct("#/create.near/widget/home", {
             page: "manage",
             project: projectId,
           })}

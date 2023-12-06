@@ -15,7 +15,7 @@ return (
       className="text-decoration-none link-dark"
     >
       <Widget
-        src="hack.near/widget/group.image"
+        src="devs.near/widget/group.image"
         props={{
           profile,
           accountId,

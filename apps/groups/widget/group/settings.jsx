@@ -1,5 +1,6 @@
 const { groupData, groupId } = props;
 const initialTabs = groupData.tabs || [];
+
 State.init({
   tabs: initialTabs,
   src: "",
@@ -64,7 +65,7 @@ return (
       <button onClick={handleAddTab}>Add Tab</button>
     </div>
     <ul>
-      {tabs.map((tab, index) => (
+      {(tabs || []).map((tab, index) => (
         <li key={index}>
           {tab.module.src} - {tab.module.blockHeight}
           <button onClick={() => handleRemoveTab(index)}>Remove</button>

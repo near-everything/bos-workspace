@@ -40,29 +40,29 @@ const pages = [
     id: "projects",
     title: "Projects",
     active: state.page === "projects",
-    widget: "createit.near/widget/manager.index",
-    provider: "createit.near/widget/Provider",
+    widget: "create.near/widget/manager.index",
+    provider: "create.near/widget/Provider",
   },
   {
     id: "editor",
     title: "Editor",
     active: state.page === "editor",
-    widget: "createit.near/widget/editor.index",
-    provider: "createit.near/widget/Provider",
+    widget: "create.near/widget/editor.index",
+    provider: "create.near/widget/Provider",
   },
   {
     id: "manage",
     title: "Manage",
     active: state.page === "manage",
-    widget: "createit.near/widget/project.index",
-    provider: "createit.near/widget/Provider",
+    widget: "create.near/widget/project.index",
+    provider: "create.near/widget/Provider",
   },
 ];
 const activePage = pages.find((p) => p.active);
 
 const navigate = (v, params) => {
   State.update({ page: v, project: params?.project });
-  const url = Url.construct("#/createit.near/widget/home", params);
+  const url = Url.construct("#/create.near/widget/home", params);
   Storage.set("url", url);
 };
 
@@ -70,9 +70,9 @@ return (
   <>
     <div className="row">
       <Widget
-        src={"createit.near/widget/ui.navbar"}
+        src={"create.near/widget/ui.navbar"}
         props={{
-          template: "createit.near/widget/templates.ui.navbar.default",
+          template: "create.near/widget/templates.ui.navbar.default",
           onPageChange: navigate,
           pages: ["projects"],
         }}
@@ -87,7 +87,7 @@ return (
               project,
               ...props,
               templates: {
-                Folders: "createit.near/widget/editor.uiFolders",
+                Folders: "create.near/widget/editor.uiFolders",
               },
             }}
           />

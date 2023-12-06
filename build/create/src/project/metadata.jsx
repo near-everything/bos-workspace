@@ -46,7 +46,7 @@ const handleUpdateProject = (new_project) => {
 
 return (
   <Widget
-    src="createit.near/widget/project.form"
+    src="create.near/widget/project.form"
     props={{
       handleCreateProject: handleUpdateProject,
       defaultProject: project,

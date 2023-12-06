@@ -59,7 +59,6 @@ return (
         handleChangeEvent={handleChangeEvent}
         handleUiEvent={handleUiEvent}
         persistanceKey={"hello"}
-        hideUi={true}
       />
     </div>
     <div>

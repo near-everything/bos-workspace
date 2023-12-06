@@ -7,7 +7,7 @@ const projects = Object.keys(projectsObj || {}).map((k) => ({
 
 return (
   <Widget
-    src="createit.near/widget/manager.ui"
+    src="create.near/widget/manager.ui"
     props={{
       handleCreateProject: props.handle["project"].create,
       projects,

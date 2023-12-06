@@ -38,7 +38,7 @@ const goTo = ({ doc }) => {
 };
 
 const href = ({ doc }) => {
-  return `#/createit.near/widget/p?id=${id}&by=${by}&doc=${doc}`;
+  return `#/create.near/widget/p?id=${id}&by=${by}&doc=${doc}`;
 };
 
 const unflattenDocuments = (inputObject) => {
@@ -72,7 +72,7 @@ const unflattenDocuments = (inputObject) => {
 return (
   <Widget
     src={
-      project.template.src || "createit.near/widget/templates.project.doc"
+      project.template.src || "create.near/widget/templates.project.doc"
     }
     props={{
       project: project.data,

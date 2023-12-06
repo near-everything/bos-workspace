@@ -82,7 +82,7 @@ return (
             Item={() => (
               <Widget
                 loading={<div className="w-100" style={{ height: "200px" }} />}
-                src="mob.near/widget/MainPage.N.Post" // Fork and edit this
+                src="devs.near/widget/post.view" // Fork and edit this
                 props={{
                   accountId: p.accountId,
                   blockHeight: p.blockHeight,
@@ -98,6 +98,7 @@ return (
             handlers={{
               // FUNCTION DEFINITIONS
               show: ({ item }) => {
+                // open modal
                 const data = {
                   index: {},
                 };
@@ -117,16 +118,44 @@ return (
                   // Social.set(data);
                 }
               },
+              add: ({ item }) => {
+                Sociali.set({
+                  index: {
+                    post: JSON.stringify([
+                      {
+                        key: {
+                          id: groupId,
+                          type: "thing",
+                        },
+                        value: {
+                          type: "md",
+                        },
+                      },
+                    ]),
+                  },
+                });
+              },
             }}
             items={{
               // MENU ITEM TO RENDER, WILL CALL FUNCTION WHEN CLICKED
               show: () => (
                 <div
                   onClick={() =>
-                    handleOpen(
-                      true,
-                      () => <Widget src="devs.near/widget/action.show" />
-                    )
+                    handleOpen(true, () => (
+                      <Widget src="devs.near/widget/action.show" />
+                    ))
+                  }
+                >
+                  <i className="menu__item__icon bi bi-arrow-return-right" />
+                  Forward
+                </div>
+              ),
+              link: () => (
+                <div
+                  onClick={() =>
+                    handleOpen(true, () => (
+                      <Widget src="devs.near/widget/action.show" />
+                    ))
                   }
                 >
                   <i className="menu__item__icon bi bi-arrow-return-right" />

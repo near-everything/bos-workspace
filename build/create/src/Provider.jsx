@@ -137,7 +137,7 @@ const KEYS = {
   init: (pid) => `init/${pid}`, // lets us know when the project has been initialized
 };
 const DOC_SEPARATOR = ".";
-const DEFAULT_TEMPLATE = "createit.near/widget/templates.project.doc";
+const DEFAULT_TEMPLATE = "create.near/widget/templates.project.doc";
 
 const handleDocument = {
   /**
@@ -222,7 +222,7 @@ const handleDocument = {
         data: value,
         metadata: {
           createdAt: new Date().toISOString(),
-          type: "createit.near/type/document",
+          type: "create.near/type/document",
         },
       },
     };
@@ -378,7 +378,7 @@ const handleDocument = {
 
 const handleProject = {
   getAll: () => {
-    return getAllThings("createit.near/type/project", [accountId]);
+    return getAllThings("create.near/type/project", [accountId]);
   },
   get: (pid) => {
     return getThing(pid, [accountId]);
@@ -391,7 +391,7 @@ const handleProject = {
     });
     // currently setting project as metadata, need to match with typical metadata
     Social.set({
-      thing: createThing("createit.near/type/project", {}, project),
+      thing: createThing("create.near/type/project", {}, project),
     });
   },
   delete: (pid) => {

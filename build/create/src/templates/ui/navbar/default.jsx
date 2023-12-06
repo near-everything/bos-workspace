@@ -38,7 +38,7 @@ function Navbar({ open, setOpen, pages, onPageChange }) {
     >
       <a
         className="navbar-brand d-flex align-items-center gap-2 text-decoration-none"
-        href="#/createit.near/widget/home"
+        href="#/create.near/widget/home"
         onClick={() => onPageChange("projects")}
       >
         <img
@@ -85,7 +85,7 @@ function Navbar({ open, setOpen, pages, onPageChange }) {
                       cursor: "pointer",
                     }}
                     onClick={() => onPageChange(p)}
-                    href={Url.construct("#/createit.near/widget/home", {
+                    href={Url.construct("#/create.near/widget/home", {
                       page: p,
                     })}
                   >

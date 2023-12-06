@@ -26,7 +26,7 @@ return (
     <div className="d-flex flex-row">
       <div className="me-4">
         <a
-          href={`#/hack.near/widget/Group?groupId=${groupId}&tab=contributors`}
+          href={`#/devs.near/widget/group?groupId=${groupId}&tab=contributors`}
           className="text-dark"
         >
           {numContributors !== null ? (
@@ -39,7 +39,7 @@ return (
       </div>
       <div>
         <a
-          href={`#/hack.near/widget/Group?groupId=${groupId}&tab=community`}
+          href={`#/devs.near/widget/group?groupId=${groupId}&tab=community`}
           className="text-dark"
         >
           {numCommunity !== null ? (

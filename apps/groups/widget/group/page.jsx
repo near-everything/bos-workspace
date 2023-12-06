@@ -60,15 +60,9 @@ const tabs = [
               post: JSON.stringify([
                 {
                   key: {
+                    id: groupId,
                     type: "thing",
-                    path: `${creatorId}/thing/${groupId}`,
                   },
-                  value: {
-                    type: "md",
-                  },
-                },
-                {
-                  key: "main",
                   value: {
                     type: "md",
                   },
@@ -127,7 +121,7 @@ const tabs = [
     module: () => (
       <>
         <p>These are mutual members across all graphs</p>
-        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
+        <Widget src="devs.near/widget/group.members" props={{ groupId }} />
       </>
     ),
   },
@@ -139,7 +133,7 @@ const tabs = [
         <p>
           These are the users that have created their versions of this group.
         </p>
-        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
+        <Widget src="devs.near/widget/group.members" props={{ groupId }} />
       </>
     ),
   },
@@ -148,7 +142,7 @@ const tabs = [
     title: "Settings",
     module: () => (
       <Widget
-        src="hack.near/widget/group.settings"
+        src="devs.near/widget/group.settings"
         props={{ groupId, groupData }}
       />
     ),
